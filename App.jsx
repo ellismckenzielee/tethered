@@ -1,24 +1,31 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Login from "./src/components/Login";
+import Home from "./src/components/Home";
 import { UserProvider } from "./src/contexts/UserContext";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#2F2F2F",
     alignItems: "center",
     justifyContent: "center",
   },
 });
 
+const Stack = createNativeStackNavigator();
+
 export default function App() {
   return (
     <UserProvider>
-      <View style={styles.container}>
-        <Login />
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Login" component={Login} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </UserProvider>
   );
 }
