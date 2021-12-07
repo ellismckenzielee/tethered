@@ -1,22 +1,14 @@
 import React, { useContext, useState } from "react";
-import {
-  Button,
-  Image,
-  TextInput,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { Button, Image, TextInput, Text, View, TouchableOpacity } from "react-native";
 import styles from "../styles/Login.Style";
 import { UserContext } from "../contexts/UserContext";
 
 export default function Home({ navigation }) {
   const { isLoggedIn } = useContext(UserContext);
 
-  console.log(styles);
   return (
     <View style={styles.container}>
-      <Image></Image>
+      <Image source={require("../assets/logo.png")} style={styles.logo} />
       <Text>Already have an account? Get Started!</Text>
       <TouchableOpacity
         style={styles.button}
@@ -30,7 +22,7 @@ export default function Home({ navigation }) {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          navigation.navigate("CreateAccount");
+          navigation.navigate("CreateUser");
         }}
       >
         <Text>Create Account</Text>
