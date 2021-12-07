@@ -7,8 +7,10 @@ import {
   REACT_APP_FIRESTORE_STORAGEBUCKET,
   REACT_APP_FIRESTORE_MESSAGINGSENDERID,
   REACT_APP_FIRESTORE_APPID
+  // eslint-disable-next-line import/no-unresolved 
 } from '@env'
 
+//firestore config to access database
 const firebaseConfig = {
   apiKey: REACT_APP_FIRESTORE_APIKEY,
   authDomain: REACT_APP_FIRESTORE_AUTHDOMAIN,
@@ -21,4 +23,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export {db};
+export {db, firebaseConfig};
