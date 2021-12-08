@@ -27,6 +27,14 @@ export default function Home({ navigation }) {
       >
         <Text>Create Account</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate("Event");
+        }}
+      >
+        <Text>Event Page</Text>
+      </TouchableOpacity>
     </View>
   );
 }
