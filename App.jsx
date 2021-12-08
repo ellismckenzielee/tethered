@@ -1,23 +1,23 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "./src/components/Login";
 import Home from "./src/components/Home";
 import CreateUser from "./src/components/CreateUser";
 import { UserProvider } from "./src/contexts/UserContext";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#2F2F2F",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#2F2F2F",
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
+// });
 
 const Stack = createNativeStackNavigator();
 
+// eslint-disable-next-line react/function-component-definition
 export default function App() {
   return (
     <UserProvider>
