@@ -11,6 +11,6 @@
     "ecmaVersion": 13,
     "sourceType": "module"
   },
-  "plugins": ["react"],
-  "rules": {}
+  "plugins": ["react", "react-hooks"],
+  "rules": {"react/function-component-definition": "off", "func-names":"off"}
 }

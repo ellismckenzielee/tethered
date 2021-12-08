@@ -1,42 +1,44 @@
 {
-  "name": "tethered",
-  "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
-  "scripts": {
-    "start": "expo start",
-    "test": "jest --passWithNoTests",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject",
-    "prepare": "husky install",
-    "eslint": "eslint '**/*.js' --ignore-pattern node_modules/"
-  },
-  "dependencies": {
-    "@react-navigation/native": "^6.0.6",
-    "@react-navigation/native-stack": "^6.2.5",
-    "expo": "~43.0.2",
-    "expo-status-bar": "~1.1.0",
-    "firebase": "^9.6.0",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-native": "0.64.3",
-    "react-native-dotenv": "^3.3.0",
-    "react-native-safe-area-context": "3.3.2",
-    "react-native-screens": "~3.8.0",
-    "react-native-web": "0.17.1"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.9",
-    "eslint": "^8.4.0",
-    "eslint-config-airbnb": "^19.0.2",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-react": "^7.27.1",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "husky": "^7.0.4",
-    "jest": "^27.4.3"
-  },
-  "private": true
+	"name": "tethered",
+	"version": "1.0.0",
+	"main": "node_modules/expo/AppEntry.js",
+	"scripts": {
+		"start": "expo start",
+		"test": "jest --passWithNoTests",
+		"android": "expo start --android",
+		"ios": "expo start --ios",
+		"web": "expo start --web",
+		"eject": "expo eject",
+		"prepare": "husky install",
+		"eslint": "eslint *.{jsx,js} --fix --ignore-pattern node_modules/ "
+	},
+	"dependencies": {
+		"@react-navigation/native": "^6.0.6",
+		"@react-navigation/native-stack": "^6.2.5",
+		"expo": "~43.0.2",
+		"expo-status-bar": "~1.1.0",
+		"firebase": "^9.6.0",
+		"react": "17.0.1",
+		"react-dom": "17.0.1",
+		"react-native": "0.64.3",
+		"react-native-dotenv": "^3.3.0",
+		"react-native-qrcode-svg": "^6.1.2",
+		"react-native-safe-area-context": "3.3.2",
+		"react-native-screens": "~3.8.0",
+		"react-native-svg": "^12.1.1",
+		"react-native-web": "0.17.1"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.12.9",
+		"eslint": "^8.4.1",
+		"eslint-config-airbnb": "^19.0.2",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-import": "^2.25.3",
+		"eslint-plugin-jsx-a11y": "^6.5.1",
+		"eslint-plugin-react": "^7.27.1",
+		"eslint-plugin-react-hooks": "^4.3.0",
+		"husky": "^7.0.4",
+		"jest": "^27.4.3"
+	},
+	"private": true
 }
