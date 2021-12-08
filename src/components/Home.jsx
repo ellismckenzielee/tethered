@@ -32,6 +32,15 @@ export default function Home({ navigation }) {
 				}}>
 				<Text>go to create group page</Text>
 			</TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate("Event");
+        }}
+      >
+        <Text>Event Page</Text>
+      </TouchableOpacity>
 		</View>
 	);
+    
 }
