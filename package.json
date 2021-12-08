@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "prepare": "husky install",
-    "eslint": "eslint *.{jsx,js} --ignore-pattern node_modules/ --fix"
+    "eslint": "eslint *.{jsx,js} --fix --ignore-pattern node_modules/ "
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.6",
@@ -26,7 +26,9 @@
     "react-native-maps": "0.28.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
-    "react-native-web": "0.17.1"
+    "react-native-web": "0.17.1",
+	"react-native-qrcode-svg": "^6.1.2",
+	"react-native-svg": "^12.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
