@@ -4,6 +4,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import getDeltas from "../utils/utils.maps";
 import * as Location from "expo-location";
 import styles from "../styles/Login.Style";
+import mapStyle from "../styles/Map.Style";
 
 export default function Map({ user, locations }) {
   const [location, setLocation] = useState(null);
@@ -41,6 +42,7 @@ export default function Map({ user, locations }) {
   return (
     <MapView
       provider={PROVIDER_GOOGLE}
+      customMapStyle={mapStyle}
       style={styles.map}
       initialRegion={{
         latitude: location.coords?.latitude,
