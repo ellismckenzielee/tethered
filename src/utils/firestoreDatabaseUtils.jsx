@@ -1,5 +1,5 @@
 
-import {addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, deleteDoc} from 'firebase/firestore';
+import {addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, deleteDoc, getDoc} from 'firebase/firestore';
 import {db} from '../../firebase-config'
 
 // firestore - create new group
@@ -12,6 +12,8 @@ async function createNewGroup(currentUser) {
   console.log(`A new group was created at ${newGroup.path}`);
 }
 
+
+
 // firestore - create new event within group
 async function createNewEvent(currentUser, groupDocId, latitude, longitude) {
   const newEvent = await addDoc(collection(db, `groups/${groupDocId}/events`), {
@@ -22,6 +24,8 @@ async function createNewEvent(currentUser, groupDocId, latitude, longitude) {
   console.log(`A new event was created at ${newEvent.path}`);
 }
 
+
+
 // firestore - join a group - adds user to group Members field
 async function joinGroup(currentUser, groupDocId) {
   await updateDoc(doc(db, 'groups', groupDocId), {
@@ -30,6 +34,8 @@ async function joinGroup(currentUser, groupDocId) {
 
   console.log(`${currentUser} was added to group ${groupDocId}`);
 }
+
+
 
 // firestore - join an event - adds user to group Members field with latitude and longitude.
 async function joinEvent(currentUser, groupDocId, eventDocId, latitude, longitude) {
@@ -40,12 +46,16 @@ async function joinEvent(currentUser, groupDocId, eventDocId, latitude, longitud
   console.log(`${currentUser} was added to event ${eventDocId}`);
 }
 
+
+
 // firestore - delete event within group
 async function deleteEvent(groupDocId, eventDocId) {
   await deleteDoc(doc(db, `groups/${groupDocId}/events`, eventDocId));
 
   console.log(`Event ${eventDocId} has been deleted`);
 }
+
+
 
 // firestore - delete group
 async function deleteGroup(groupDocId) {
@@ -55,4 +65,38 @@ async function deleteGroup(groupDocId) {
 }
 
 
-export {createNewGroup, createNewEvent, joinGroup, joinEvent, deleteEvent, deleteGroup};
+
+// firestore - update location in event
+async function updateLocation(currentUser, groupDocId, eventDocId, latitude, longitude) {
+  
+  // reads document from the firestore database
+  const eventDocSnap = await getDoc(doc(db, `groups/${groupDocId}/events`, eventDocId))
+  
+  // takes the eventMembers array and creates a new array with the updated location for the currentUser then updates the database
+  if (eventDocSnap.exists()){
+    const members = eventDocSnap.data().eventMembers;
+    const updatedEventMembers = members.map(member => {
+      if(member.username === currentUser){
+        member.latitude = latitude;
+        member.longitude = longitude;
+        return member
+      }
+      else{
+        return member
+      }
+    })
+    console.log("updatedEventMembers")
+
+    await updateDoc(doc(db, `groups/${groupDocId}/events`, eventDocId), {
+      eventMembers: updatedEventMembers,
+    })
+
+  } else {
+    // document doesn't exist on database.  doc.data() will be undefined in this case
+    console.log("No such document!");
+  }
+}
+
+
+
+export {createNewGroup, createNewEvent, joinGroup, joinEvent, deleteEvent, deleteGroup, updateLocation};
