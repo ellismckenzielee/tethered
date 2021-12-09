@@ -47,4 +47,12 @@ async function deleteEvent(groupDocId, eventDocId) {
   console.log(`Event ${eventDocId} has been deleted`);
 }
 
-export {createNewGroup, createNewEvent, joinGroup, joinEvent, deleteEvent};
+// firestore - delete group
+async function deleteGroup(groupDocId) {
+  await deleteDoc(doc(db, `groups`, groupDocId));
+
+  console.log(`Group ${groupDocId} has been deleted`);
+}
+
+
+export {createNewGroup, createNewEvent, joinGroup, joinEvent, deleteEvent, deleteGroup};
