@@ -5,6 +5,7 @@ import getDeltas from "../utils/utils.maps";
 import * as Location from "expo-location";
 import styles from "../styles/Login.Style";
 import mapStyle from "../styles/Map.Style";
+
 export default function Map({ user, locations }) {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -53,7 +54,6 @@ export default function Map({ user, locations }) {
       >
         <Marker
           onPress={({ nativeEvent }) => {
-            console.log("NE", nativeEvent);
             animateToRegion(
               {
                 latitude: nativeEvent.coordinate.latitude,
@@ -78,7 +78,6 @@ export default function Map({ user, locations }) {
           return (
             <Marker
               onPress={({ nativeEvent }) => {
-                console.log("NE", nativeEvent);
                 animateToRegion(
                   {
                     latitude: nativeEvent.coordinate.latitude,
@@ -118,6 +117,9 @@ export default function Map({ user, locations }) {
         }}
       >
         <Text>Group View</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}>
+        <Text>End Trip</Text>
       </TouchableOpacity>
     </View>
   );
