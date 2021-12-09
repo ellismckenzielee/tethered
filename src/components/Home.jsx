@@ -1,12 +1,21 @@
-import React, { useContext, useState } from "react";
-import { Button, Image, TextInput, Text, View, TouchableOpacity } from "react-native";
-import styles from "../styles/Login.Style";
-import { UserContext } from "../contexts/UserContext";
+import React, { useContext, useState } from 'react';
+import {
+	Button,
+	Image,
+	TextInput,
+	Text,
+	View,
+	TouchableOpacity,
+} from 'react-native';
+import styles from '../styles/Login.Style';
+import { UserContext } from '../contexts/UserContext';
+import DialogComponent from './DialogueComponent';
 
 export default function Home({ navigation }) {
-  const { isLoggedIn } = useContext(UserContext);
-  return (
+	const { isLoggedIn } = useContext(UserContext);
+	return (
 		<View style={styles.container}>
+			
 			<Image source={require('../assets/logo.png')} style={styles.logo} />
 			<Text>Already have an account? Get Started!</Text>
 			<TouchableOpacity
@@ -32,15 +41,13 @@ export default function Home({ navigation }) {
 				}}>
 				<Text>go to create group page</Text>
 			</TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate("Event");
-        }}
-      >
-        <Text>Event Page</Text>
-      </TouchableOpacity>
+			<TouchableOpacity
+				style={styles.button}
+				onPress={() => {
+					navigation.navigate('Event');
+				}}>
+				<Text>Event Page</Text>
+			</TouchableOpacity>
 		</View>
 	);
-    
 }
