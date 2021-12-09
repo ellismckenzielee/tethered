@@ -1,5 +1,5 @@
 
-import {addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc} from 'firebase/firestore';
+import {addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, deleteDoc} from 'firebase/firestore';
 import {db} from '../../firebase-config'
 
 // firestore - create new group
@@ -40,4 +40,11 @@ async function joinEvent(currentUser, groupDocId, eventDocId, latitude, longitud
   console.log(`${currentUser} was added to event ${eventDocId}`);
 }
 
-export {createNewGroup, createNewEvent, joinGroup, joinEvent};
+// firestore - delete event within group
+async function deleteEvent(groupDocId, eventDocId) {
+  await deleteDoc(doc(db, `groups/${groupDocId}/events`, eventDocId));
+
+  console.log(`Event ${eventDocId} has been deleted`);
+}
+
+export {createNewGroup, createNewEvent, joinGroup, joinEvent, deleteEvent};
