@@ -16,7 +16,7 @@ async function createNewGroup(currentUser) {
 async function createNewEvent(currentUser, groupDocId, latitude, longitude) {
   const newEvent = await addDoc(collection(db, `groups/${groupDocId}/events`), {
     eventAdmin: currentUser,
-    eventMembers: [{"username": currentUser, "latitude":latitude, "longitude":longitude}]
+    eventMembers: [{"username": currentUser, latitude, longitude}]
   });
   // console.log the document path in the firestore database within the "events" collection 
   console.log(`A new event was created at ${newEvent.path}`);
@@ -32,12 +32,12 @@ async function joinGroup(currentUser, groupDocId) {
 }
 
 // firestore - join an event - adds user to group Members field with latitude and longitude.
-// async function joinEvent(currentUser, groupDocId, eventDocId, latitude, longitude) {
-//   await updateDoc(doc(db, `groups/${groupDocId}/events`, eventDocId), {
-//     eventMembers: arrayUnion({currentUser, latitude, longitude}),
-//   });
+async function joinEvent(currentUser, groupDocId, eventDocId, latitude, longitude) {
+  await updateDoc(doc(db, `groups/${groupDocId}/events`, eventDocId), {
+    eventMembers: arrayUnion({"username": currentUser, latitude, longitude}),
+  });
   
-//   console.log(`${currentUser} was added to group ${groupDocId}`);
-// }
+  console.log(`${currentUser} was added to event ${eventDocId}`);
+}
 
 export {createNewGroup, createNewEvent, joinGroup, joinEvent};
