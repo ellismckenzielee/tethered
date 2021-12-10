@@ -8,9 +8,6 @@ import { UserContext } from "../contexts/UserContext";
 export default function CreateGroup({navigation}) {
 	const { currentUser } = useContext(UserContext);
     const [groupName, setGroupName] = useState(" ")
-    const [qrLink, setQrLink] = useState(
-			'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-		);
     
 	return (
 		<View style={styles.container}>
