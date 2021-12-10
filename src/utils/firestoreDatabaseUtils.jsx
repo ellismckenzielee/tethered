@@ -5,9 +5,16 @@ import {db} from '../../firebase-config'
 // firestore - create new group
 async function createNewGroup(currentUser, groupName) {
   const newGroup = await addDoc(collection(db, 'groups'), {
-    groupAdmin: currentUser,
+    groupAdmin: {
+      username: currentUser,
+      ready: true
+    }, 
     "groupName": groupName,
-    groupMembers: [currentUser]
+    groupMembers: [],
+    trip: {
+      started: false,
+      tripId: null
+    } 
   });
   // console.log the document path in the firestore database within the "groups" collection 
   console.log(`A new group was created at ${newGroup.path}`);

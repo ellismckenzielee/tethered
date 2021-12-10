@@ -2,7 +2,7 @@ import React, {useContext, useState, useEffect} from 'react';
 import { TouchableOpacity, Image, TextInput, Text, View, StyleSheet} from 'react-native';
 import styles from '../styles/Login.Style';
 import QRCode from 'react-native-qrcode-svg';
-import { createNewGroup } from '../utils/firestoreDatabaseUtils';
+import { createNewEvent, createNewGroup } from '../utils/firestoreDatabaseUtils';
 import { UserContext } from "../contexts/UserContext";
 
 
@@ -36,6 +36,7 @@ export default function CreateGroup() {
 					.then((path) => {
 						console.log(path);
 						setQrLink(path);
+						createNewEvent(currentUser.username,path,0,0)
 					})
 				}}>
 				<Text>Create Group</Text>
