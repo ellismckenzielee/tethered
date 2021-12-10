@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 	container: {
@@ -13,6 +13,7 @@ export default StyleSheet.create({
 		fontSize: 45,
 		color: 'white',
 		marginBottom: 30,
+		fontWeight: '600',
 	},
 	button: {
 		backgroundColor: '#F96800',
@@ -34,7 +35,7 @@ export default StyleSheet.create({
 	text: {
 		fontSize: 18,
 		color: 'white',
-		marginBottom: 15,
+		marginBottom: 10,
 	},
 	Btntext: {
 		fontSize: 18,
@@ -42,8 +43,9 @@ export default StyleSheet.create({
 	},
 	logo: {
 		width: 227,
-		height: 332,
+		height: 200,
 		marginBottom: 30,
+		resizeMode: 'contain',
 	},
 	textInput: {
 		backgroundColor: '#E3E3E3',
@@ -53,5 +55,11 @@ export default StyleSheet.create({
 		paddingBottom: 5,
 		borderRadius: 15,
 		marginBottom: 30,
+	},
+	Smltext: {
+		fontSize: 12,
+		fontWeight: '100',
+		color: 'white',
+		marginBottom: 5,
 	},
 });

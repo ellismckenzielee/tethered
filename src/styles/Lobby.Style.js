@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 	container: {
@@ -8,11 +8,6 @@ export default StyleSheet.create({
 		textAlign: 'center',
 		width: '100%',
 		height: '100%',
-	},
-	title: {
-		fontSize: 45,
-		color: 'white',
-		marginBottom: 30,
 	},
 	button: {
 		backgroundColor: '#F96800',
@@ -31,27 +26,35 @@ export default StyleSheet.create({
 			width: 1,
 		},
 	},
-	text: {
+	text:{
 		fontSize: 18,
 		color: 'white',
 		marginBottom: 15,
+		position: "absolute",
+		top: 10,
+		zIndex:5
 	},
-	Btntext: {
+	Btntext:{
 		fontSize: 18,
 		color: 'white',
 	},
 	logo: {
-		width: 227,
-		height: 332,
+		width: 20,
+		height: 20,
 		marginBottom: 30,
 	},
-	textInput: {
-		backgroundColor: '#E3E3E3',
-		paddingLeft: 25,
-		paddingRight: 25,
-		paddingTop: 2,
-		paddingBottom: 5,
-		borderRadius: 15,
+	waiting: {
+		backgroundColor: '#2F2F2F',
+		alignItems: 'center',
+		justifyContent: 'center',
+		textAlign: 'center',
+		width: '100%',
+		height: '100%',
+	},
+	title: {
+		fontSize: 45,
+		color: 'white',
 		marginBottom: 30,
+		fontWeight: '600',
 	},
 });
