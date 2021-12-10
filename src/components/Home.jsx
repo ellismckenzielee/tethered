@@ -24,7 +24,8 @@ export default function Home({ navigation }) {
 				}}>
 				<Text>Signup!</Text>
 			</TouchableOpacity>
-			<Text>DEV: go to create group page</Text>
+			{/* dev buttons */}
+			<Text>DEV:</Text>
 			<TouchableOpacity
 				style={styles.button}
 				onPress={() => {
@@ -32,14 +33,20 @@ export default function Home({ navigation }) {
 				}}>
 				<Text>go to create group page</Text>
 			</TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate("Event");
-        }}
-      >
-        <Text>Event Page</Text>
-      </TouchableOpacity>
+			<TouchableOpacity
+				style={styles.button}
+				onPress={() => {
+					navigation.navigate('Event');
+				}}>
+				<Text>Event Page</Text>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={styles.button}
+				onPress={() => {
+					navigation.navigate('JoinGroup');
+				}}>
+				<Text>go to join group page</Text>
+			</TouchableOpacity>
 		</View>
 	);
     
