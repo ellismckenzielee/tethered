@@ -1,12 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  Button,
-  Image,
-  TextInput,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { Button, Image, TextInput, Text, View, TouchableOpacity } from "react-native";
 import styles from "../styles/Login.Style";
 import { UserContext } from "../contexts/UserContext";
 
@@ -48,7 +41,7 @@ export default function Home({ navigation }) {
           navigation.navigate("Lobby");
         }}
       >
-        <Text>Event Page</Text>
+        <Text>Lobby</Text>
       </TouchableOpacity>
     </View>
   );
