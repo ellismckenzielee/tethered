@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import styles from '../styles/Home.Style';
 import { UserContext } from '../contexts/UserContext';
+import DialogComponent from './DialogueComponent';
 
 export default function Home({ navigation }) {
 	const { isLoggedIn } = useContext(UserContext);
@@ -30,13 +31,15 @@ export default function Home({ navigation }) {
 			<TouchableHighlight
 				activeOpacity={0.6}
 				underlayColor='#9F4300'
-				style={styles.button}
+				<Text>Log In</Text>
+			</TouchableOpacity>
+			<Text>Need an account? Sign up now!</Text>
+      style={styles.button}
 				onPress={() => {
 					navigation.navigate('CreateUser');
 				}}>
-				<Text style={styles.Btntext}>Signup!</Text>
 			</TouchableHighlight>
-			<Text>DEV: go to create group page</Text>
+			
 			<TouchableOpacity
 				style={styles.button}
 				onPress={() => {
@@ -50,6 +53,15 @@ export default function Home({ navigation }) {
 					navigation.navigate('Lobby');
 				}}>
 				<Text>Lobby</Text>
+				}}>
+				<Text>Event Page</Text>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={styles.button}
+				onPress={() => {
+					navigation.navigate('\Group');
+				}}>
+				<Text>go to join group page</Text>
 			</TouchableOpacity>
 		</View>
 	);

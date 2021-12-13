@@ -1,14 +1,20 @@
-import React, { useContext, useState } from "react";
-import { TouchableHighlight, Image, TextInput, Text, View } from 'react-native';
+
+import React, { useContext, useState, useEffect } from "react";
+import { TouchableHighlight, Image, TextInput, Text, View } from "react-native";
 import styles from "../styles/Login.Style";
 import { UserContext } from "../contexts/UserContext";
-import {handleSignUp} from '../utils/firebaseAuthUtils'
+import { handleSignUp } from '../utils/firebaseAuthUtils'
+import DialogComponent from '../components/DialogueComponent';
 
 export default function CreateUser() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [error, setError] = useState({});
+   useEffect(() => {
+			
+			return () => {};
+		}, [error]);
   return (
 		<View style={styles.container}>
 			<Image source={require('../assets/logo.png')} style={styles.logo} />
@@ -36,6 +42,12 @@ export default function CreateUser() {
 				}}>
 				<Text style={styles.Btntext}>Sign Up!</Text>
 			</TouchableHighlight>
+			{Object.keys(error).length > 0 ? (
+				<DialogComponent popup={error} />
+			) : (
+				<Image></Image>
+			)}
+
 		</View>
 	);
 }

@@ -35,6 +35,7 @@ export default function Login() {
 				}}>
 				<Text style={styles.Btntext}>Log In</Text>
 			</TouchableHighlight>
+
 		</View>
 	);
 }
