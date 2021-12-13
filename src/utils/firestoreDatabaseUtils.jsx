@@ -61,6 +61,7 @@ async function joinGroupRequest(currentUser, groupDocId) {
 }
 
 
+
 // firestore - approve group request - updates groupMembers field with status "Approved: true"
 async function approveGroupRequest(groupMember, groupDocId) {
   
@@ -84,6 +85,8 @@ async function approveGroupRequest(groupMember, groupDocId) {
     console.log(`${groupMember} can't be found in group members`) 
   }
 }
+
+
 
 // firestore - readyUp- updates groupMembers field with status "ready: true"
 async function readyUp(groupMember, groupDocId) {
@@ -131,6 +134,8 @@ async function readyUpAdmin(groupDocId) {
   }
 }
 
+
+
 // firestore - notReady- updates groupMembers field with status "ready: false"
 async function notReady(groupMember, groupDocId) {
   
@@ -177,14 +182,48 @@ async function notReadyAdmin(groupDocId) {
   }
 }
 
-// firestore - create new event within group
-async function createNewEvent(currentUser, groupDocId, latitude, longitude) {
-  const newEvent = await addDoc(collection(db, `groups/${groupDocId}/events`), {
-    eventAdmin: currentUser,
-    eventMembers: [{"username": currentUser, latitude, longitude}]
-  });
-  // console.log the document path in the firestore database within the "events" collection 
-  console.log(`A new event was created at ${newEvent.path}`);
+
+
+// firestore - create new trip within group
+async function createNewTrip(currentUser, groupDocId, groupName) {
+
+    const newTrip = await addDoc(collection(db, 'trips'), {
+      admin: currentUser,
+      archive: false,
+      groupId : groupDocId,
+      groupName : groupName,
+      groupMembers: {},
+      trip: {
+        started: false,
+        tripId: null
+      } 
+    });
+    
+    const tripId = newTrip.path.substring(6)
+    // add document number to the trip as tripId
+
+    console.log(`A new trip was created at ${newTrip.path}`);
+    
+    // updates trip properties in trip
+    await updateDoc(doc(db, 'trips', tripId), {
+      "trip.started" : true,
+      "trip.tripId" : tripId
+    });
+
+    // updates trip properties in group
+    await updateDoc(doc(db, 'groups', groupDocId), {
+      "trip.started" : true,
+      "trip.tripId" : tripId
+    });
+  
+    return tripId;
+
+  // const newEvent = await addDoc(collection(db, `groups/${groupDocId}/events`), {
+  //   eventAdmin: currentUser,
+  //   eventMembers: [{"username": currentUser, latitude, longitude}]
+  // });
+  // // console.log the document path in the firestore database within the "events" collection 
+  // console.log(`A new event was created at ${newEvent.path}`);
 }
 
 
@@ -263,7 +302,7 @@ export {
   readyUpAdmin,
   notReady,
   notReadyAdmin,
-  createNewEvent,
+  createNewTrip,
   joinEvent,
   deleteEvent,
   deleteGroup,
