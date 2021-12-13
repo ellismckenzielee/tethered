@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
 import { getDeltas } from "../utils/utils.maps";
 import * as Location from "expo-location";
 import styles from "../styles/Login.Style";
 import mapStyle from "../styles/Map.Style";
+import { ellisArr, scottArr } from "../components/TestCoordinates";
 
 export default function Map({ user, locations }) {
   const [location, setLocation] = useState(null);
@@ -54,6 +55,12 @@ export default function Map({ user, locations }) {
           longitudeDelta: maxLongitudeDelta * 2,
         }}
       >
+        <Polyline
+          coordinates={scottArr}
+          strokeColor="#F96800"
+          strokeWidth={4}
+        />
+        <Polyline coordinates={ellisArr} strokeColor="#000" strokeWidth={4} />
         <Marker
           onPress={({ nativeEvent }) => {
             animateToRegion(
