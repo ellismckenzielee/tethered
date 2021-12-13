@@ -28,10 +28,12 @@ export default function Map({ user, locations }) {
         return;
       }
       Location.watchPositionAsync({ distanceInterval: 100 }, (location) => {
+        console.log("location found");
         setLocation(location);
       });
     })();
   }, []);
+  console.log(location);
   if (location === null)
     return (
       <View>
