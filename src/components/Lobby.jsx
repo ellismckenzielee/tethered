@@ -26,17 +26,6 @@ export default function Lobby({ navigation , route}) {
   const {groupPath} = route.params
   const logo = require('../assets/logo.png');
 
-  useEffect(() => {
-    setTimeout(() => {
-      setApproved(true);
-    }, 3000);
-  });
-  if (!approved)
-    return (
-      <View>
-        <Text>Waiting approval...</Text>
-      </View>
-    );
 	useEffect(() => {
 		setTimeout(() => {
 			setApproved(true);
