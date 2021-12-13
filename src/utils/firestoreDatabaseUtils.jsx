@@ -42,7 +42,6 @@ async function joinGroupRequest(currentUser, groupDocId) {
   if (!groupDocSnap.data().groupMembers[currentUser]){
 
     const groupMembers = groupDocSnap.data().groupMembers;
-    console.log(groupMembers)
     
     groupMembers[currentUser] = {
         approved: false,
@@ -61,6 +60,30 @@ async function joinGroupRequest(currentUser, groupDocId) {
   }
 }
 
+
+// firestore - approve group request - updates groupMembers field with status "Approved: true"
+async function approveGroupRequest(groupMember, groupDocId) {
+  
+  // reads document from the firestore database
+  const groupDocSnap = await getDoc(doc(db, 'groups', groupDocId))
+  
+  // takes the groupMembers object and updates object with new member if they aren't already in the group 
+  if (groupDocSnap.data().groupMembers[groupMember]){
+
+    const groupMembers = groupDocSnap.data().groupMembers;
+    
+    groupMembers[`${groupMember}`]["approved"] = true,
+
+    await updateDoc(doc(db, 'groups', groupDocId), {
+      groupMembers
+    })
+
+    console.log(`${groupMember} has been approved to join the group ${groupDocId}`)
+  }
+  else {
+    console.log(`${groupMember} can't be found in group members`) 
+  }
+}
 
 
 // firestore - create new event within group
@@ -141,4 +164,4 @@ async function updateLocation(currentUser, groupDocId, eventDocId, latitude, lon
 
 
 
-export {createNewGroup, createNewEvent, joinGroupRequest, joinEvent, deleteEvent, deleteGroup, updateLocation};
+export {createNewGroup, createNewEvent, joinGroupRequest, approveGroupRequest, joinEvent, deleteEvent, deleteGroup, updateLocation};
