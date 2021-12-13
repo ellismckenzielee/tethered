@@ -1,4 +1,4 @@
-const { degreesToRadians, getDeltas } = require("../utils/utils.maps");
+const { degreesToRadians, getDeltas, getDistance } = require("../utils/utils.maps");
 describe("degreesToRadians function: ", () => {
   it("returns a number", () => {
     const input = 0;
@@ -50,7 +50,7 @@ describe("getDeltas function: ", () => {
   it("should return correct object when inputGroup is empty array", () => {
     const inputLocation = { coords: { latitude: 53.467442, longitude: -2.28477 } };
     const inputGroup = [];
-    const expected = { maxLatitudeDelta: 0.01, maxLongitudeDelta: 0.01 };
+    const expected = { maxLatitudeDelta: 0, maxLongitudeDelta: 0 };
     const actual = getDeltas(inputLocation, inputGroup);
     expect(actual).toEqual(expected);
   });
@@ -66,8 +66,9 @@ describe("getDeltas function: ", () => {
     const expectedLong = expected.maxLongitudeDelta;
     const actualLat = actual.maxLatitudeDelta;
     const actualLong = actual.maxLongitudeDelta;
-    expect(Math.abs(expectedLat - actualLat) < Math.pow(10, 1000)).toBe(true);
-    expect(Math.abs(expectedLong - actualLong) < Math.pow(10, 1000)).toBe(true);
+    console.log(expectedLat, actualLat);
+    expect(Math.abs(expectedLat - actualLat) < Math.pow(10, -3)).toBe(true);
+    expect(Math.abs(expectedLong - actualLong) < Math.pow(10, -3)).toBe(true);
   });
   describe("testing side effects", () => {
     const inputLocation = { coords: { latitude: 53.467442, longitude: -2.28477 } };
@@ -90,6 +91,50 @@ describe("getDeltas function: ", () => {
     it("output object reference should not equal either of the input object references", () => {
       expect(actual).not.toBe(inputLocation);
       expect(actual).not.toBe(inputGroup);
+    });
+  });
+});
+
+describe("getDistance function: ", () => {
+  it("returns a number", () => {
+    const inputUser = { latitude: 53.467442, longitude: -2.28477 };
+    const inputOther = { latitude: 53.463058, longitude: -2.29134 };
+    const expected = "number";
+    const actual = getDistance(inputUser, inputOther);
+    expect(typeof actual).toBe(expected);
+  });
+  it("returns a distance of 0 when the same location is passed twice", () => {
+    const inputUser = { latitude: 53.467442, longitude: -2.28477 };
+    const inputOther = { latitude: 53.467442, longitude: -2.28477 };
+    const expected = 0;
+    const actual = getDistance(inputUser, inputOther);
+    expect(actual).toBe(expected);
+  });
+  it("returns the correct distance when two different locations are passed", () => {
+    let inputUser = { latitude: 51.510357, longitude: -0.116773 };
+    let inputOther = { latitude: 38.889931, longitude: -77.009003 };
+    let expected = 5897.658;
+    let actual = getDistance(inputUser, inputOther);
+    expect(Math.abs(actual - expected) < Math.pow(10, -3)).toBe(true);
+
+    inputUser = { latitude: 53.467442, longitude: -2.28477 };
+    inputOther = { latitude: 53.4649, longitude: -2.3488 };
+    expected = 4.248;
+    actual = getDistance(inputUser, inputOther);
+    expect(Math.abs(actual - expected) < Math.pow(10, -3)).toBe(true);
+  });
+  describe("testing side effects: ", () => {
+    const inputUser = { latitude: 53.467442, longitude: -2.28477 };
+    const inputUserFixed = { latitude: 53.467442, longitude: -2.28477 };
+
+    const inputOther = { latitude: 53.4649, longitude: -2.3488 };
+    const inputOtherFixed = { latitude: 53.4649, longitude: -2.3488 };
+    getDistance(inputUser, inputOther);
+    it("inputUser object should not be mutated", () => {
+      expect(inputUser).toEqual(inputUserFixed);
+    });
+    it("inputOther object should not be mutated", () => {
+      expect(inputOther).toEqual(inputOtherFixed);
     });
   });
 });
