@@ -1,7 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { LogBox } from "react-native";
 import Login from "./src/components/Login";
 import Home from "./src/components/Home";
 import Event from "./src/components/Event";
@@ -11,8 +10,8 @@ import JoinGroup from "./src/components/JoinGroup";
 import Lobby from "./src/components/Lobby";
 import { UserProvider } from "./src/contexts/UserContext";
 import Main from "./src/components/Main";
-
-LogBox.ignoreAllLogs(/\w+AsyncStorage\w+/);
+import { LogBox } from "react-native";
+LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 

@@ -4,11 +4,11 @@ import styles from "../styles/Login.Style";
 import { UserContext } from "../contexts/UserContext";
 import { handleLogin } from "../utils/firebaseAuthUtils";
 
-export default function Login() {
+export default function Login({ navigation }) {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [error, setError] = useState({});
   return (
     <View style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.logo} />
@@ -23,7 +23,11 @@ export default function Login() {
         style={styles.button}
         onPress={() => {
           setCurrentUser({ username: email, password: password });
-          handleLogin(email, password);
+          handleLogin(email, password, setError)
+            .then(() => {
+              navigation.navigate("Main");
+            })
+            .catch(console.log);
         }}
       >
         <Text style={styles.Btntext}>Log In</Text>
