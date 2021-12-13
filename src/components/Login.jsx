@@ -23,11 +23,7 @@ export default function Login({ navigation }) {
         style={styles.button}
         onPress={() => {
           setCurrentUser({ username: email, password: password });
-          handleLogin(email, password, setError)
-            .then(() => {
-              navigation.navigate("Main");
-            })
-            .catch(console.log);
+          handleLogin(email, password, setError, navigation);
         }}
       >
         <Text style={styles.Btntext}>Log In</Text>
