@@ -27,13 +27,12 @@ export default function Map({ user, locations }) {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-      Location.watchPositionAsync({ distanceInterval: 100 }, (location) => {
-        console.log("location found");
+      const location = Location.watchPositionAsync({ distanceInterval: 100 }, (location) => {
         setLocation(location);
       });
     })();
+    return location;
   }, []);
-  console.log(location);
   if (location === null)
     return (
       <View>

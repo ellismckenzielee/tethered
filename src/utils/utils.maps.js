@@ -18,10 +18,8 @@ export const findMaximumDistance = (location, group) => {
   /* calculates the maximum distance between current user and 
   other member of the group */
   const distanceArray = group.map((member) => {
-    console.log("MEMBER", member);
     return getDistance(location, member);
   });
-  console.log(Math.max(...distanceArray));
   return Math.max(...distanceArray);
 };
 export const getDistance = (user, member) => {

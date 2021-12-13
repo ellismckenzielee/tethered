@@ -66,7 +66,6 @@ describe("getDeltas function: ", () => {
     const expectedLong = expected.maxLongitudeDelta;
     const actualLat = actual.maxLatitudeDelta;
     const actualLong = actual.maxLongitudeDelta;
-    console.log(expectedLat, actualLat);
     expect(Math.abs(expectedLat - actualLat) < Math.pow(10, -3)).toBe(true);
     expect(Math.abs(expectedLong - actualLong) < Math.pow(10, -3)).toBe(true);
   });
