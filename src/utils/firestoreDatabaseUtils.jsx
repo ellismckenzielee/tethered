@@ -16,9 +16,49 @@ async function createNewGroup(currentUser, groupName) {
       tripId: null
     } 
   });
+  
+  const groupId = newGroup.path.substring(7)
+  // add document number to the group as groupId
+  const groupDocSnap = await getDoc(doc(db, 'groups', groupId))
+  await updateDoc(doc(db, 'groups', groupId), {
+    groupId : groupId,
+  });
+
   // console.log the document path in the firestore database within the "groups" collection 
   console.log(`A new group was created at ${newGroup.path}`);
-  return newGroup.path.substring(7);
+
+  return groupId;
+}
+
+
+
+// firestore - request to join a group - adds user to group Members field with status "Approved: false"
+async function joinGroupRequest(currentUser, groupDocId) {
+  
+  // reads document from the firestore database
+  const groupDocSnap = await getDoc(doc(db, 'groups', groupDocId))
+  
+  // takes the groupMembers object and updates object with new member if they aren't already in the group 
+  if (!groupDocSnap.data().groupMembers[currentUser]){
+
+    const groupMembers = groupDocSnap.data().groupMembers;
+    console.log(groupMembers)
+    
+    groupMembers[currentUser] = {
+        approved: false,
+        ready: false,
+        username: currentUser
+    };
+
+    await updateDoc(doc(db, 'groups', groupDocId), {
+          groupMembers : groupMembers,
+    })
+
+    console.log(`${currentUser} was added to group ${groupDocId}`)
+  }
+  else {
+    console.log(`${currentUser} is already a group member`) 
+  }
 }
 
 
@@ -35,14 +75,7 @@ async function createNewEvent(currentUser, groupDocId, latitude, longitude) {
 
 
 
-// firestore - join a group - adds user to group Members field
-async function joinGroup(currentUser, groupDocId) {
-  await updateDoc(doc(db, 'groups', groupDocId), {
-    groupMembers: arrayUnion(currentUser),
-  });
 
-  console.log(`${currentUser} was added to group ${groupDocId}`);
-}
 
 
 
@@ -108,4 +141,4 @@ async function updateLocation(currentUser, groupDocId, eventDocId, latitude, lon
 
 
 
-export {createNewGroup, createNewEvent, joinGroup, joinEvent, deleteEvent, deleteGroup, updateLocation};
+export {createNewGroup, createNewEvent, joinGroupRequest, joinEvent, deleteEvent, deleteGroup, updateLocation};
