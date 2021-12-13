@@ -25,7 +25,6 @@ export default function CreateGroup({navigation}) {
 				onPress={() => {
 					createNewGroup(currentUser.username, groupName)
 					.then((groupPath) => {
-						setQrLink(groupPath);
 						navigation.navigate("Lobby",{groupPath:groupPath});
 					})
 				}}>
