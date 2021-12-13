@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import getDeltas from "../utils/utils.maps";
+import { getDeltas } from "../utils/utils.maps";
 import * as Location from "expo-location";
 import styles from "../styles/Login.Style";
 import mapStyle from "../styles/Map.Style";
@@ -69,10 +69,7 @@ export default function Map({ user, locations }) {
             longitude: location.coords?.longitude,
           }}
         >
-          <Image
-            source={require("../assets/userMarker.png")}
-            style={styles.marker}
-          ></Image>
+          <Image source={require("../assets/userMarker.png")} style={styles.marker}></Image>
         </Marker>
         {locations.map((location) => {
           return (
@@ -94,10 +91,7 @@ export default function Map({ user, locations }) {
                 longitude: location.longitude,
               }}
             >
-              <Image
-                source={require("../assets/groupMarker.png")}
-                style={styles.marker}
-              ></Image>
+              <Image source={require("../assets/groupMarker.png")} style={styles.marker}></Image>
             </Marker>
           );
         })}
