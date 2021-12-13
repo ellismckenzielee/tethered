@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+    import React, { useContext, useEffect, useState } from 'react';
 import { View, TouchableOpacity, TouchableHighlight, Text } from 'react-native';
 import styles from '../styles/Lobby.Style';
 import { UserContext } from '../contexts/UserContext';
+import QRCode from 'react-native-qrcode-svg';
 
-export default function Lobby({ navigation }) {
+export default function Lobby({ navigation , route}) {
+
 	const { isLoggedIn, currentUser } = useContext(UserContext);
 	const isAdmin = true;
 	const event = {
@@ -15,10 +17,26 @@ export default function Lobby({ navigation }) {
 			{ name: 'Tom', accepted: false, isAdmin: true },
 		],
 	};
+
 	const { users } = event;
 	const approvedUsers = users.filter(user => user.accepted);
 	const pendingUsers = users.filter(user => !user.accepted);
 	const [approved, setApproved] = useState(false);
+
+  const {groupPath} = route.params
+  const logo = require('../assets/logo.png');
+
+  useEffect(() => {
+    setTimeout(() => {
+      setApproved(true);
+    }, 3000);
+  });
+  if (!approved)
+    return (
+      <View>
+        <Text>Waiting approval...</Text>
+      </View>
+    );
 	useEffect(() => {
 		setTimeout(() => {
 			setApproved(true);
@@ -64,6 +82,15 @@ export default function Lobby({ navigation }) {
 				}}>
 				<Text>Start Trip</Text>
 			</TouchableOpacity>
+
+{/* Need to change groupPath from create a group to the groupId */}
+      <QRCode
+        value={groupPath}
+        size={ 200}
+				logo={logo}
+				logoSize={55}
+				logoBackgroundColor='black'
+			/>
 		</View>
 	);
 }
