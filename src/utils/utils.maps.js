@@ -49,3 +49,8 @@ export const degreesToRadians = (degrees) => {
   /*convert degrees to radians */
   return (Math.PI * degrees) / 180;
 };
+
+export const isLimitExceeded = (maxLimit, location, group) => {
+  const maxDistance = findMaximumDistance(location, group);
+  return maxDistance <= maxLimit ? false : true;
+};
