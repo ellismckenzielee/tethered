@@ -223,39 +223,29 @@ async function createNewTrip(currentUser, groupDocId, groupName) {
 
 
 // firestore - update location in trip
-async function updateLocation(currentUser, groupDocId, tripId, latitude, longitude) {
+async function updateLocation(currentUser, tripId, latitude, longitude) {
+
+  // creates/updates an object in the Trip under tripMembers
   
-  // creates/updates an object in the Trip under groupMembers
-
-
-
-
-  // // reads document from the firestore database
-  // const eventDocSnap = await getDoc(doc(db, `groups/${groupDocId}/events`, eventDocId))
+  // reads document from the firestore database
+  const tripDocSnap = await getDoc(doc(db, 'trips', tripId))
   
-  // // takes the eventMembers array and creates a new array with the updated location for the currentUser then updates the database
-  // if (eventDocSnap.exists()){
-  //   const members = eventDocSnap.data().eventMembers;
-  //   const updatedEventMembers = members.map(member => {
-  //     if(member.username === currentUser){
-  //       member.latitude = latitude;
-  //       member.longitude = longitude;
-  //       return member
-  //     }
-  //     else{
-  //       return member
-  //     }
-  //   })
-  //   console.log("updatedEventMembers")
+  // takes the tripMembers object and updates ready status
+  const tripMembers = tripDocSnap.data().tripMembers;
+    
+  // tripMembers[`${currentUser}`]["username"] = currentUser,
+  // tripMembers[`${currentUser}`]["latitude"] = latitude,
+  // tripMembers[`${currentUser}`]["longitude"] = longitude,
 
-  //   await updateDoc(doc(db, `groups/${groupDocId}/events`, eventDocId), {
-  //     eventMembers: updatedEventMembers,
-  //   })
+  // console.log(tripMembers)
+  
+  await updateDoc(doc(db, 'trips', tripId), {
+    [`tripMembers.${currentUser}.username`] : currentUser,
+    [`tripMembers.${currentUser}.latitude`] : latitude,
+    [`tripMembers.${currentUser}.longitude`] : longitude
+  });
 
-  // } else {
-//     // document doesn't exist on database.  doc.data() will be undefined in this case
-//     console.log("No such document!");
-//   }
+  console.log(`tripmember ${currentUser} updated`)
 }
 
 
