@@ -85,6 +85,30 @@ async function approveGroupRequest(groupMember, groupDocId) {
   }
 }
 
+// firestore - approve group request - updates groupMembers field with status "Approved: true"
+async function readyUp(groupMember, groupDocId) {
+  
+  // reads document from the firestore database
+  const groupDocSnap = await getDoc(doc(db, 'groups', groupDocId))
+  
+  // takes the groupMembers object and updates object with new member if they aren't already in the group 
+  if (groupDocSnap.data().groupMembers[groupMember]){
+
+    const groupMembers = groupDocSnap.data().groupMembers;
+    
+    groupMembers[`${groupMember}`]["ready"] = true,
+
+    await updateDoc(doc(db, 'groups', groupDocId), {
+      groupMembers
+    })
+
+    console.log(`${groupMember} is ready`)
+  }
+  else {
+    console.log(`${groupMember} can't be found in group members`) 
+  }
+}
+
 
 // firestore - create new event within group
 async function createNewEvent(currentUser, groupDocId, latitude, longitude) {
@@ -164,4 +188,13 @@ async function updateLocation(currentUser, groupDocId, eventDocId, latitude, lon
 
 
 
-export {createNewGroup, createNewEvent, joinGroupRequest, approveGroupRequest, joinEvent, deleteEvent, deleteGroup, updateLocation};
+export {
+  createNewGroup,
+  joinGroupRequest,
+  approveGroupRequest,
+  readyUp,
+  createNewEvent,
+  joinEvent,
+  deleteEvent,
+  deleteGroup,
+  updateLocation};
