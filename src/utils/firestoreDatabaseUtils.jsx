@@ -67,7 +67,7 @@ async function approveGroupRequest(groupMember, groupDocId) {
   // reads document from the firestore database
   const groupDocSnap = await getDoc(doc(db, 'groups', groupDocId))
   
-  // takes the groupMembers object and updates object with new member if they aren't already in the group 
+  // takes the groupMembers object and updates approved status 
   if (groupDocSnap.data().groupMembers[groupMember]){
 
     const groupMembers = groupDocSnap.data().groupMembers;
@@ -85,13 +85,13 @@ async function approveGroupRequest(groupMember, groupDocId) {
   }
 }
 
-// firestore - approve group request - updates groupMembers field with status "Approved: true"
+// firestore - readyUp- updates groupMembers field with status "ready: true"
 async function readyUp(groupMember, groupDocId) {
   
   // reads document from the firestore database
   const groupDocSnap = await getDoc(doc(db, 'groups', groupDocId))
   
-  // takes the groupMembers object and updates object with new member if they aren't already in the group 
+  // takes the groupMembers object and updates ready status
   if (groupDocSnap.data().groupMembers[groupMember]){
 
     const groupMembers = groupDocSnap.data().groupMembers;
@@ -108,6 +108,29 @@ async function readyUp(groupMember, groupDocId) {
     console.log(`${groupMember} can't be found in group members`) 
   }
 }
+
+
+
+// firestore - readyUpAdmin- updates groupAdmin field with status "ready: true"
+async function readyUpAdmin(groupDocId) {
+  
+  // reads document from the firestore database
+  const groupDocSnap = await getDoc(doc(db, 'groups', groupDocId))
+  
+  // takes the groupMembers object and updates ready status
+  if (groupDocSnap.exists()){
+
+    await updateDoc(doc(db, 'groups', groupDocId), {
+      "groupAdmin.ready" : true
+    })
+
+    console.log(`Group admin is ready`)
+  }
+  else {
+    console.log(`Group can't be found`) 
+  }
+}
+
 
 
 // firestore - create new event within group
@@ -193,6 +216,7 @@ export {
   joinGroupRequest,
   approveGroupRequest,
   readyUp,
+  readyUpAdmin,
   createNewEvent,
   joinEvent,
   deleteEvent,
