@@ -9,6 +9,9 @@ import CreateGroup from "./src/components/CreateGroup";
 import JoinGroup from "./src/components/JoinGroup";
 import Lobby from "./src/components/Lobby";
 import { UserProvider } from "./src/contexts/UserContext";
+import Main from "./src/components/Main";
+import { LogBox } from "react-native";
+LogBox.ignoreAllLogs(/\w+AsyncStorage\w+/);
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +28,7 @@ export default function App() {
           <Stack.Screen name="Lobby" component={Lobby} />
           <Stack.Screen name="Event" component={Event} />
           <Stack.Screen name="JoinGroup" component={JoinGroup} />
+          <Stack.Screen name="Main" component={Main} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>
