@@ -232,12 +232,6 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
   
   // takes the tripMembers object and updates ready status
   const tripMembers = tripDocSnap.data().tripMembers;
-    
-  // tripMembers[`${currentUser}`]["username"] = currentUser,
-  // tripMembers[`${currentUser}`]["latitude"] = latitude,
-  // tripMembers[`${currentUser}`]["longitude"] = longitude,
-
-  // console.log(tripMembers)
   
   await updateDoc(doc(db, 'trips', tripId), {
     [`tripMembers.${currentUser}.username`] : currentUser,
@@ -246,6 +240,30 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
   });
 
   console.log(`tripmember ${currentUser} updated`)
+}
+
+
+
+// firestore - end trip within group
+async function endTrip(tripId) {
+
+  // updates trip properties in trip
+  await updateDoc(doc(db, 'trips', tripId), {
+    "trip.started" : false,
+    "archive" : true
+  });
+
+  // reads document from the firestore database for group ID
+  const tripDocSnap = await getDoc(doc(db, 'trips', tripId))
+
+  // updates trip properties in group
+  await updateDoc(doc(db, 'groups', tripDocSnap.data().groupId), {
+    "trip.started" : false,
+    "trip.tripId" : null
+  });
+
+  console.log(`Trip ${tripId} has ended`)
+
 }
 
 
@@ -259,4 +277,5 @@ export {
   notReady,
   notReadyAdmin,
   createNewTrip,
-  updateLocation};
+  updateLocation,
+  endTrip};
