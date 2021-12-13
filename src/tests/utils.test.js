@@ -1,4 +1,4 @@
-const { degreesToRadians, getDeltas, getDistance } = require("../utils/utils.maps");
+const { degreesToRadians, getDeltas, getDistance, findMaximumDistance } = require("../utils/utils.maps");
 describe("degreesToRadians function: ", () => {
   it("returns a number", () => {
     const input = 0;
@@ -136,5 +136,29 @@ describe("getDistance function: ", () => {
     it("inputOther object should not be mutated", () => {
       expect(inputOther).toEqual(inputOtherFixed);
     });
+  });
+});
+
+describe("findMaximumDistance function", () => {
+  it("returns a number", () => {
+    const inputUser = { latitude: 53.467442, longitude: -2.28477 };
+    const inputGroup = [
+      { latitude: 53.4649, longitude: -2.3488 },
+      { latitude: 38.889931, longitude: -77.009003 },
+    ];
+    const expected = "number";
+    const actual = findMaximumDistance(inputUser, inputGroup);
+    expect(typeof actual).toBe(expected);
+  });
+  it("returns the maximum distance between the user and any other users's location", () => {
+    const inputUser = { latitude: 53.467442, longitude: -2.28477 };
+    const inputGroup = [
+      { latitude: 53.4649, longitude: -2.3488 },
+      { latitude: 53.467442, longitude: -2.28478 },
+    ];
+    const expected = 4.247;
+    const actual = findMaximumDistance(inputUser, inputGroup);
+
+    expect(Math.abs(actual - expected) < Math.pow(10, -3)).toBe(true);
   });
 });
