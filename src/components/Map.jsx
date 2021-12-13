@@ -71,7 +71,16 @@ export default function Map({ user, locations }) {
             longitude: location.coords?.longitude,
           }}
         >
-          <Image source={require("../assets/userMarker.png")} style={styles.marker}></Image>
+          <Image
+            source={require("../assets/userMarker.png")}
+            style={styles.marker}
+          ></Image>
+          <MapView.Callout>
+            <Text>{user.name}</Text>
+            <TouchableOpacity>
+              <Text>Contact {user.name}</Text>
+            </TouchableOpacity>
+          </MapView.Callout>
         </Marker>
         {locations.map((location) => {
           return (
@@ -93,7 +102,16 @@ export default function Map({ user, locations }) {
                 longitude: location.longitude,
               }}
             >
-              <Image source={require("../assets/groupMarker.png")} style={styles.marker}></Image>
+              <Image
+                source={require("../assets/groupMarker.png")}
+                style={styles.marker}
+              ></Image>
+              <MapView.Callout>
+                <Text>{location.name}</Text>
+                <TouchableOpacity>
+                  <Text>Contact {location.name}</Text>
+                </TouchableOpacity>
+              </MapView.Callout>
             </Marker>
           );
         })}
