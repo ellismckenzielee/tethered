@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 	container: {
@@ -8,11 +8,6 @@ export default StyleSheet.create({
 		textAlign: 'center',
 		width: '100%',
 		height: '100%',
-	},
-	title: {
-		fontSize: 45,
-		color: 'white',
-		marginBottom: 30,
 	},
 	button: {
 		backgroundColor: '#F96800',
@@ -43,15 +38,6 @@ export default StyleSheet.create({
 	logo: {
 		width: 227,
 		height: 332,
-		marginBottom: 30,
-	},
-	textInput: {
-		backgroundColor: '#E3E3E3',
-		paddingLeft: 25,
-		paddingRight: 25,
-		paddingTop: 2,
-		paddingBottom: 5,
-		borderRadius: 15,
 		marginBottom: 30,
 	},
 });

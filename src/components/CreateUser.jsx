@@ -1,5 +1,6 @@
+
 import React, { useContext, useState, useEffect } from "react";
-import { TouchableOpacity, Image, TextInput, Text, View } from "react-native";
+import { TouchableHighlight, Image, TextInput, Text, View } from "react-native";
 import styles from "../styles/Login.Style";
 import { UserContext } from "../contexts/UserContext";
 import { handleSignUp } from '../utils/firebaseAuthUtils'
@@ -16,25 +17,37 @@ export default function CreateUser() {
 		}, [error]);
   return (
 		<View style={styles.container}>
+			<Image source={require('../assets/logo.png')} style={styles.logo} />
+			<Text style={styles.title}>Enter Details</Text>
+			<Text style={styles.text}>Email</Text>
+			<TextInput
+				style={styles.textInput}
+				 placeholder='tom@teamtethered.com'
+				onChangeText={setEmail}
+			/>
+			<Text style={styles.text}>Password</Text>
+			<TextInput
+				style={styles.textInput}
+				onChangeText={setPassword}
+				placeholder='password'
+				onChangeText={setPassword}
+			/>
+			<TouchableHighlight
+				activeOpacity={0.6}
+				underlayColor='#9F4300'
+				style={styles.button}
+				onPress={() => {
+					setCurrentUser({ username: email, password: password });
+					handleSignUp(email, password);
+				}}>
+				<Text style={styles.Btntext}>Sign Up!</Text>
+			</TouchableHighlight>
 			{Object.keys(error).length > 0 ? (
 				<DialogComponent popup={error} />
 			) : (
 				<Image></Image>
 			)}
-			<Image></Image>
-			<Text>Enter Details</Text>
-			<Text>Email</Text>
-			<TextInput placeholder='example@google.com' onChangeText={setEmail} />
-			<Text>Password</Text>
-			<TextInput placeholder='password' onChangeText={setPassword} />
-			<TouchableOpacity
-				style={styles.button}
-				onPress={() => {
-					setCurrentUser({ username: email, password: password });
-					handleSignUp(email, password, setError);
-				}}>
-				<Text>Sign Up!</Text>
-			</TouchableOpacity>
+
 		</View>
 	);
 }

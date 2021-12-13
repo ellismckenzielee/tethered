@@ -1,6 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import { TouchableOpacity, Image, TextInput, Text, View, StyleSheet} from 'react-native';
-import styles from '../styles/Login.Style';
+import {
+	TouchableHighlight,
+	Image,
+	TextInput,
+	Text,
+	View,
+	StyleSheet,
+} from 'react-native';
+import styles from '../styles/createGroup.Style';
 import QRCode from 'react-native-qrcode-svg';
 
 
@@ -14,29 +21,28 @@ export default function CreateGroup() {
 	const logo = require('../assets/logo.png');
 	return (
 		<View style={styles.container}>
-			<Text>Enter Details</Text>
-			<Text>Group Name</Text>
+			<Image source={require('../assets/logo.png')} style={styles.logo} />
+			<Text style={styles.title}>Create a Group</Text>
+			<Text style={styles.text}>Group Name</Text>
+			<Text style={styles.Smltext}>e.g. teamTethered</Text>
 			<TextInput
-				placeholder='Team Tethered'
+				style={styles.textInput}
+				placeholder='TeamTethered'
 				value={groupLink}
 				onChangeText={text => {
 					setGroupLink(text);
 				}}
 			/>
-			<TouchableOpacity
+			<TouchableHighlight
+				activeOpacity={0.6}
+				underlayColor='#9F4300'
 				style={styles.button}
 				onPress={() => {
 					setQrLink(groupLink);
 				}}>
-				<Text>Create Group</Text>
-			</TouchableOpacity>
-			<QRCode
-                value={qrLink}
-                size={ 200}
-				logo={logo}
-				logoSize={55}
-				logoBackgroundColor='black'
-			/>
+				<Text style={styles.Btntext}>Create Group</Text>
+			</TouchableHighlight>
+			<QRCode style={styles.qr} value={qrLink} size={200} />
 		</View>
 	);
 }
