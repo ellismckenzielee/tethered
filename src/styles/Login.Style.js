@@ -19,7 +19,7 @@ export default StyleSheet.create({
   },
   map: {
     width: "95%",
-    height: "95%",
+    height: "90%",
     borderRadius: 10,
   },
   marker: {
