@@ -131,7 +131,51 @@ async function readyUpAdmin(groupDocId) {
   }
 }
 
+// firestore - notReady- updates groupMembers field with status "ready: false"
+async function notReady(groupMember, groupDocId) {
+  
+  // reads document from the firestore database
+  const groupDocSnap = await getDoc(doc(db, 'groups', groupDocId))
+  
+  // takes the groupMembers object and updates ready status
+  if (groupDocSnap.data().groupMembers[groupMember]){
 
+    const groupMembers = groupDocSnap.data().groupMembers;
+    
+    groupMembers[`${groupMember}`]["ready"] = false,
+
+    await updateDoc(doc(db, 'groups', groupDocId), {
+      groupMembers
+    })
+
+    console.log(`${groupMember} is ready`)
+  }
+  else {
+    console.log(`${groupMember} can't be found in group members`) 
+  }
+}
+
+
+
+// firestore - notReadyAdmin- updates groupAdmin field with status "ready: false"
+async function notReadyAdmin(groupDocId) {
+  
+  // reads document from the firestore database
+  const groupDocSnap = await getDoc(doc(db, 'groups', groupDocId))
+  
+  // takes the groupMembers object and updates ready status
+  if (groupDocSnap.exists()){
+
+    await updateDoc(doc(db, 'groups', groupDocId), {
+      "groupAdmin.ready" : false
+    })
+
+    console.log(`Group admin is ready`)
+  }
+  else {
+    console.log(`Group can't be found`) 
+  }
+}
 
 // firestore - create new event within group
 async function createNewEvent(currentUser, groupDocId, latitude, longitude) {
@@ -217,6 +261,8 @@ export {
   approveGroupRequest,
   readyUp,
   readyUpAdmin,
+  notReady,
+  notReadyAdmin,
   createNewEvent,
   joinEvent,
   deleteEvent,
