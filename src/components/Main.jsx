@@ -14,10 +14,22 @@ export default function Main({ navigation }) {
   ]);
   return (
     <View style={styles.container}>
-      <TouchableHighlight activeOpacity={0.6} underlayColor="#9F4300" style={styles.button} onPress={() => {}}>
+      <TouchableHighlight
+        activeOpacity={0.6}
+        underlayColor="#9F4300"
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate("CreateGroup");
+        }}
+      >
         <Text style={styles.Btntext}>Create Group</Text>
       </TouchableHighlight>
-      <TouchableHighlight activeOpacity={0.6} underlayColor="#9F4300" style={styles.button} onPress={() => {}}>
+      <TouchableHighlight
+        activeOpacity={0.6}
+        underlayColor="#9F4300"
+        style={styles.button}
+        onPress={() => {}}
+      >
         <Text style={styles.Btntext}>Join Group</Text>
       </TouchableHighlight>
       {groups.map((group) => {
