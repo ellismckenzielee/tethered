@@ -58,9 +58,9 @@ export default function Map({ user, locations }) {
         <Polyline
           coordinates={scottArr}
           strokeColor="#F96800"
-          strokeWidth={4}
+          strokeWidth={2}
         />
-        <Polyline coordinates={ellisArr} strokeColor="#000" strokeWidth={4} />
+        <Polyline coordinates={ellisArr} strokeColor="#000" strokeWidth={2} />
         <Marker
           onPress={({ nativeEvent }) => {
             animateToRegion(
