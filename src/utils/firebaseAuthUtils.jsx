@@ -1,11 +1,22 @@
 import { auth } from "../../firebase-config";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
-const handleSignUp = (email, password, setError) => {
-  createUserWithEmailAndPassword(auth, email, password)
+const handleSignUp = (
+  username,
+  email,
+  password,
+  avatar,
+  setError,
+  navigation
+) => {
+  createUserWithEmailAndPassword(auth, email, password, username, avatar)
     .then((userCredentials) => {
       const user = userCredentials.user;
       console.log("Registered with:", user.email);
+      navigation.navigate("Main");
     })
     .catch((error) => {
       const popup = {
