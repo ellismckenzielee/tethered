@@ -28,7 +28,9 @@ export default function Main({ navigation }) {
         activeOpacity={0.6}
         underlayColor="#9F4300"
         style={styles.button}
-        onPress={() => {}}
+        onPress={() => {
+          navigation.navigate("JoinGroup");
+        }}
       >
         <Text style={styles.Btntext}>Join Group</Text>
       </TouchableHighlight>
