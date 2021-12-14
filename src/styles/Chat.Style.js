@@ -71,6 +71,7 @@ export default StyleSheet.create({
   },
   messageContainer: {
     borderRadius: 10,
+    marginBottom: 10,
   },
   messageAuthor: {
     fontWeight: "bold",
@@ -89,5 +90,15 @@ export default StyleSheet.create({
     borderColor: "black",
     borderWidth: 3,
   },
-  sendMessageButton: { width: "30%", backgroundColor: "#F96800", marginTop: 10, padding: 20, borderRadius: 10 },
+  sendMessageButton: { width: "30%", backgroundColor: "#F96800", marginTop: 10, padding: 20, borderRadius: 10, textAlign: "center", borderColor: "black", borderWidth: 3 },
+  userTitle: {
+    fontWeight: "bold",
+    color: "#F96800",
+    textAlign: "right",
+  },
+  userMessage: {
+    padding: 10,
+    width: "100%",
+    textAlign: "right",
+  },
 });
