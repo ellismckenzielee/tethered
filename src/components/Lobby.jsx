@@ -84,6 +84,7 @@ export default function Lobby({ navigation , route}) {
 
  	const logo = require('../assets/logo.png');
 
+	const currentUserName = currentUser.username
 
 	if( currentUser.username === groupData.groupAdmin.username  && groupData.trip.started === true ){
 			navigation.navigate('Event',{tripId:groupData.trip.tripId});
