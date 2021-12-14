@@ -9,7 +9,7 @@ async function createNewGroup(currentUser, groupName) {
       ready: false
     }, 
     "groupName": groupName,
-    groupMembers: [],
+    groupMembers: {},
     trip: {
       started: false,
       tripId: null
@@ -232,11 +232,16 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
   
   // takes the tripMembers object and updates ready status
   const tripMembers = tripDocSnap.data().tripMembers;
+
+  const newInfo = {[`${currentUser}`] : {
+    username : currentUser,
+    latitude : latitude,
+    longitude : longitude
+    }
+  }
   
   await updateDoc(doc(db, 'trips', tripId), {
-    [`tripMembers.${currentUser}.username`] : currentUser,
-    [`tripMembers.${currentUser}.latitude`] : latitude,
-    [`tripMembers.${currentUser}.longitude`] : longitude
+    tripMembers : newInfo
   });
 
   console.log(`tripmember ${currentUser} updated`)
