@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TouchableHighlight, Image, TextInput, Text, View } from "react-native";
 import styles from "../styles/Main.Style.js";
 import { UserContext } from "../contexts/UserContext";
-import { handleLogin } from "../utils/firebaseAuthUtils";
-
+import { getGroupsByUserId } from "../utils/firestoreDatabaseUtils.jsx";
 export default function Main({ navigation }) {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [email, setEmail] = useState("");
@@ -12,6 +11,14 @@ export default function Main({ navigation }) {
     { id: "dgrdg", name: "Wales Squad" },
     { id: "dggmhhrdg", name: "Manchester Ring Road" },
   ]);
+  console.log(currentUser.username);
+  useEffect(() => {
+    (async () => {
+      const groups = await getGroupsByUserId(currentUser.username);
+      console.log(groups);
+      setGroups(groups);
+    })();
+  }, []);
   return (
     <View style={styles.container}>
       <TouchableHighlight
@@ -37,13 +44,13 @@ export default function Main({ navigation }) {
       {groups.map((group) => {
         return (
           <TouchableHighlight
-            key={group.id}
+            key={group.groupId}
             style={styles.groupCard}
             onPress={() => {
-              navigation.navigate("Lobby", { groupPath: group.id });
+              navigation.navigate("Lobby", { groupPath: group.groupId });
             }}
           >
-            <Text>{group.name}</Text>
+            <Text>{group.groupName}</Text>
           </TouchableHighlight>
         );
       })}
