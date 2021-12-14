@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { TouchableHighlight, Image, TextInput, Text, View } from "react-native";
-import styles from "../styles/Login.Style";
+import styles from "../styles/Signup.Style";
 import { UserContext } from "../contexts/UserContext";
 import { handleSignUp } from "../utils/firebaseAuthUtils";
 
