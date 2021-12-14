@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { TouchableHighlight, TouchableOpacity, Image, TextInput, Text, View, StyleSheet } from "react-native";
 import styles from "../styles/createGroup.Style";
 import { createNewEvent, createNewGroup } from '../utils/firestoreDatabaseUtils';

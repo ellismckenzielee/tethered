@@ -5,7 +5,7 @@ import { UserContext } from '../contexts/UserContext';
 import QRCode from 'react-native-qrcode-svg';
 import { connectFirestoreEmulator, doc, onSnapshot } from 'firebase/firestore';
 import {db} from '../../firebase-config'
-import { approveGroupRequest, createNewTrip } from '../utils/firestoreDatabaseUtils';
+import { approveGroupRequest, createNewTrip} from '../utils/firestoreDatabaseUtils';
 
 export default function Lobby({ navigation , route}) {
 
@@ -71,23 +71,27 @@ export default function Lobby({ navigation , route}) {
 		isAdmin = false;
 	}
 
-	console.log(newUsers)
-	console.log(currentUser.username, groupData.groupAdmin.username, "isAdmin", isAdmin)
-	
 	const event = {
 		hasStarted: groupData.trip.started,
 		admin: groupData.groupAdmin.username,
 		users: newUsers
 	};
 
-	console.log(event)
-
 	const { users } = event;
 	const approvedUsers = users.filter(user => user.approved);
 	const pendingUsers = users.filter(user => !user.approved);
 	const [approved, setApproved] = useState(false);
 
-  const logo = require('../assets/logo.png');
+ 	const logo = require('../assets/logo.png');
+
+
+	if( currentUser.username === groupData.groupAdmin.username  && groupData.trip.started === true ){
+			navigation.navigate('Event',{tripId:groupData.trip.tripId});
+	}
+	else if (groupData.trip.started === true &&
+		groupData.groupMembers[currentUserName]?.approved === true){
+		navigation.navigate('Event',{tripId:groupData.trip.tripId});
+	}
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -130,9 +134,9 @@ export default function Lobby({ navigation , route}) {
 			<TouchableOpacity
 				style={styles.button}
 				onPress={() => {
-					createNewTrip(currentUser, groupPath, groupData.groupName)
-					.then(()=>{ 
-						navigation.navigate('Event');
+					createNewTrip(currentUser.username, groupPath, groupData.groupName)
+					.then((tripId)=>{ 
+						navigation.navigate('Event', {tripId:tripId});
 					})
 				}}>
 				<Text>Start Trip</Text>
@@ -142,9 +146,9 @@ export default function Lobby({ navigation , route}) {
       <QRCode
         value={groupPath}
         size={ 200}
-				logo={logo}
-				logoSize={55}
-				logoBackgroundColor='black'
+				// logo={logo}
+				// logoSize={55}
+				// logoBackgroundColor='black'
 			/>
 		</View>
 	);

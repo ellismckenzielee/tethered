@@ -1,12 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { getDeltas } from "../utils/utils.maps";
 import * as Location from "expo-location";
 import styles from "../styles/Login.Style";
 import mapStyle from "../styles/Map.Style";
+import { updateLocation } from "../utils/firestoreDatabaseUtils";
+import { UserContext } from '../contexts/UserContext';
 
-export default function Map({ user, locations }) {
+
+export default function Map({ user, locations, tripId }) {
+  const { isLoggedIn, currentUser } = useContext(UserContext);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   let mapRef = useRef(null);
@@ -29,6 +33,8 @@ export default function Map({ user, locations }) {
       }
       const location = Location.watchPositionAsync({ distanceInterval: 100 }, (location) => {
         setLocation(location);
+        console.log(currentUser.username,tripId,location.coords?.latitude,location.coords?.longitude);
+        updateLocation(currentUser.username,tripId,location.coords?.latitude,location.coords?.longitude);
       });
     })();
     return location;
