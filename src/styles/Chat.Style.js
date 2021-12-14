@@ -71,7 +71,6 @@ export default StyleSheet.create({
   },
   messageContainer: {
     borderRadius: 10,
-    marginBottom: 10,
   },
   messageAuthor: {
     fontWeight: "bold",

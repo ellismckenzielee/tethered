@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { View, Text, ScrollView, TextInput, TouchableHighlight } from "react-native";
+import { View, Text, ScrollView, TextInput, TouchableHighlight, KeyboardAvoidingView, Keyboard } from "react-native";
 import styles from "../styles/Chat.Style";
 import { UserContext } from "../contexts/UserContext";
 import { watchGroupChat, sendMessage } from "../utils/utils.chat";
@@ -32,7 +32,7 @@ export default function Chat({ navigation, groupId }) {
       </View>
     );
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView keyboardVerticalOffset={100} KeyboardAvoidingView={true} behavior={Platform.OS === "ios" ? "height" : "height"} style={styles.container}>
       <Text>ChatRoom: ID</Text>
       <ScrollView style={styles.scrollView}>
         {messages.map((message, index) => {
@@ -60,12 +60,13 @@ export default function Chat({ navigation, groupId }) {
         <TouchableHighlight
           onPress={() => {
             sendMessage(groupId, message, "ellis", setMessage);
+            Keyboard.dismiss();
           }}
           style={styles.sendMessageButton}
         >
           <Text>Send</Text>
         </TouchableHighlight>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
