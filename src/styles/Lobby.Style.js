@@ -4,10 +4,10 @@ export default StyleSheet.create({
 	container: {
 		backgroundColor: '#2F2F2F',
 		alignItems: 'center',
-		justifyContent: 'center',
+		// justifyContent: 'center',
 		textAlign: 'center',
 		width: '100%',
-		height: '100%',
+		height: "100%"
 	},
 	button: {
 		backgroundColor: '#F96800',
@@ -26,15 +26,15 @@ export default StyleSheet.create({
 			width: 1,
 		},
 	},
-	text:{
+	text: {
 		fontSize: 18,
 		color: 'white',
 		marginBottom: 15,
-		position: "absolute",
+		position: 'absolute',
 		top: 10,
-		zIndex:5
+		zIndex: 5,
 	},
-	Btntext:{
+	Btntext: {
 		fontSize: 18,
 		color: 'white',
 	},
@@ -56,5 +56,18 @@ export default StyleSheet.create({
 		color: 'white',
 		marginBottom: 30,
 		fontWeight: '600',
+	},
+	avatar: {
+		height: 100,
+		width: 100,
+	},
+	pending: {
+		marginTop:10,
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+	},
+	pendingtext: {
+		marginBottom: 30,
+		color:"white"
 	},
 });

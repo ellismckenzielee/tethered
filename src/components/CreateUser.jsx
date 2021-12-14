@@ -3,6 +3,7 @@ import { TouchableHighlight, Image, TextInput, Text, View } from "react-native";
 import styles from "../styles/Login.Style";
 import { UserContext } from "../contexts/UserContext";
 import { handleSignUp } from "../utils/firebaseAuthUtils";
+import DialogComponent from '../components/DialogueComponent';
 
 export default function CreateUser() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
