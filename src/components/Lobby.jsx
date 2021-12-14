@@ -1,29 +1,94 @@
-    import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, TouchableOpacity, TouchableHighlight, Text } from 'react-native';
 import styles from '../styles/Lobby.Style';
 import { UserContext } from '../contexts/UserContext';
 import QRCode from 'react-native-qrcode-svg';
+import { connectFirestoreEmulator, doc, onSnapshot } from 'firebase/firestore';
+import {db} from '../../firebase-config'
 
 export default function Lobby({ navigation , route}) {
 
 	const { isLoggedIn, currentUser } = useContext(UserContext);
-	const isAdmin = true;
+
+	//Need to remove route.params or get group id when selecting group from main page
+	const {groupPath} = route.params
+
+	const [groupData, setGroupData] = useState({
+		"trip": {
+		  "started": false,
+		  "tripId": null
+		},
+		"groupName": "place-holder",
+		"groupAdmin": {
+		  "username": "cyclist1",
+		  "ready": false
+		},
+		"groupMembers": {
+		  "cyclist2": {
+			"approved": false,
+			"ready": false,
+			"username": "cyclist2"
+		  },
+		  "cyclist3": {
+			"ready": false,
+			"username": "cyclist3",
+			"approved": false
+		  },
+		},
+		"groupId": "placeholder"
+	  });
+
+
+	useEffect(() => {
+		const unsub = onSnapshot(doc(db, "groups", groupPath), (groupDocument) => {
+	 		const source = groupDocument.metadata.hasPendingWrites ? "Local" : "Server";
+			setGroupData(()=> {
+				return groupDocument.data()
+			});
+	 	});
+		return (() => {
+			unsub();
+		})
+	},[])
+
+	//currently running 3 times without changes
+
+	const members = Object.keys(groupData.groupMembers)
+	let newUsers = [];
+	members.forEach((member) => {
+		newUsers.push(groupData.groupMembers[`${member}`]);
+		return newUsers	
+	});
+
+	
+	
+	let isAdmin = false;
+	if(currentUser.username === groupData.groupAdmin.username){
+		isAdmin = true;
+	}
+	else{
+		isAdmin = false;
+	}
+
+	console.log(newUsers)
+	console.log(currentUser.username, groupData.groupAdmin.username, "isAdmin", isAdmin)
+	
 	const event = {
 		hasStarted: false,
 		admin: 'uiudsiudsig',
-		users: [
-			{ name: 'Bob', accepted: true, isAdmin: false },
-			{ name: 'Stuart', accepted: false, isAdmin: false },
-			{ name: 'Tom', accepted: false, isAdmin: true },
-		],
+		users: newUsers
+		// [
+		// 	{ name: 'Bob', accepted: true, isAdmin: false },
+		// 	{ name: 'Stuart', accepted: false, isAdmin: false },
+		// 	{ name: 'Tom', accepted: false, isAdmin: true },
+		// ],
 	};
 
 	const { users } = event;
-	const approvedUsers = users.filter(user => user.accepted);
-	const pendingUsers = users.filter(user => !user.accepted);
+	const approvedUsers = users.filter(user => user.approved);
+	const pendingUsers = users.filter(user => !user.approved);
 	const [approved, setApproved] = useState(false);
 
-  const {groupPath} = route.params
   const logo = require('../assets/logo.png');
 
 	useEffect(() => {
@@ -42,17 +107,17 @@ export default function Lobby({ navigation , route}) {
 		<View style={styles.container}>
 			{approvedUsers.map(user => {
 				return (
-					<Text style={styles.text} key={user.name}>
-						{user.name}
+					<Text style={styles.text} key={user.username}>
+						{user.username}
 					</Text>
 				);
 			})}
 			{isAdmin &&
 				pendingUsers.map(user => {
 					return (
-						<View key={user.name}>
-							<Text style={styles.text} key={user.name}>
-								{user.name}
+						<View key={user.username}>
+							<Text style={styles.text} key={user.username}>
+								{user.username}
 							</Text>
 							<TouchableHighlight
 								activeOpacity={0.6}
