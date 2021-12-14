@@ -1,13 +1,4 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  arrayUnion,
-  arrayRemove,
-  updateDoc,
-  deleteDoc,
-  getDoc,
-} from "firebase/firestore";
+import { addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, query, where, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../../firebase-config";
 
 // firestore - create new group
@@ -77,9 +68,7 @@ async function approveGroupRequest(groupMember, groupDocId) {
         groupMembers,
       });
 
-    console.log(
-      `${groupMember} has been approved to join the group ${groupDocId}`
-    );
+    console.log(`${groupMember} has been approved to join the group ${groupDocId}`);
   } else {
     console.log(`${groupMember} can't be found in group members`);
   }
@@ -234,15 +223,12 @@ async function endTrip(tripId) {
   console.log(`Trip ${tripId} has ended`);
 }
 
-export {
-  createNewGroup,
-  joinGroupRequest,
-  approveGroupRequest,
-  readyUp,
-  readyUpAdmin,
-  notReady,
-  notReadyAdmin,
-  createNewTrip,
-  updateLocation,
-  endTrip,
-};
+async function getGroupsByUserId(currentUser) {
+  const groupsRef = collection(db, "groups");
+  const q = query(groupsRef, where(`groupMembers.${currentUser}.username`, "==", currentUser));
+  const groups = await getDocs(q);
+  groups.forEach((group) => {
+    console.log(group.data().groupId);
+  });
+}
+export { createNewGroup, joinGroupRequest, approveGroupRequest, readyUp, readyUpAdmin, notReady, notReadyAdmin, createNewTrip, updateLocation, endTrip, getGroupsByUserId };
