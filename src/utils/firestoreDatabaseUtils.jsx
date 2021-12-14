@@ -1,4 +1,4 @@
-import {addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, deleteDoc, getDoc} from 'firebase/firestore';
+import {addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, deleteDoc, getDoc, setDoc} from 'firebase/firestore';
 import {db} from '../../firebase-config'
 
 // firestore - create new group
@@ -240,9 +240,10 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
     }
   }
   
-  await updateDoc(doc(db, 'trips', tripId), {
+  await setDoc(doc(db, 'trips', tripId), {
     tripMembers : newInfo
-  });
+  },
+  { merge: true });
 
   console.log(`tripmember ${currentUser} updated`)
 }
