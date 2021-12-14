@@ -5,7 +5,7 @@ import { UserContext } from '../contexts/UserContext';
 import QRCode from 'react-native-qrcode-svg';
 import { connectFirestoreEmulator, doc, onSnapshot } from 'firebase/firestore';
 import {db} from '../../firebase-config'
-import { approveGroupRequest } from '../utils/firestoreDatabaseUtils';
+import { approveGroupRequest, createNewTrip } from '../utils/firestoreDatabaseUtils';
 
 export default function Lobby({ navigation , route}) {
 
@@ -130,7 +130,10 @@ export default function Lobby({ navigation , route}) {
 			<TouchableOpacity
 				style={styles.button}
 				onPress={() => {
-					navigation.navigate('Event');
+					createNewTrip(currentUser, groupPath, groupData.groupName)
+					.then(()=>{ 
+						navigation.navigate('Event');
+					})
 				}}>
 				<Text>Start Trip</Text>
 			</TouchableOpacity>
