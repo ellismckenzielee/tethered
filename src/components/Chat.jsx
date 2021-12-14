@@ -6,6 +6,7 @@ import { watchGroupChat, sendMessage } from "../utils/utils.chat";
 
 export default function Chat({ navigation, groupId }) {
   groupId = "chatRoom";
+  const ref = useRef(null);
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState("");
@@ -34,18 +35,18 @@ export default function Chat({ navigation, groupId }) {
   return (
     <KeyboardAvoidingView keyboardVerticalOffset={100} KeyboardAvoidingView={true} behavior={Platform.OS === "ios" ? "height" : "height"} style={styles.container}>
       <Text>ChatRoom: ID</Text>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView ref={(ref) => (this.scrollView = ref)} onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })} contentContainerStyle={{ padding: 15 }} style={styles.scrollView}>
         {messages.map((message, index) => {
           if (message.author === "ellis") {
             return (
-              <View key={message.author + index}>
+              <View style={styles.messageContainer} key={message.author + index}>
                 <Text style={styles.userTitle}>{message.author}</Text>
                 <Text style={styles.userMessage}>{message.message}</Text>
               </View>
             );
           } else {
             return (
-              <View key={message.author + index}>
+              <View style={styles.messageContainer} key={message.author + index}>
                 <Text style={styles.messageAuthor}>{message.author}</Text>
                 <Text style={styles.message}>{message.message}</Text>
               </View>
