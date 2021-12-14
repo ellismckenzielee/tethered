@@ -11,9 +11,10 @@ export default function Event({ navigation, route }) {
     latitude: 53.43015321229701,
     longitude: -2.235823473023755,
   };
+
   const locations = [
-    { name: "Scott", latitude: 53.45744, longitude: -2.28477 },
-    { name: "Sam", latitude: 53.47744, longitude: -2.28777 },
+    { name: "Scott", latitude: 53.47311, longitude: -2.24178 },
+    { name: "Sam", latitude: 53.47331, longitude: -2.23993 },
     { name: "Tom", latitude: 53.430156, longitude: -2.365864 },
   ];
   const {tripId} = route.params

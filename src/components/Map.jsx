@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
 import { getDeltas } from "../utils/utils.maps";
 import * as Location from "expo-location";
 import styles from "../styles/Login.Style";
@@ -9,6 +9,7 @@ import { updateLocation } from "../utils/firestoreDatabaseUtils";
 import { doc, onSnapshot } from 'firebase/firestore';
 import {db} from '../../firebase-config';
 import { UserContext } from '../contexts/UserContext';
+import { ellisArr, scottArr } from "../components/TestCoordinates";
 
 
 export default function Map({ user, locations, tripId }) {
@@ -106,6 +107,12 @@ export default function Map({ user, locations, tripId }) {
           longitudeDelta: maxLongitudeDelta * 2,
         }}
       >
+        {/* <Polyline
+          coordinates={scottArr}
+          strokeColor="#F96800"
+          strokeWidth={2}
+        />
+        <Polyline coordinates={ellisArr} strokeColor="#000" strokeWidth={2} /> */}
         <Marker
           onPress={({ nativeEvent }) => {
             animateToRegion(
@@ -123,7 +130,16 @@ export default function Map({ user, locations, tripId }) {
             longitude: location.coords?.longitude,
           }}
         >
-          <Image source={require("../assets/userMarker.png")} style={styles.marker}></Image>
+          <Image
+            source={require("../assets/userMarker.png")}
+            style={styles.marker}
+          ></Image>
+          <MapView.Callout>
+            <Text>{user.name}</Text>
+            <TouchableOpacity>
+              <Text>Contact {user.name}</Text>
+            </TouchableOpacity>
+          </MapView.Callout>
         </Marker>
         {newLocations.map((location) => {
           return (
@@ -145,7 +161,16 @@ export default function Map({ user, locations, tripId }) {
                 longitude: location.longitude,
               }}
             >
-              <Image source={require("../assets/groupMarker.png")} style={styles.marker}></Image>
+              <Image
+                source={require("../assets/groupMarker.png")}
+                style={styles.marker}
+              ></Image>
+              <MapView.Callout>
+                <Text>{location.name}</Text>
+                <TouchableOpacity>
+                  <Text>Contact {location.name}</Text>
+                </TouchableOpacity>
+              </MapView.Callout>
             </Marker>
           );
         })}

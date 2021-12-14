@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, TouchableOpacity, TouchableHighlight, Text } from 'react-native';
+import {
+	View,
+	TouchableOpacity,
+	TouchableHighlight,
+	Text,
+	Image,
+} from 'react-native';
 import styles from '../styles/Lobby.Style';
 import { UserContext } from '../contexts/UserContext';
 import QRCode from 'react-native-qrcode-svg';
@@ -76,11 +82,12 @@ export default function Lobby({ navigation , route}) {
 		admin: groupData.groupAdmin.username,
 		users: newUsers
 	};
-
 	const { users } = event;
 	const approvedUsers = users.filter(user => user.approved);
 	const pendingUsers = users.filter(user => !user.approved);
 	const [approved, setApproved] = useState(false);
+	const [userApprovedList, setUserApprovedList] = useState(approvedUsers);
+	const [pendingUsersList, setPendingUsersList] = useState(pendingUsers);
 
  	const logo = require('../assets/logo.png');
 
@@ -95,10 +102,13 @@ export default function Lobby({ navigation , route}) {
 	}
 
 	useEffect(() => {
+		console.log(`approvedUsers`, userApprovedList);
+		console.log(`pendingUsers`, pendingUsersList);
 		setTimeout(() => {
 			setApproved(true);
-		}, 3000);
-	});
+		}, 100);
+	}, [userApprovedList, pendingUsersList]);
+
 	if (!approved)
 		return (
 			<View style={styles.waiting}>
@@ -108,49 +118,82 @@ export default function Lobby({ navigation , route}) {
 		);
 	return (
 		<View style={styles.container}>
-			{approvedUsers.map(user => {
-				return (
-					<Text style={styles.text} key={user.username}>
-						{user.username}
-					</Text>
-				);
-			})}
-			{isAdmin &&
-				pendingUsers.map(user => {
+			<Text style={styles.pendingtext}>Approved</Text>
+			<View style={styles.approved}>
+				{approvedUsers.map(user => {
 					return (
-						<View key={user.username}>
-							<Text style={styles.text} key={user.username}>
+						<View key={user.username} style={styles.userCard}>
+							<Image
+								style={[styles.avatar, user.accepted ?  styles.ready : styles.avatar]}
+								source={
+									user.avatar ? user.avatar : require('../assets/avatar.png')
+								}
+							/>
+							<Text style={styles.username} key={user.username}>
 								{user.username}
 							</Text>
 							<TouchableHighlight
 								activeOpacity={0.6}
 								underlayColor='#9F4300'
 								style={styles.button}
-								onPress={() => {approveGroupRequest(user.username,groupPath)}}>
-								<Text>Approve</Text>
+								onPress={() => {
+								}}>
+								<Text style={styles.Btntext}>remove</Text>
 							</TouchableHighlight>
 						</View>
 					);
 				})}
-			<TouchableOpacity
+			</View>
+			<Text style={styles.pendingtext}>Pending</Text>
+			<View style={styles.pending}>
+				{isAdmin &&
+					pendingUsers.map(user => {
+						return (
+							<View key={user.username} style={styles.userCard}>
+								<Image
+									style={styles.avatar}
+									source={
+										user.avatar ? user.avatar : require('../assets/avatar.png')
+									}
+								/>
+								<Text style={styles.username} key={user.username}>
+									{user.username}
+								</Text>
+								<TouchableHighlight
+									activeOpacity={0.6}
+									underlayColor='#9F4300'
+									style={styles.button}
+									onPress={() => {
+										approveGroupRequest(user.username, groupPath)
+									}}>
+									<Text style={styles.Btntext}>Approve</Text>
+								</TouchableHighlight>
+							</View>
+						);
+					})}
+			</View>
+			<TouchableHighlight
 				style={styles.button}
+				activeOpacity={0.6}
+				underlayColor='#9F4300'
 				onPress={() => {
 					createNewTrip(currentUser.username, groupPath, groupData.groupName)
 					.then((tripId)=>{ 
 						navigation.navigate('Event', {tripId:tripId});
 					})
 				}}>
-				<Text>Start Trip</Text>
-			</TouchableOpacity>
+				<Text style={styles.Btntext}>Start Trip</Text>
+			</TouchableHighlight>
 
-{/* Need to change groupPath from create a group to the groupId */}
+	{/* Need to change groupPath from create a group to the groupId */}
       <QRCode
         value={groupPath}
         size={ 200}
-				// logo={logo}
-				// logoSize={55}
-				// logoBackgroundColor='black'
 			/>
+		<Text style={styles.Btntext}>
+			Group ID: {groupPath}
+		</Text>
 		</View>
 	);
+
 }
