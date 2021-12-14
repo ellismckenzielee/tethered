@@ -4,10 +4,9 @@ export default StyleSheet.create({
 	container: {
 		backgroundColor: '#2F2F2F',
 		alignItems: 'center',
-		// justifyContent: 'center',
 		textAlign: 'center',
 		width: '100%',
-		height: "100%"
+		height: '100%',
 	},
 	button: {
 		backgroundColor: '#F96800',
@@ -38,11 +37,6 @@ export default StyleSheet.create({
 		fontSize: 18,
 		color: 'white',
 	},
-	logo: {
-		width: 20,
-		height: 20,
-		marginBottom: 30,
-	},
 	waiting: {
 		backgroundColor: '#2F2F2F',
 		alignItems: 'center',
@@ -62,12 +56,27 @@ export default StyleSheet.create({
 		width: 100,
 	},
 	pending: {
-		marginTop:10,
+		marginTop: 10,
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+	},
+	approved: {
+		marginTop: 10,
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 	},
 	pendingtext: {
+		fontSize: 32,
 		marginBottom: 30,
-		color:"white"
+		color: 'white',
+	},
+	username: {
+		color: 'white',
+		fontSize: 16,
+	},
+	userCard: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		textAlign: 'center',
 	},
 });

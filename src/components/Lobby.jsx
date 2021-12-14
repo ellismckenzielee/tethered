@@ -11,7 +11,7 @@ import { UserContext } from '../contexts/UserContext';
 
 export default function Lobby({ navigation }) {
 	const { isLoggedIn, currentUser } = useContext(UserContext);
-	const isAdmin = false;
+	const isAdmin = true;
 	const event = {
 		hasStarted: false,
 		admin: 'uiudsiudsig',
@@ -44,13 +44,13 @@ export default function Lobby({ navigation }) {
 				name: 'Chandler',
 				accepted: false,
 				isAdmin: false,
-				avatar: 'https://i.imgur.com/owMZL3A.jpeg',
+				avatar: 'https://i.imgur.com/RW3Lxk5.png',
 			},
 			{
 				name: 'Phoebe',
 				accepted: false,
 				isAdmin: true,
-				avatar: 'https://i.imgur.com/nwPhm14.jpeg',
+				avatar: 'https://i.imgur.com/dmljYFU.jpeg',
 			},
 		],
 	};
@@ -82,22 +82,35 @@ export default function Lobby({ navigation }) {
 			<View style={styles.approved}>
 				{userApprovedList.map(user => {
 					return (
-						<View key={user.name}>
-							<Text style={styles.text} key={user.name}>
-								{user.name}
-							</Text>
+						<View key={user.name} style={styles.userCard}>
 							<Image
 								style={styles.avatar}
 								source={
 									user.avatar ? user.avatar : require('../assets/avatar.png')
 								}
 							/>
+							<Text style={styles.username} key={user.name}>
+								{user.name}
+							</Text>
 							<TouchableHighlight
 								activeOpacity={0.6}
 								underlayColor='#9F4300'
 								style={styles.button}
-								onPress={() => {}}>
-								<Text>remove</Text>
+								onPress={() => {
+									user.accepted = false;
+									setPendingUsersList(prevApproved => {
+										return [...prevApproved, user];
+									});
+									setApproved(false);
+									setUserApprovedList(prevPending => {
+										const newApproved = prevPending.filter(
+											prevuser => prevuser.name !== user.name,
+										);
+										console.log('new', newApproved);
+										return newApproved;
+									});
+								}}>
+								<Text style={styles.Btntext}>remove</Text>
 							</TouchableHighlight>
 						</View>
 					);
@@ -108,16 +121,16 @@ export default function Lobby({ navigation }) {
 				{isAdmin &&
 					pendingUsersList.map(user => {
 						return (
-							<View key={user.name}>
-								<Text style={styles.text} key={user.name}>
-									{user.name}
-								</Text>
+							<View key={user.name} style={styles.userCard}>
 								<Image
 									style={styles.avatar}
 									source={
 										user.avatar ? user.avatar : require('../assets/avatar.png')
 									}
 								/>
+								<Text style={styles.username} key={user.name}>
+									{user.name}
+								</Text>
 								<TouchableHighlight
 									activeOpacity={0.6}
 									underlayColor='#9F4300'
@@ -136,19 +149,21 @@ export default function Lobby({ navigation }) {
 											return newPendingUsers;
 										});
 									}}>
-									<Text>Approve</Text>
+									<Text style={styles.Btntext}>Approve</Text>
 								</TouchableHighlight>
 							</View>
 						);
 					})}
 			</View>
-			<TouchableOpacity
+			<TouchableHighlight
 				style={styles.button}
+				activeOpacity={0.6}
+				underlayColor='#9F4300'
 				onPress={() => {
 					navigation.navigate('Event');
 				}}>
-				<Text>Start Trip</Text>
-			</TouchableOpacity>
+				<Text style={styles.Btntext}>Start Trip</Text>
+			</TouchableHighlight>
 		</View>
 	);
 }
