@@ -78,5 +78,14 @@ export default StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		textAlign: 'center',
+		margin: 5,
+	},
+	ready: {
+		height: 100,
+		width: 100,
+		padding: 5,
+		borderWidth: 3,
+		borderColor: '#008000',
+		borderRadius: 15,
 	},
 });

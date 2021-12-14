@@ -21,36 +21,44 @@ export default function Lobby({ navigation }) {
 				accepted: false,
 				isAdmin: false,
 				avatar: '',
+				ready: true
 			},
 			{
 				name: 'Rachel',
 				accepted: false,
 				isAdmin: false,
 				avatar: 'https://i.imgur.com/owMZL3A.jpeg',
+				
+				ready: true
 			},
 			{
 				name: 'Monica',
 				accepted: false,
 				isAdmin: true,
 				avatar: 'https://i.imgur.com/nwPhm14.jpeg',
+				
+				ready: true
 			},
 			{
 				name: 'Joey',
 				accepted: false,
 				isAdmin: false,
 				avatar: '',
+				ready: false
 			},
 			{
 				name: 'Chandler',
 				accepted: false,
 				isAdmin: false,
 				avatar: 'https://i.imgur.com/RW3Lxk5.png',
+				ready: true
 			},
 			{
 				name: 'Phoebe',
 				accepted: false,
 				isAdmin: true,
 				avatar: 'https://i.imgur.com/dmljYFU.jpeg',
+				ready: false
 			},
 		],
 	};
@@ -84,7 +92,7 @@ export default function Lobby({ navigation }) {
 					return (
 						<View key={user.name} style={styles.userCard}>
 							<Image
-								style={styles.avatar}
+								style={[styles.avatar, user.accepted ?  styles.ready : styles.avatar]}
 								source={
 									user.avatar ? user.avatar : require('../assets/avatar.png')
 								}
