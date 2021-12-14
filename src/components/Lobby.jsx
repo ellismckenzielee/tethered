@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from 'react';
 import {
 	View,
@@ -174,4 +175,5 @@ export default function Lobby({ navigation }) {
 			</TouchableHighlight>
 		</View>
 	);
+
 }

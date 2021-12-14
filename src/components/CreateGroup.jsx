@@ -1,13 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { TouchableHighlight, Image, TextInput, Text, View, StyleSheet } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import {
+  TouchableHighlight,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  Text,
+  View,
+  StyleSheet,
+} from "react-native";
 import styles from "../styles/createGroup.Style";
-import QRCode from "react-native-qrcode-svg";
+import {
+  createNewEvent,
+  createNewGroup,
+} from "../utils/firestoreDatabaseUtils";
+import { UserContext } from "../contexts/UserContext";
 
-export default function CreateGroup() {
-  const [groupLink, setGroupLink] = useState(" ");
-  const [qrLink, setQrLink] = useState("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+export default function CreateGroup({ navigation }) {
+  const { currentUser } = useContext(UserContext);
+  const [groupName, setGroupName] = useState(" ");
 
-  const logo = require("../assets/logo.png");
   return (
     <View style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.logo} />
@@ -16,10 +27,10 @@ export default function CreateGroup() {
       <Text style={styles.Smltext}>e.g. teamTethered</Text>
       <TextInput
         style={styles.textInput}
-        placeholder="TeamTethered"
-        value={groupLink}
+        placeholder="Team Tethered"
+        value={groupName}
         onChangeText={(text) => {
-          setGroupLink(text);
+          setGroupName(text);
         }}
       />
       <TouchableHighlight
@@ -27,12 +38,13 @@ export default function CreateGroup() {
         underlayColor="#9F4300"
         style={styles.button}
         onPress={() => {
-          setQrLink(groupLink);
+          createNewGroup(currentUser.username, groupName).then((groupPath) => {
+            navigation.navigate("Lobby", { groupPath: groupPath });
+          });
         }}
       >
         <Text style={styles.Btntext}>Create Group</Text>
       </TouchableHighlight>
-      <QRCode style={styles.qr} value={qrLink} size={200} />
     </View>
   );
 }

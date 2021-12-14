@@ -5,6 +5,7 @@ import { UserContext } from '../contexts/UserContext';
 import { handleLogin } from '../utils/firebaseAuthUtils';
 import DialogComponent from '../components/DialogueComponent';
 
+
 export default function Login() {
 	const { currentUser, setCurrentUser } = useContext(UserContext);
 	const [email, setEmail] = useState('');
