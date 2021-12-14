@@ -5,6 +5,7 @@ import { UserContext } from '../contexts/UserContext';
 import QRCode from 'react-native-qrcode-svg';
 import { connectFirestoreEmulator, doc, onSnapshot } from 'firebase/firestore';
 import {db} from '../../firebase-config'
+import { approveGroupRequest } from '../utils/firestoreDatabaseUtils';
 
 export default function Lobby({ navigation , route}) {
 
@@ -74,15 +75,12 @@ export default function Lobby({ navigation , route}) {
 	console.log(currentUser.username, groupData.groupAdmin.username, "isAdmin", isAdmin)
 	
 	const event = {
-		hasStarted: false,
-		admin: 'uiudsiudsig',
+		hasStarted: groupData.trip.started,
+		admin: groupData.groupAdmin.username,
 		users: newUsers
-		// [
-		// 	{ name: 'Bob', accepted: true, isAdmin: false },
-		// 	{ name: 'Stuart', accepted: false, isAdmin: false },
-		// 	{ name: 'Tom', accepted: false, isAdmin: true },
-		// ],
 	};
+
+	console.log(event)
 
 	const { users } = event;
 	const approvedUsers = users.filter(user => user.approved);
@@ -123,7 +121,7 @@ export default function Lobby({ navigation , route}) {
 								activeOpacity={0.6}
 								underlayColor='#9F4300'
 								style={styles.button}
-								onPress={() => {}}>
+								onPress={() => {approveGroupRequest(user.username,groupPath)}}>
 								<Text>Approve</Text>
 							</TouchableHighlight>
 						</View>
