@@ -233,7 +233,8 @@ async function endTrip(tripId) {
 
 async function getGroupsByUserId(currentUser) {
   const groupsRef = collection(db, "groups");
-  const q1 = query(groupsRef, where("groupMembers.joey.username", "==", "joey"));
+  console.log(`groupMembers.${currentUser}.username`);
+  const q1 = query(groupsRef, where(`groupMembers.${currentUser}.username`, "==", currentUser));
   const q2 = query(groupsRef, where(`groupAdmin.username`, "==", currentUser));
   const groups = await getDocs(q1);
   const adminGroups = await getDocs(q2);
