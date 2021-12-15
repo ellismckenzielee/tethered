@@ -42,6 +42,9 @@ async function joinGroupRequest(currentUser, groupDocId) {
       approved: false,
       ready: false,
       username: currentUser,
+      email: currentUser.email,
+      uid: currentUser.uid,
+      avatarUrl : currentUser.avatar
     };
 
     await updateDoc(doc(db, "groups", groupDocId), {
@@ -253,6 +256,7 @@ async function createNewUser(uid, email, username, avatar) {
     username: username,
     email: email,
     avatarUrl: avatar,
+    uid:uid,
   });
 
   console.log(`New user ${username} was created`);
