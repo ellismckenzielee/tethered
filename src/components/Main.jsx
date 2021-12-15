@@ -5,17 +5,15 @@ import { UserContext } from "../contexts/UserContext";
 import { getGroupsByUserId } from "../utils/firestoreDatabaseUtils.jsx";
 export default function Main({ navigation }) {
   const { currentUser, setCurrentUser } = useContext(UserContext);
+  console.log("CURRENTUSER", currentUser);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [groups, setGroups] = useState([
-    { id: "dgrdg", name: "Wales Squad" },
-    { id: "dggmhhrdg", name: "Manchester Ring Road" },
-  ]);
+  const [groups, setGroups] = useState([]);
   console.log(currentUser.username);
   useEffect(() => {
     (async () => {
       const groups = await getGroupsByUserId(currentUser.username);
-      console.log(groups);
+      console.log("GROUPS", groups);
       setGroups(groups);
     })();
   }, []);
