@@ -39,6 +39,7 @@ export default StyleSheet.create({
   scrollview: {
     width: "100%",
     margin: "auto",
+    marginBottom: 5,
     display: "flex",
     textAlign: "center",
     padding: "auto",
@@ -47,5 +48,9 @@ export default StyleSheet.create({
     color: "white",
     padding: 25,
     fontSize: 20,
+  },
+  subheading: {
+    color: "white",
+    padding: 3,
   },
 });

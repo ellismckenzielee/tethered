@@ -227,7 +227,12 @@ export default function Map({ user, locations, tripId }) {
         >
           <Text>Group View</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.mapButtons}>
+        <TouchableOpacity
+          style={styles.mapButtons}
+          onPress={() => {
+            navigation.navigate("Main");
+          }}
+        >
           <Text>End Trip</Text>
         </TouchableOpacity>
       </View>
