@@ -56,10 +56,12 @@ export default StyleSheet.create({
     fontSize: 30,
   },
   Groupcontainer: {
-    height: 200,
+    height: 220,
     width: 300,
     alignItems: "center",
+    padding: 10,
     justifyContent: "center",
+    margin: 10,
     textAlign: "center",
     backgroundColor: "#454545",
     borderRadius: 15,
