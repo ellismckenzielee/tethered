@@ -13,7 +13,6 @@ import { UserProvider } from "./src/contexts/UserContext";
 import Main from "./src/components/Main";
 import Chat from "./src/components/Chat";
 import Logout from "./src/components/Logout";
-
 LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
@@ -24,7 +23,7 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen
             options={{
-              headerRight: <Logout />,
+              headerRight: () => <Logout />,
               headerTitleStyle: {
                 fontWeight: "bold",
                 fontSize: 20,
@@ -35,7 +34,7 @@ export default function App() {
           />
           <Stack.Screen
             options={{
-              headerRight: <Logout />,
+              headerRight: () => <Logout />,
               fontWeight: "bold",
             }}
             name="Login"
@@ -43,7 +42,7 @@ export default function App() {
           />
           <Stack.Screen
             options={{
-              headerRight: <Logout />,
+              headerRight: () => <Logout />,
               fontWeight: "bold",
             }}
             name="CreateUser"
@@ -51,7 +50,7 @@ export default function App() {
           />
           <Stack.Screen
             options={{
-              headerRight: <Logout />,
+              headerRight: () => <Logout />,
               fontWeight: "bold",
             }}
             name="CreateGroup"
@@ -59,7 +58,7 @@ export default function App() {
           />
           <Stack.Screen
             options={{
-              headerRight: <Logout />,
+              headerRight: () => <Logout />,
               fontWeight: "bold",
             }}
             name="Lobby"
@@ -67,7 +66,7 @@ export default function App() {
           />
           <Stack.Screen
             options={{
-              headerRight: <Logout />,
+              headerRight: () => <Logout />,
               fontWeight: "bold",
             }}
             name="Event"
@@ -75,7 +74,7 @@ export default function App() {
           />
           <Stack.Screen
             options={{
-              headerRight: <Logout />,
+              headerRight: () => <Logout />,
               fontWeight: "bold",
             }}
             name="JoinGroup"
@@ -83,7 +82,7 @@ export default function App() {
           />
           <Stack.Screen
             options={{
-              headerRight: <Logout />,
+              headerRight: () => <Logout />,
               fontWeight: "bold",
             }}
             name="Main"
@@ -91,7 +90,7 @@ export default function App() {
           />
           <Stack.Screen
             options={{
-              headerRight: <Logout />,
+              headerRight: () => <Logout />,
               fontWeight: "bold",
             }}
             name="Chat"
