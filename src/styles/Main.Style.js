@@ -52,7 +52,7 @@ export default StyleSheet.create({
 	},
 	GroupName: {
 		color: 'white',
-		fontStyle: 30,
+		fontSize: 30,
 	},
 	Groupcontainer: {
 		height: 200,
