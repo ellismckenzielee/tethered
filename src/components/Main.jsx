@@ -1,5 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { TouchableHighlight, Image, TextInput, Text, View } from "react-native";
+import {
+  TouchableHighlight,
+  Image,
+  TextInput,
+  Text,
+  View,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import styles from "../styles/Main.Style.js";
 import { UserContext } from "../contexts/UserContext";
 import { getGroupsByUserId } from "../utils/firestoreDatabaseUtils.jsx";
@@ -18,45 +26,52 @@ export default function Main({ navigation }) {
     })();
   }, []);
   return (
-		<View style={styles.container}>
-			<Image source={require('../assets/logo.png')} style={styles.logo} />
-			<TouchableHighlight
-				activeOpacity={0.6}
-				underlayColor='#9F4300'
-				style={styles.button}
-				onPress={() => {
-					navigation.navigate('CreateGroup');
-				}}>
-				<Text style={styles.Btntext}>Create Group</Text>
-			</TouchableHighlight>
-			<TouchableHighlight
-				activeOpacity={0.6}
-				underlayColor='#9F4300'
-				style={styles.button}
-				onPress={() => {
-					navigation.navigate('JoinGroup');
-				}}>
-				<Text style={styles.Btntext}>Join Group</Text>
-			</TouchableHighlight>
-			<Text style={styles.title}>Previous groups</Text>
-			{groups.map(group => {
-				return (
-					<View style={styles.Groupcontainer}>
-						<Image
-							source={require('../assets/logo.png')}
-							style={styles.avatarlogo}
-						/>
-						<TouchableHighlight
-							key={group.groupId}
-							style={styles.button}
-							onPress={() => {
-								navigation.navigate('Lobby', { groupPath: group.groupId });
-							}}>
-							<Text style={styles.GroupName}>{group.groupName}</Text>
-						</TouchableHighlight>
-					</View>
-				);
-			})}
-		</View>
-	);
+    <SafeAreaView>
+      <ScrollView>
+        <View style={styles.container}>
+          <Image source={require("../assets/logo.png")} style={styles.logo} />
+          <TouchableHighlight
+            activeOpacity={0.6}
+            underlayColor="#9F4300"
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate("CreateGroup");
+            }}
+          >
+            <Text style={styles.Btntext}>Create Group</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            activeOpacity={0.6}
+            underlayColor="#9F4300"
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate("JoinGroup");
+            }}
+          >
+            <Text style={styles.Btntext}>Join Group</Text>
+          </TouchableHighlight>
+          <Text style={styles.title}>Previous groups</Text>
+          {groups.map((group) => {
+            return (
+              <View style={styles.Groupcontainer}>
+                <Image
+                  source={require("../assets/logo.png")}
+                  style={styles.avatarlogo}
+                />
+                <TouchableHighlight
+                  key={group.groupId}
+                  style={styles.button}
+                  onPress={() => {
+                    navigation.navigate("Lobby", { groupPath: group.groupId });
+                  }}
+                >
+                  <Text style={styles.GroupName}>{group.groupName}</Text>
+                </TouchableHighlight>
+              </View>
+            );
+          })}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }

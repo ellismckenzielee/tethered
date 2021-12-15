@@ -1,10 +1,9 @@
-
-import React, { useContext, useState, useEffect } from 'react';
-import { TouchableHighlight, Image, TextInput, Text, View } from 'react-native';
-import styles from '../styles/Signup.Style';
-import { UserContext } from '../contexts/UserContext';
-import { handleSignUp } from '../utils/firebaseAuthUtils';
-import DialogComponent from '../components/DialogueComponent';
+import React, { useContext, useState, useEffect } from "react";
+import { TouchableHighlight, Image, TextInput, Text, View } from "react-native";
+import styles from "../styles/Signup.Style";
+import { UserContext } from "../contexts/UserContext";
+import { handleSignUp } from "../utils/firebaseAuthUtils";
+import DialogComponent from "../components/DialogueComponent";
 
 export default function CreateUser({ navigation }) {
 	const { currentUser, setCurrentUser } = useContext(UserContext);
