@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, query, where, getDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, query, where, getDoc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 
 // firestore - create new group
@@ -6,10 +6,10 @@ async function createNewGroup(currentUser, groupName) {
   const newGroup = await addDoc(collection(db, "groups"), {
     groupAdmin: {
       username: currentUser,
-      ready: false,
-    },
-    groupName: groupName,
-    groupMembers: [],
+      ready: false
+    }, 
+    "groupName": groupName,
+    groupMembers: {},
     trip: {
       started: false,
       tripId: null,
@@ -194,11 +194,17 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
   // takes the tripMembers object and updates ready status
   const tripMembers = tripDocSnap.data().tripMembers;
 
-  await updateDoc(doc(db, "trips", tripId), {
-    [`tripMembers.${currentUser}.username`]: currentUser,
-    [`tripMembers.${currentUser}.latitude`]: latitude,
-    [`tripMembers.${currentUser}.longitude`]: longitude,
-  });
+  const newInfo = {[`${currentUser}`] : {
+    username : currentUser,
+    latitude : latitude,
+    longitude : longitude
+    }
+  }
+  
+  await setDoc(doc(db, 'trips', tripId), {
+    tripMembers : newInfo
+  },
+  { merge: true });
 
   console.log(`tripmember ${currentUser} updated`);
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { TouchableHighlight, Image, TextInput, Text, View } from 'react-native';
 import styles from '../styles/Login.Style';
 import { UserContext } from '../contexts/UserContext';
