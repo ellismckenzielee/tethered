@@ -60,4 +60,28 @@ export default StyleSheet.create({
     marginTop: 50,
     borderRadius: 10,
   },
+  bubble: {
+    flexDirection: "column",
+    alignSelf: "flex-start",
+    backgroundColor: "#E3E3E3",
+    borderRadius: 6,
+    borderColor: "#F96800",
+    borderWidth: 0.5,
+    padding: 15,
+    width: 150,
+  },
+  bubbleText: {
+    paddingBottom: 5,
+  },
+  bubbleBtn: {
+    backgroundColor: "#F96800",
+    borderRadius: 6,
+    borderColor: "#2F2F2F",
+    padding: 2,
+  },
+  calloutImage: {
+    width: 100,
+    height: 50,
+    resizeMode: "stretch",
+  },
 });
