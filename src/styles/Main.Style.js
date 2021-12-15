@@ -48,7 +48,7 @@ export default StyleSheet.create({
   avatarlogo: {
     height: 150,
     width: 100,
-    paddingTop: 10,
+    padding: 5,
     marginTop: 25,
   },
   GroupName: {
@@ -56,13 +56,11 @@ export default StyleSheet.create({
     fontSize: 30,
   },
   Groupcontainer: {
-    height: 220,
-    width: 301,
+    height: 200,
+    width: 300,
     alignItems: "center",
-    paddingBottom: 10,
     justifyContent: "center",
     textAlign: "center",
-    margin: 10,
     backgroundColor: "#454545",
     borderRadius: 15,
     shadowColor: "#000000",
@@ -73,34 +71,4 @@ export default StyleSheet.create({
       width: 1,
     },
   },
-	Btntext: {
-		fontSize: 18,
-		color: 'white',
-	},
-	avatarlogo: {
-		height: 150,
-		width: 100,
-		padding: 5,
-		marginTop: 25,
-	},
-	GroupName: {
-		color: 'white',
-		fontSize: 30,
-	},
-	Groupcontainer: {
-		height: 200,
-		width: 300,
-		alignItems: 'center',
-		justifyContent: 'center',
-		textAlign: 'center',
-		backgroundColor: '#454545',
-		borderRadius: 15,
-		shadowColor: '#000000',
-		shadowOpacity: 0.7,
-		shadowRadius: 2,
-		shadowOffset: {
-			height: 1,
-			width: 1,
-		},
-	},
 });
