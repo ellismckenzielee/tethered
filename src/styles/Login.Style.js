@@ -57,6 +57,7 @@ export default StyleSheet.create({
   map: {
     width: "95%",
     height: "90%",
+    marginTop: 50,
     borderRadius: 10,
   },
 });

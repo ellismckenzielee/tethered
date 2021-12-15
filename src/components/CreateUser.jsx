@@ -1,3 +1,4 @@
+
 import React, { useContext, useState, useEffect } from 'react';
 import { TouchableHighlight, Image, TextInput, Text, View } from 'react-native';
 import styles from '../styles/Signup.Style';
@@ -62,4 +63,3 @@ export default function CreateUser({ navigation }) {
 			</TouchableHighlight>
 		</View>
 	);
-}

@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "prepare": "husky install",
-    "eslint": "eslint *.{jsx,js} --fix --ignore-pattern node_modules/ "
+    "eslint": ""
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.6",

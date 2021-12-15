@@ -1,5 +1,4 @@
 import { addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, query, where, getDoc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
-
 import { db } from "../../firebase-config";
 
 // firestore - create new group
@@ -7,9 +6,9 @@ async function createNewGroup(currentUser, groupName) {
   const newGroup = await addDoc(collection(db, "groups"), {
     groupAdmin: {
       username: currentUser,
-      ready: false
-    }, 
-    "groupName": groupName,
+      ready: false,
+    },
+    groupName: groupName,
     groupMembers: {},
     trip: {
       started: false,
@@ -204,6 +203,7 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
   },
   { merge: true });
 
+
   console.log(`tripmember ${currentUser} updated`);
 }
 
@@ -229,7 +229,7 @@ async function endTrip(tripId) {
 
 async function getGroupsByUserId(currentUser) {
   const groupsRef = collection(db, "groups");
-  const q1 = query(groupsRef, where(`groupMembers.${currentUser}.username`, "==", currentUser));
+  const q1 = query(groupsRef, where("groupMembers.joey.username", "==", "joey"));
   const q2 = query(groupsRef, where(`groupAdmin.username`, "==", currentUser));
   const groups = await getDocs(q1);
   const adminGroups = await getDocs(q2);
@@ -244,24 +244,28 @@ async function getGroupsByUserId(currentUser) {
     const groupName = group.data().groupName;
     outputGroups.push({ groupId, groupName });
   });
-
   return outputGroups;
 }
 
-
-
 // firestore - create new user
-async function createNewUser(email, username, avatar) {
-  const newUser = await setDoc(doc(db, "users", username), {
+async function createNewUser(uid, email, username, avatar) {
+  const newUser = await setDoc(doc(db, "users", uid), {
     username: username,
     email: email,
-    avatarUrl: avatar    
+    avatarUrl: avatar,
   });
 
-    console.log(`New user ${username} was created`);
-
-  return username;
+  console.log(`New user ${username} was created`);
+  const userDetails = { uid, email, username, avatar };
+  console.log(userDetails);
+  return Promise.resolve(userDetails);
 }
 
-
-export { createNewGroup, joinGroupRequest, approveGroupRequest, readyUp, readyUpAdmin, notReady, notReadyAdmin, createNewTrip, updateLocation, endTrip, getGroupsByUserId, createNewUser };
+// firestore - create new user
+async function getUserData(uid) {
+  const docRef = doc(db, "users", uid);
+  const user = await getDoc(docRef);
+  console.log("get user data", user.data());
+  return Promise.resolve(user.data());
+}
+export { createNewGroup, joinGroupRequest, approveGroupRequest, readyUp, readyUpAdmin, notReady, notReadyAdmin, createNewTrip, updateLocation, endTrip, getGroupsByUserId, createNewUser, getUserData };

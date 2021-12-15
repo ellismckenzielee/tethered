@@ -1,9 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { TouchableHighlight, Image, TextInput, Text, View } from 'react-native';
-import styles from '../styles/Login.Style';
-import { UserContext } from '../contexts/UserContext';
-import { handleLogin } from '../utils/firebaseAuthUtils';
-import DialogComponent from '../components/DialogueComponent';
+import React, { useContext, useState, useEffect } from "react";
+import { TouchableHighlight, Image, TextInput, Text, View } from "react-native";
+import styles from "../styles/Login.Style";
+import { UserContext } from "../contexts/UserContext";
+import { handleLogin } from "../utils/firebaseAuthUtils";
+import DialogComponent from "../components/DialogueComponent";
+
 
 
 export default function Login() {
@@ -48,4 +49,5 @@ export default function Login() {
 			</TouchableHighlight>
 		</View>
 	);
+
 }
