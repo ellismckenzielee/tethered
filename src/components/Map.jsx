@@ -9,14 +9,16 @@ import { updateLocation } from "../utils/firestoreDatabaseUtils";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import { UserContext } from "../contexts/UserContext";
-import { ellisArr, scottArr } from "../components/TestCoordinates";
-import { NavigationContainer } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
-
+import { isLimitExceeded } from "../utils/utils.maps";
+import { sendMessage } from "../utils/utils.chat";
+import spoofer from "../utils/utils.location";
 export default function Map({ user, locations, tripId }) {
   const { isLoggedIn, currentUser } = useContext(UserContext);
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [groupSeparated, setGroupSeparated] = useState(false);
+  const [members, setMembers] = useState({});
   const [tripData, setTripData] = useState({
     admin: null,
     archive: false,
@@ -28,52 +30,16 @@ export default function Map({ user, locations, tripId }) {
     },
     tripMembers: {
       cyclist: {
-        latitude: 0,
-        longitude: 0,
+        latitude: 53.46743,
+        longitude: -2.28421,
         username: "cyclist",
       },
     },
   });
   const navigation = useNavigation();
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, "trips", tripId), (tripDocument) => {
-      const source = tripDocument.metadata.hasPendingWrites ? "Local" : "Server";
-      setTripData(() => {
-        return tripDocument.data();
-      });
-    });
-    return () => {
-      unsub();
-    };
-  }, []);
+    setGroupSeparated(false);
 
-  const members = Object.keys(tripData.tripMembers);
-  let newLocations = [];
-  members.forEach((member) => {
-    if (member !== currentUser.username) {
-      newLocations.push(tripData.tripMembers[`${member}`]);
-      return newLocations;
-    }
-  });
-
-  // const locations = [
-  //   { name: "Scott", latitude: 53.45744, longitude: -2.28477 },
-  //   { name: "Sam", latitude: 53.47744, longitude: -2.28777 },
-  //   { name: "Tom", latitude: 53.430156, longitude: -2.365864 },
-  // ];
-
-  let mapRef = useRef(null);
-  let maxLatitudeDelta;
-  let maxLongitudeDelta;
-  const animateToRegion = (location) => {
-    mapRef.current.animateToRegion(location, 1000);
-  };
-  if (location !== null) {
-    const deltas = getDeltas(location, newLocations);
-    maxLatitudeDelta = deltas.maxLatitudeDelta;
-    maxLongitudeDelta = deltas.maxLongitudeDelta;
-  }
-  useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -88,17 +54,82 @@ export default function Map({ user, locations, tripId }) {
     return location;
   }, []);
 
-  if (location === null)
+  useEffect(() => {
+    const spoof = spoofer.spoofLocation(spoofer.routes.ordsallRoute, 3000, "Ralf", tripId);
+    const spoof2 = spoofer.spoofLocation(spoofer.routes.mainRoute, 3000, "Waldo", tripId);
+
+    const unsub = onSnapshot(
+      doc(db, "trips", tripId),
+      (tripDocument) => {
+        const source = tripDocument.metadata.hasPendingWrites ? "Local" : "Server";
+        console.log("SETTINGTRIPDATA");
+        setTripData(() => {
+          return tripDocument.data();
+        });
+        setMembers(() => {
+          return Object.keys(tripDocument.data().tripMembers);
+        });
+      },
+      []
+    );
+    return () => {
+      setGroupSeparated(false);
+      newLocations = [];
+      unsub();
+    };
+  }, []);
+
+  let newLocations = [];
+  if (members.length > 1) {
+    members.forEach((member) => {
+      if (member !== currentUser.username) {
+        newLocations.push(tripData.tripMembers[`${member}`]);
+        return newLocations;
+      }
+    });
+  }
+
+  let mapRef = useRef(null);
+  let maxLatitudeDelta;
+  let maxLongitudeDelta;
+  const animateToRegion = (location) => {
+    mapRef.current.animateToRegion(location, 1000);
+  };
+  if (location) {
+    const deltas = getDeltas(location, newLocations);
+    maxLatitudeDelta = deltas.maxLatitudeDelta;
+    maxLongitudeDelta = deltas.maxLongitudeDelta;
+  }
+
+  if (newLocations.length !== 0 && location !== false) {
+    if (groupSeparated === true) {
+      console.log("GROUP Sep", groupSeparated, "+++loc", location, "new", newLocations);
+    }
+
+    const limit = isLimitExceeded(2, location, newLocations);
+    if (limit && !groupSeparated) {
+      setGroupSeparated(true);
+    } else if (!limit && groupSeparated) {
+      setGroupSeparated(false);
+    }
+
+    console.log("GROUP SepAFTER", groupSeparated, "+++loc", location, "new", newLocations);
+
+    newLocations = newLocations.sort((a, b) => a.username.localeCompare(b.username));
+  }
+  console.log("location + newLocations", groupSeparated, location, newLocations);
+  if (location === false || newLocations.length === 0) {
     return (
       <View>
         <Text>Map Loading...</Text>
       </View>
     );
+  }
   return (
     <View style={styles.container}>
       <MapView
         provider={PROVIDER_GOOGLE}
-        customMapStyle={mapStyle}
+        customMapStyle={groupSeparated && location !== false && newLocations.length > 0 ? mapStyle.dark : mapStyle.light}
         ref={mapRef}
         style={styles.map}
         initialRegion={{
