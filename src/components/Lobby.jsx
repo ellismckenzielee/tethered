@@ -126,7 +126,7 @@ export default function Lobby({ navigation , route}) {
 							<Image
 								style={[styles.avatar, user.accepted ?  styles.ready : styles.avatar]}
 								source={
-									user.avatar ? user.avatar : require('../assets/avatar.png')
+									user.avatarUrl ? user.avatarUrl : require('../assets/avatar.png')
 								}
 							/>
 							<Text style={styles.username} key={user.username}>
@@ -153,7 +153,7 @@ export default function Lobby({ navigation , route}) {
 								<Image
 									style={styles.avatar}
 									source={
-										user.avatar ? user.avatar : require('../assets/avatar.png')
+										user.avatarUrl ? user.avatarUrl : require('../assets/avatar.png')
 									}
 								/>
 								<Text style={styles.username} key={user.username}>

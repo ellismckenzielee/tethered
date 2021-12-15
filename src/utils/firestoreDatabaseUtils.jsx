@@ -237,4 +237,21 @@ async function getGroupsByUserId(currentUser) {
     console.log(group.data().groupId);
   });
 }
-export { createNewGroup, joinGroupRequest, approveGroupRequest, readyUp, readyUpAdmin, notReady, notReadyAdmin, createNewTrip, updateLocation, endTrip, getGroupsByUserId };
+
+
+
+// firestore - create new user
+async function createNewUser(email, username, avatar) {
+  const newUser = await setDoc(doc(db, "users", username), {
+    username: username,
+    email: email,
+    avatarUrl: avatar    
+  });
+
+    console.log(`New user ${username} was created`);
+
+  return username;
+}
+
+
+export { createNewGroup, joinGroupRequest, approveGroupRequest, readyUp, readyUpAdmin, notReady, notReadyAdmin, createNewTrip, updateLocation, endTrip, getGroupsByUserId, createNewUser };
