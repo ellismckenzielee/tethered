@@ -14,6 +14,10 @@ export default StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     marginTop: 10,
+    margin: "5%",
+    borderWidth: 3,
+    borderColor: "black",
+    borderRadius: 10,
   },
   button: {
     backgroundColor: "#F96800",
@@ -34,5 +38,14 @@ export default StyleSheet.create({
   },
   scrollview: {
     width: "100%",
+    margin: "auto",
+    display: "flex",
+    textAlign: "center",
+    padding: "auto",
+  },
+  title: {
+    color: "white",
+    padding: 25,
+    fontSize: 20,
   },
 });

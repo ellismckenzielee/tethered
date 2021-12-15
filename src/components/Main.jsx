@@ -22,7 +22,8 @@ export default function Main({ navigation }) {
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{ justifyContent: "center" }} style={styles.scrollview} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={getGroups} />}>
+      <Text style={styles.title}>Your Groups </Text>
+      <ScrollView contentContainerStyle={{ justifyContent: "right" }} style={styles.scrollview} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={getGroups} />}>
         {groups.map((group) => {
           return (
             <TouchableHighlight
