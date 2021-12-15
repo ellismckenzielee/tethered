@@ -4,7 +4,7 @@ import styles from "../styles/Login.Style";
 import Map from "./Map";
 import { UserContext } from "../contexts/UserContext";
 
-export default function Event({ navigation }) {
+export default function Event({ navigation, route }) {
   const { isLoggedIn, currentUser } = useContext(UserContext);
   const user = {
     name: "Ellis",
@@ -17,10 +17,11 @@ export default function Event({ navigation }) {
     { name: "Sam", latitude: 53.47331, longitude: -2.23993 },
     { name: "Tom", latitude: 53.430156, longitude: -2.365864 },
   ];
+  const {tripId} = route.params
 
   return (
     <View style={styles.container}>
-      <Map user={user} locations={locations} />
+      <Map user={user} locations={locations} tripId={tripId}/>
     </View>
   );
 }

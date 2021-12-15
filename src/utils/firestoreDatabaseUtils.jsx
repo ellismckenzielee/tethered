@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { addDoc, collection, doc, arrayUnion, setDoc, arrayRemove, updateDoc, query, where, getDoc, getDocs } from "firebase/firestore";
+=======
+import { addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, query, where, getDoc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
+>>>>>>> 45c10e0c4b70f781b8d3c678601b6245c35e8ca8
 import { db } from "../../firebase-config";
 
 // firestore - create new group
@@ -6,10 +10,10 @@ async function createNewGroup(currentUser, groupName) {
   const newGroup = await addDoc(collection(db, "groups"), {
     groupAdmin: {
       username: currentUser,
-      ready: false,
-    },
-    groupName: groupName,
-    groupMembers: [],
+      ready: false
+    }, 
+    "groupName": groupName,
+    groupMembers: {},
     trip: {
       started: false,
       tripId: null,
@@ -190,6 +194,7 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
   const tripDocSnap = await getDoc(doc(db, "trips", tripId));
   // takes the tripMembers object and updates ready status
   const tripMembers = tripDocSnap.data().tripMembers;
+<<<<<<< HEAD
   const newInfo = {
     [`${currentUser}`]: {
       username: currentUser,
@@ -204,6 +209,21 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
     },
     { merge: true }
   );
+=======
+
+  const newInfo = {[`${currentUser}`] : {
+    username : currentUser,
+    latitude : latitude,
+    longitude : longitude
+    }
+  }
+  
+  await setDoc(doc(db, 'trips', tripId), {
+    tripMembers : newInfo
+  },
+  { merge: true });
+
+>>>>>>> 45c10e0c4b70f781b8d3c678601b6245c35e8ca8
   console.log(`tripmember ${currentUser} updated`);
 }
 
@@ -247,4 +267,21 @@ async function getGroupsByUserId(currentUser) {
 
   return outputGroups;
 }
-export { createNewGroup, joinGroupRequest, approveGroupRequest, readyUp, readyUpAdmin, notReady, notReadyAdmin, createNewTrip, updateLocation, endTrip, getGroupsByUserId };
+
+
+
+// firestore - create new user
+async function createNewUser(email, username, avatar) {
+  const newUser = await setDoc(doc(db, "users", username), {
+    username: username,
+    email: email,
+    avatarUrl: avatar    
+  });
+
+    console.log(`New user ${username} was created`);
+
+  return username;
+}
+
+
+export { createNewGroup, joinGroupRequest, approveGroupRequest, readyUp, readyUpAdmin, notReady, notReadyAdmin, createNewTrip, updateLocation, endTrip, getGroupsByUserId, createNewUser };
