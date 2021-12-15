@@ -4,9 +4,12 @@ import styles from "../styles/Chat.Style";
 import { UserContext } from "../contexts/UserContext";
 import { watchGroupChat, sendMessage } from "../utils/utils.chat";
 
-export default function Chat({ navigation, groupId }) {
-  groupId = "chatRoom";
+export default function Chat({ navigation, route }) {
+  console.log(route.params);
+  const { groupId } = route.params;
   const ref = useRef(null);
+  const { isLoggedIn, currentUser } = useContext(UserContext);
+  console.log(groupId);
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState("");
@@ -21,7 +24,7 @@ export default function Chat({ navigation, groupId }) {
     setIsLoading(false);
   };
   useEffect(async () => {
-    const unsubscribe = watchGroupChat("chatRoom", callback);
+    const unsubscribe = watchGroupChat(groupId, callback);
     return () => {
       unsubscribe();
     };
