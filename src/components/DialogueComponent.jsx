@@ -1,20 +1,28 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableHighlight } from 'react-native';
 import styles from '../styles/Dialogue.Style';
 
 export default function DialogueComponent({ popup }) {
 	const { title, msg, btn1, btn2, btn1Func, btn2Func } = popup;
 	return (
 		<View style={styles.container}>
-			<Text>{title}</Text>
-			<Text>{msg}</Text>
+			<Text style={styles.title}>{title}</Text>
+			<Text style={styles.text}>{msg}</Text>
 			<View style={styles.buttonContainer}>
-				<TouchableOpacity style={styles.button} onPress={btn1Func}>
-					<Text>{btn1}</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.button} onPress={btn2Func}>
-					<Text>{btn2}</Text>
-				</TouchableOpacity>
+				<TouchableHighlight
+					activeOpacity={0.6}
+					underlayColor='#9F4300'
+					style={styles.button}
+					onPress={btn1Func}>
+					<Text style={styles.Btntext}>{btn1}</Text>
+				</TouchableHighlight>
+				<TouchableHighlight
+					activeOpacity={0.6}
+					underlayColor='#9F4300'
+					style={styles.button}
+					onPress={btn2Func}>
+					<Text style={styles.Btntext}>{btn2}</Text>
+				</TouchableHighlight>
 			</View>
 		</View>
 	);

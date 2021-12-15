@@ -34,6 +34,7 @@ export default function Login() {
 				style={styles.textInput}
 				onChangeText={setPassword}
 				placeholder='password'
+				secureTextEntry
 			/>
 			<TouchableHighlight
 				activeOpacity={0.6}

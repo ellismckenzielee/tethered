@@ -33,23 +33,7 @@ export default function Home({ navigation }) {
       >
         <Text style={styles.Btntext}>Signup!</Text>
       </TouchableHighlight>
-      <Text>DEV: go to create group page</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate("CreateGroup");
-        }}
-      >
-        <Text>go to create group page</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate("Chat");
-        }}
-      >
-        <Text>Lobby</Text>
-      </TouchableOpacity>
+     
     </View>
   );
 }
