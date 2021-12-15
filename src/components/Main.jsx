@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { TouchableHighlight, Image, TextInput, Text, View } from "react-native";
+import { TouchableHighlight, Image, RefreshControl, Text, View, SafeAreaView, ScrollView } from "react-native";
 import styles from "../styles/Main.Style.js";
 import { UserContext } from "../contexts/UserContext";
 import { getGroupsByUserId } from "../utils/firestoreDatabaseUtils.jsx";
@@ -8,16 +8,35 @@ export default function Main({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [groups, setGroups] = useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const getGroups = async () => {
+    setRefreshing(true);
+    const groups = await getGroupsByUserId(currentUser.username);
+    console.log(groups);
+    setGroups(groups);
+    setRefreshing(false);
+  };
   console.log(currentUser.username);
   useEffect(() => {
-    (async () => {
-      const groups = await getGroupsByUserId(currentUser.username);
-      console.log(groups);
-      setGroups(groups);
-    })();
+    getGroups();
   }, []);
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={{ justifyContent: "center" }} style={styles.scrollview} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={getGroups} />}>
+        {groups.map((group) => {
+          return (
+            <TouchableHighlight
+              key={group.groupId}
+              style={styles.groupCard}
+              onPress={() => {
+                navigation.navigate("Lobby", { groupPath: group.groupId });
+              }}
+            >
+              <Text>{group.groupName}</Text>
+            </TouchableHighlight>
+          );
+        })}
+      </ScrollView>
       <TouchableHighlight
         activeOpacity={0.6}
         underlayColor="#9F4300"
@@ -38,19 +57,6 @@ export default function Main({ navigation }) {
       >
         <Text style={styles.Btntext}>Join Group</Text>
       </TouchableHighlight>
-      {groups.map((group) => {
-        return (
-          <TouchableHighlight
-            key={group.groupId}
-            style={styles.groupCard}
-            onPress={() => {
-              navigation.navigate("Lobby", { groupPath: group.groupId });
-            }}
-          >
-            <Text>{group.groupName}</Text>
-          </TouchableHighlight>
-        );
-      })}
-    </View>
+    </SafeAreaView>
   );
 }
