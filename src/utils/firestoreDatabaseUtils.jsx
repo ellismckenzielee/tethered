@@ -1,5 +1,4 @@
 import { addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, query, where, getDoc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
-import { FieldPath } from "firebase/firestore";
 import { db } from "../../firebase-config";
 
 // firestore - create new group
@@ -192,21 +191,18 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
   // takes the tripMembers object and updates ready status
   const tripMembers = tripDocSnap.data().tripMembers;
 
-  const newInfo = {
-    [`${currentUser}`]: {
-      username: currentUser,
-      latitude: latitude,
-      longitude: longitude,
-    },
-  };
+  const newInfo = {[`${currentUser}`] : {
+    username : currentUser,
+    latitude : latitude,
+    longitude : longitude
+    }
+  }
+  
+  await setDoc(doc(db, 'trips', tripId), {
+    tripMembers : newInfo
+  },
+  { merge: true });
 
-  await setDoc(
-    doc(db, "trips", tripId),
-    {
-      tripMembers: newInfo,
-    },
-    { merge: true }
-  );
 
   console.log(`tripmember ${currentUser} updated`);
 }

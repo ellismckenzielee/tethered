@@ -18,40 +18,45 @@ export default function Main({ navigation }) {
     })();
   }, []);
   return (
-    <View style={styles.container}>
-      <TouchableHighlight
-        activeOpacity={0.6}
-        underlayColor="#9F4300"
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate("CreateGroup");
-        }}
-      >
-        <Text style={styles.Btntext}>Create Group</Text>
-      </TouchableHighlight>
-      <TouchableHighlight
-        activeOpacity={0.6}
-        underlayColor="#9F4300"
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate("JoinGroup");
-        }}
-      >
-        <Text style={styles.Btntext}>Join Group</Text>
-      </TouchableHighlight>
-      {groups.map((group) => {
-        return (
-          <TouchableHighlight
-            key={group.groupId}
-            style={styles.groupCard}
-            onPress={() => {
-              navigation.navigate("Lobby", { groupPath: group.groupId });
-            }}
-          >
-            <Text>{group.groupName}</Text>
-          </TouchableHighlight>
-        );
-      })}
-    </View>
-  );
+		<View style={styles.container}>
+			<Image source={require('../assets/logo.png')} style={styles.logo} />
+			<TouchableHighlight
+				activeOpacity={0.6}
+				underlayColor='#9F4300'
+				style={styles.button}
+				onPress={() => {
+					navigation.navigate('CreateGroup');
+				}}>
+				<Text style={styles.Btntext}>Create Group</Text>
+			</TouchableHighlight>
+			<TouchableHighlight
+				activeOpacity={0.6}
+				underlayColor='#9F4300'
+				style={styles.button}
+				onPress={() => {
+					navigation.navigate('JoinGroup');
+				}}>
+				<Text style={styles.Btntext}>Join Group</Text>
+			</TouchableHighlight>
+			<Text style={styles.title}>Previous groups</Text>
+			{groups.map(group => {
+				return (
+					<View style={styles.Groupcontainer}>
+						<Image
+							source={require('../assets/logo.png')}
+							style={styles.avatarlogo}
+						/>
+						<TouchableHighlight
+							key={group.groupId}
+							style={styles.button}
+							onPress={() => {
+								navigation.navigate('Lobby', { groupPath: group.groupId });
+							}}>
+							<Text style={styles.GroupName}>{group.groupName}</Text>
+						</TouchableHighlight>
+					</View>
+				);
+			})}
+		</View>
+	);
 }

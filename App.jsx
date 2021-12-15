@@ -23,7 +23,9 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen
             options={{
+
               headerRight: () => <Logout />,
+
               headerTitleStyle: {
                 fontWeight: "bold",
                 fontSize: 20,
@@ -34,7 +36,11 @@ export default function App() {
           />
           <Stack.Screen
             options={{
+
+
+
               headerRight: () => <Logout />,
+
               fontWeight: "bold",
             }}
             name="Login"
@@ -42,7 +48,10 @@ export default function App() {
           />
           <Stack.Screen
             options={{
+
+
               headerRight: () => <Logout />,
+
               fontWeight: "bold",
             }}
             name="CreateUser"
@@ -50,7 +59,11 @@ export default function App() {
           />
           <Stack.Screen
             options={{
+
+
+
               headerRight: () => <Logout />,
+
               fontWeight: "bold",
             }}
             name="CreateGroup"
@@ -58,6 +71,7 @@ export default function App() {
           />
           <Stack.Screen
             options={{
+
               headerRight: () => <Logout />,
               fontWeight: "bold",
             }}
@@ -66,7 +80,9 @@ export default function App() {
           />
           <Stack.Screen
             options={{
+
               headerRight: () => <Logout />,
+
               fontWeight: "bold",
             }}
             name="Event"
@@ -74,7 +90,9 @@ export default function App() {
           />
           <Stack.Screen
             options={{
+
               headerRight: () => <Logout />,
+
               fontWeight: "bold",
             }}
             name="JoinGroup"
@@ -82,7 +100,9 @@ export default function App() {
           />
           <Stack.Screen
             options={{
+
               headerRight: () => <Logout />,
+
               fontWeight: "bold",
             }}
             name="Main"
@@ -90,7 +110,9 @@ export default function App() {
           />
           <Stack.Screen
             options={{
+
               headerRight: () => <Logout />,
+
               fontWeight: "bold",
             }}
             name="Chat"
