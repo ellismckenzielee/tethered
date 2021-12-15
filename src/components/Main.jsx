@@ -22,7 +22,8 @@ export default function Main({ navigation }) {
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Your Groups </Text>
+      <Text style={styles.title}> {"Groups".toUpperCase()} </Text>
+      <Text style={styles.subheading}>Please select a group to begin a trip! </Text>
       <ScrollView contentContainerStyle={{ justifyContent: "right" }} style={styles.scrollview} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={getGroups} />}>
         {groups.map((group) => {
           return (
