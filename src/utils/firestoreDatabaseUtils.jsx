@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+import { addDoc, collection, doc, arrayUnion, setDoc, arrayRemove, updateDoc, query, where, getDoc, getDocs } from "firebase/firestore";
+=======
 import { addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, query, where, getDoc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
+>>>>>>> 45c10e0c4b70f781b8d3c678601b6245c35e8ca8
 import { db } from "../../firebase-config";
 
 // firestore - create new group
@@ -184,15 +188,28 @@ async function createNewTrip(currentUser, groupDocId, groupName) {
   return tripId;
 }
 
-// firestore - update location in trip
 async function updateLocation(currentUser, tripId, latitude, longitude) {
   // creates/updates an object in the Trip under tripMembers
-
   // reads document from the firestore database
   const tripDocSnap = await getDoc(doc(db, "trips", tripId));
-
   // takes the tripMembers object and updates ready status
   const tripMembers = tripDocSnap.data().tripMembers;
+<<<<<<< HEAD
+  const newInfo = {
+    [`${currentUser}`]: {
+      username: currentUser,
+      latitude: latitude,
+      longitude: longitude,
+    },
+  };
+  await setDoc(
+    doc(db, "trips", tripId),
+    {
+      tripMembers: newInfo,
+    },
+    { merge: true }
+  );
+=======
 
   const newInfo = {[`${currentUser}`] : {
     username : currentUser,
@@ -206,6 +223,7 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
   },
   { merge: true });
 
+>>>>>>> 45c10e0c4b70f781b8d3c678601b6245c35e8ca8
   console.log(`tripmember ${currentUser} updated`);
 }
 
@@ -231,11 +249,23 @@ async function endTrip(tripId) {
 
 async function getGroupsByUserId(currentUser) {
   const groupsRef = collection(db, "groups");
-  const q = query(groupsRef, where(`groupMembers.${currentUser}.username`, "==", currentUser));
-  const groups = await getDocs(q);
+  const q1 = query(groupsRef, where(`groupMembers.${currentUser}.username`, "==", currentUser));
+  const q2 = query(groupsRef, where(`groupAdmin.username`, "==", currentUser));
+  const groups = await getDocs(q1);
+  const adminGroups = await getDocs(q2);
+  const outputGroups = [];
   groups.forEach((group) => {
-    console.log(group.data().groupId);
+    const groupId = group.data().groupId;
+    const groupName = group.data().groupName;
+    outputGroups.push({ groupId, groupName });
   });
+  adminGroups.forEach((group) => {
+    const groupId = group.data().groupId;
+    const groupName = group.data().groupName;
+    outputGroups.push({ groupId, groupName });
+  });
+
+  return outputGroups;
 }
 
 

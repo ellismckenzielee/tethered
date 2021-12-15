@@ -5,6 +5,9 @@ import { UserContext } from "../contexts/UserContext";
 
 export default function Home({ navigation }) {
   const { isLoggedIn } = useContext(UserContext);
+  if (isLoggedIn) {
+    navigation.navigate("Main");
+  }
   return (
     <View style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.logo} />
@@ -42,7 +45,7 @@ export default function Home({ navigation }) {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          navigation.navigate("Lobby");
+          navigation.navigate("Chat");
         }}
       >
         <Text>Lobby</Text>

@@ -64,9 +64,8 @@ export default StyleSheet.create({
   },
   scrollView: {
     width: "97%",
-    height: 50,
+    display: "flex",
     backgroundColor: "white",
-    padding: 10,
     borderRadius: 10,
   },
   messageContainer: {
@@ -78,6 +77,7 @@ export default StyleSheet.create({
   message: {
     padding: 10,
     width: "100%",
+    marginBottom: 10,
   },
   userInput: { width: "100%", display: "flex", flexDirection: "row", padding: 10, paddingBottom: 50 },
   textInput: {
