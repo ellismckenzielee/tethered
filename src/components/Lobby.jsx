@@ -124,7 +124,7 @@ export default function Lobby({ navigation , route}) {
 					<Image
 						style={[styles.avatar]}
 						source={
-						groupData.groupAdmin.avatarUrl ? groupData.groupAdmin.avatarUrl : require('../assets/avatar.png')
+						groupData.groupAdmin.avatarUrl ? {uri: groupData.groupAdmin.avatarUrl} : require('../assets/avatar.png')
 						}
 					/>
 					<Text style={styles.username} key={groupData.groupAdmin.username}>
@@ -140,7 +140,7 @@ export default function Lobby({ navigation , route}) {
 							<Image
 								style={[styles.avatar, user.accepted ?  styles.ready : styles.avatar]}
 								source={
-									user.avatarUrl ? user.avatarUrl : require('../assets/avatar.png')
+									user.avatarUrl ? {uri: user.avatarUrl} : require('../assets/avatar.png')
 								}
 							/>
 							<Text style={styles.username} key={user.username}>
@@ -167,7 +167,7 @@ export default function Lobby({ navigation , route}) {
 								<Image
 									style={styles.avatar}
 									source={
-										user.avatarUrl ? user.avatarUrl : require('../assets/avatar.png')
+										user.avatarUrl ? {uri: user.avatarUrl} : require('../assets/avatar.png')
 									}
 								/>
 								<Text style={styles.username} key={user.username}>
