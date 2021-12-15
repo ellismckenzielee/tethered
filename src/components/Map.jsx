@@ -1,59 +1,69 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
+import MapView, {
+  Marker,
+  PROVIDER_GOOGLE,
+  Polyline,
+  Callout,
+} from "react-native-maps";
 import { getDeltas } from "../utils/utils.maps";
 import * as Location from "expo-location";
 import styles from "../styles/Login.Style";
+
 import mapStyle from "../styles/Map.Style";
 import { updateLocation } from "../utils/firestoreDatabaseUtils";
-import { doc, onSnapshot } from 'firebase/firestore';
-import {db} from '../../firebase-config';
-import { UserContext } from '../contexts/UserContext';
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase-config";
+import { UserContext } from "../contexts/UserContext";
 import { ellisArr, scottArr } from "../components/TestCoordinates";
 
-
-export default function Map({ user, locations, tripId }) {
+export default function Map({ user, locations, tripId, navigation }) {
   const { isLoggedIn, currentUser } = useContext(UserContext);
+
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [tripData, setTripData] = useState({
-    "admin" : null,
-    "archive" : false,
-    "groupId" : "1",
-    "groupName" : null,
-    "trip" : {
-      "started" : true,
-      "tripId" : null
+    admin: null,
+    archive: false,
+    groupId: "1",
+    groupName: null,
+    trip: {
+      started: true,
+      tripId: null,
     },
-    "tripMembers" : {
-		  "cyclist": {
-        "latitude" : 0,
-        "longitude" : 0,
-        "username" : "cyclist"
-      }
-    }
-  })
+    tripMembers: {
+      cyclist: {
+        latitude: 0,
+        longitude: 0,
+        username: "cyclist",
+      },
+    },
+  });
 
   useEffect(() => {
-		const unsub = onSnapshot(doc(db, "trips", tripId), (tripDocument) => {
-	 		const source = tripDocument.metadata.hasPendingWrites ? "Local" : "Server";
-			setTripData(()=> {
-				return tripDocument.data()
-			});
-	 	});
-		return (() => {
-			unsub();
-		})
-	},[]);
+    const unsub = onSnapshot(doc(db, "trips", tripId), (tripDocument) => {
+      const source = tripDocument.metadata.hasPendingWrites
+        ? "Local"
+        : "Server";
+      setTripData(() => {
+        return tripDocument.data();
+      });
+    });
+    return () => {
+      unsub();
+    };
+  }, []);
 
-  const members = Object.keys(tripData.tripMembers)
-	let newLocations = [];
-	members.forEach((member) => {
-    if (member !== currentUser.username){
-		newLocations.push(tripData.tripMembers[`${member}`]);
-		return newLocations;
+  const members = Object.keys(tripData.tripMembers);
+  let [memberRoutes, setMemberRoutes] = useState({});
+  let newLocations = [];
+  members.forEach((member) => {
+    if (member !== currentUser.username) {
+      newLocations.push(tripData.tripMembers[`${member}`]);
+
+      return newLocations;
     }
-	});
+  });
 
   // const locations = [
   //   { name: "Scott", latitude: 53.45744, longitude: -2.28477 },
@@ -72,6 +82,7 @@ export default function Map({ user, locations, tripId }) {
     maxLatitudeDelta = deltas.maxLatitudeDelta;
     maxLongitudeDelta = deltas.maxLongitudeDelta;
   }
+  const userCoords = [];
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -79,10 +90,22 @@ export default function Map({ user, locations, tripId }) {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-      const location = Location.watchPositionAsync({ distanceInterval: 100 }, (location) => {
-        setLocation(location);
-        updateLocation(currentUser.username,tripId,location.coords?.latitude,location.coords?.longitude);
-      });
+      const location = Location.watchPositionAsync(
+        { distanceInterval: 100 },
+        (location) => {
+          userCoords.push({
+            latitude: location.coords?.latitude,
+            longitude: location.coords?.longitude,
+          });
+          setLocation(location);
+          updateLocation(
+            currentUser.username,
+            tripId,
+            location.coords?.latitude,
+            location.coords?.longitude
+          );
+        }
+      );
     })();
     return location;
   }, []);
@@ -93,6 +116,7 @@ export default function Map({ user, locations, tripId }) {
         <Text>Map Loading...</Text>
       </View>
     );
+
   return (
     <View style={styles.container}>
       <MapView
@@ -108,11 +132,11 @@ export default function Map({ user, locations, tripId }) {
         }}
       >
         {/* <Polyline
-          coordinates={scottArr}
+          coordinates={userCoords}
           strokeColor="#F96800"
           strokeWidth={2}
-        />
-        <Polyline coordinates={ellisArr} strokeColor="#000" strokeWidth={2} /> */}
+        /> */}
+
         <Marker
           onPress={({ nativeEvent }) => {
             animateToRegion(
@@ -134,14 +158,22 @@ export default function Map({ user, locations, tripId }) {
             source={require("../assets/userMarker.png")}
             style={styles.marker}
           ></Image>
-          <MapView.Callout>
-            <Text>{user.name}</Text>
-            <TouchableOpacity>
-              <Text>Contact {user.name}</Text>
-            </TouchableOpacity>
-          </MapView.Callout>
+          <Callout>
+            <View style={styles.bubble}>
+              <Text style={styles.bubbleText}>{currentUser.username}</Text>
+              <Image
+                style={styles.calloutImage}
+                source={
+                  user.avatarUrl
+                    ? user.avatarUrl
+                    : require("../assets/avatar.png")
+                }
+              />
+            </View>
+          </Callout>
         </Marker>
         {newLocations.map((location) => {
+          console.log(location, "<<< location");
           return (
             <Marker
               onPress={({ nativeEvent }) => {
@@ -165,12 +197,16 @@ export default function Map({ user, locations, tripId }) {
                 source={require("../assets/groupMarker.png")}
                 style={styles.marker}
               ></Image>
-              <MapView.Callout>
-                <Text>{location.name}</Text>
-                <TouchableOpacity>
-                  <Text>Contact {location.name}</Text>
-                </TouchableOpacity>
-              </MapView.Callout>
+
+              <Callout>
+                <View style={styles.bubble}>
+                  <Text>{location.username}</Text>
+                  <Image
+                    style={styles.calloutImage}
+                    source={location.avatarUrl}
+                  />
+                </View>
+              </Callout>
             </Marker>
           );
         })}
