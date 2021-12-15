@@ -7,14 +7,16 @@ import { useNavigation } from "@react-navigation/native";
 export default function Logout() {
   const { setCurrentUser, isLoggedIn } = useContext(UserContext);
   const navigation = useNavigation();
-
-  return (
-    <Button
-      onPress={() => {
-        setCurrentUser({});
-        navigation.navigate("Home");
-      }}
-      title={"Logout"}
-    ></Button>
-  );
+  if (!isLoggedIn) return <></>;
+  else {
+    return (
+      <Button
+        onPress={() => {
+          setCurrentUser({});
+          navigation.navigate("Home");
+        }}
+        title={"Logout"}
+      ></Button>
+    );
+  }
 }
