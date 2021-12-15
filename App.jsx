@@ -11,25 +11,92 @@ import JoinGroup from "./src/components/JoinGroup";
 import Lobby from "./src/components/Lobby";
 import { UserProvider } from "./src/contexts/UserContext";
 import Main from "./src/components/Main";
+import Chat from "./src/components/Chat";
+import Logout from "./src/components/Logout";
 
 LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
-
-// eslint-disable-next-line react/function-component-definition
 export default function App() {
   return (
     <UserProvider>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="CreateUser" component={CreateUser} />
-          <Stack.Screen name="CreateGroup" component={CreateGroup} />
-          <Stack.Screen name="Lobby" component={Lobby} />
-          <Stack.Screen name="Event" component={Event} />
-          <Stack.Screen name="JoinGroup" component={JoinGroup} />
-          <Stack.Screen name="Main" component={Main} />
+          <Stack.Screen
+            options={{
+              headerRight: <Logout />,
+              headerTitleStyle: {
+                fontWeight: "bold",
+                fontSize: 20,
+              },
+            }}
+            name="Home"
+            component={Home}
+          />
+          <Stack.Screen
+            options={{
+              headerRight: <Logout />,
+              fontWeight: "bold",
+            }}
+            name="Login"
+            component={Login}
+          />
+          <Stack.Screen
+            options={{
+              headerRight: <Logout />,
+              fontWeight: "bold",
+            }}
+            name="CreateUser"
+            component={CreateUser}
+          />
+          <Stack.Screen
+            options={{
+              headerRight: <Logout />,
+              fontWeight: "bold",
+            }}
+            name="CreateGroup"
+            component={CreateGroup}
+          />
+          <Stack.Screen
+            options={{
+              headerRight: <Logout />,
+              fontWeight: "bold",
+            }}
+            name="Lobby"
+            component={Lobby}
+          />
+          <Stack.Screen
+            options={{
+              headerRight: <Logout />,
+              fontWeight: "bold",
+            }}
+            name="Event"
+            component={Event}
+          />
+          <Stack.Screen
+            options={{
+              headerRight: <Logout />,
+              fontWeight: "bold",
+            }}
+            name="JoinGroup"
+            component={JoinGroup}
+          />
+          <Stack.Screen
+            options={{
+              headerRight: <Logout />,
+              fontWeight: "bold",
+            }}
+            name="Main"
+            component={Main}
+          />
+          <Stack.Screen
+            options={{
+              headerRight: <Logout />,
+              fontWeight: "bold",
+            }}
+            name="Chat"
+            component={Chat}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>
