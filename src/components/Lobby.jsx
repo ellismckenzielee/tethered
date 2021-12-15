@@ -5,6 +5,8 @@ import {
 	TouchableHighlight,
 	Text,
 	Image,
+	ScrollView,
+	SafeAreaView
 } from 'react-native';
 import styles from '../styles/Lobby.Style';
 import { UserContext } from '../contexts/UserContext';
@@ -117,6 +119,8 @@ export default function Lobby({ navigation , route}) {
 			</View>
 		);
 	return (
+		<SafeAreaView>
+		<ScrollView>
 		<View style={styles.container}>
 			<Text style={styles.pendingtext}>Group Leader</Text>
 			<View style={styles.approved}>
@@ -208,6 +212,8 @@ export default function Lobby({ navigation , route}) {
 			Group ID: {groupPath}
 		</Text>
 		</View>
+		</ScrollView>
+		</SafeAreaView>
 	);
 
 }
