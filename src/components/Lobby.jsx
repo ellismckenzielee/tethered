@@ -118,6 +118,20 @@ export default function Lobby({ navigation , route}) {
 		);
 	return (
 		<View style={styles.container}>
+			<Text style={styles.pendingtext}>Group Leader</Text>
+			<View style={styles.approved}>
+				<View key={groupData.groupAdmin.username} style={styles.userCard}>
+					<Image
+						style={[styles.avatar]}
+						source={
+						groupData.groupAdmin.avatarUrl ? groupData.groupAdmin.avatarUrl : require('../assets/avatar.png')
+						}
+					/>
+					<Text style={styles.username} key={groupData.groupAdmin.username}>
+						{groupData.groupAdmin.username}
+					</Text>
+					</View>
+			</View>
 			<Text style={styles.pendingtext}>Approved</Text>
 			<View style={styles.approved}>
 				{approvedUsers.map(user => {
@@ -126,7 +140,7 @@ export default function Lobby({ navigation , route}) {
 							<Image
 								style={[styles.avatar, user.accepted ?  styles.ready : styles.avatar]}
 								source={
-									user.avatar ? user.avatar : require('../assets/avatar.png')
+									user.avatarUrl ? user.avatarUrl : require('../assets/avatar.png')
 								}
 							/>
 							<Text style={styles.username} key={user.username}>
@@ -153,7 +167,7 @@ export default function Lobby({ navigation , route}) {
 								<Image
 									style={styles.avatar}
 									source={
-										user.avatar ? user.avatar : require('../assets/avatar.png')
+										user.avatarUrl ? user.avatarUrl : require('../assets/avatar.png')
 									}
 								/>
 								<Text style={styles.username} key={user.username}>

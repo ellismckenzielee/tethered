@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { createNewUser } from "./firestoreDatabaseUtils";
 
 const handleSignUp = (
   username,
@@ -12,11 +13,13 @@ const handleSignUp = (
   setError,
   navigation
 ) => {
-  createUserWithEmailAndPassword(auth, email, password, username, avatar)
+  createUserWithEmailAndPassword(auth, email, password)
     .then((userCredentials) => {
       const user = userCredentials.user;
+      console.log(userCredentials.user)
       console.log("Registered with:", user.email);
-      navigation.navigate("Main");
+      createNewUser(email,username,avatar);
+      navigation.navigate("Main"); 
     })
     .catch((error) => {
       const popup = {
