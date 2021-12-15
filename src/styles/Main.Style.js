@@ -57,7 +57,7 @@ export default StyleSheet.create({
   },
   Groupcontainer: {
     height: 220,
-    width: 300,
+    width: 301,
     alignItems: "center",
     paddingBottom: 10,
     justifyContent: "center",
