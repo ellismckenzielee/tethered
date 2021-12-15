@@ -8,6 +8,8 @@ export default StyleSheet.create({
     textAlign: "center",
     width: "100%",
     height: "100%",
+    display: "flex",
+    flexDirection: "column",
   },
   title: {
     fontSize: 45,
@@ -55,9 +57,23 @@ export default StyleSheet.create({
     marginBottom: 30,
   },
   map: {
+    flexGrow: 1,
     width: "95%",
-    height: "90%",
-    marginTop: 50,
+    marginTop: 10,
+    borderRadius: 10,
+  },
+  buttonsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    padding: 20,
+    width: "95%",
+    justifyContent: "center",
+  },
+  mapButtons: {
+    flexGrow: 1,
+    padding: 20,
+    backgroundColor: "#F96800",
+    margin: 5,
     borderRadius: 10,
   },
 });

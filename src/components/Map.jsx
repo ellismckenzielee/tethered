@@ -6,54 +6,55 @@ import * as Location from "expo-location";
 import styles from "../styles/Login.Style";
 import mapStyle from "../styles/Map.Style";
 import { updateLocation } from "../utils/firestoreDatabaseUtils";
-import { doc, onSnapshot } from 'firebase/firestore';
-import {db} from '../../firebase-config';
-import { UserContext } from '../contexts/UserContext';
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase-config";
+import { UserContext } from "../contexts/UserContext";
 import { ellisArr, scottArr } from "../components/TestCoordinates";
-
+import { NavigationContainer } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Map({ user, locations, tripId }) {
   const { isLoggedIn, currentUser } = useContext(UserContext);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [tripData, setTripData] = useState({
-    "admin" : null,
-    "archive" : false,
-    "groupId" : "1",
-    "groupName" : null,
-    "trip" : {
-      "started" : true,
-      "tripId" : null
+    admin: null,
+    archive: false,
+    groupId: "1",
+    groupName: null,
+    trip: {
+      started: true,
+      tripId: null,
     },
-    "tripMembers" : {
-		  "cyclist": {
-        "latitude" : 0,
-        "longitude" : 0,
-        "username" : "cyclist"
-      }
-    }
-  })
-
+    tripMembers: {
+      cyclist: {
+        latitude: 0,
+        longitude: 0,
+        username: "cyclist",
+      },
+    },
+  });
+  const navigation = useNavigation();
   useEffect(() => {
-		const unsub = onSnapshot(doc(db, "trips", tripId), (tripDocument) => {
-	 		const source = tripDocument.metadata.hasPendingWrites ? "Local" : "Server";
-			setTripData(()=> {
-				return tripDocument.data()
-			});
-	 	});
-		return (() => {
-			unsub();
-		})
-	},[]);
+    const unsub = onSnapshot(doc(db, "trips", tripId), (tripDocument) => {
+      const source = tripDocument.metadata.hasPendingWrites ? "Local" : "Server";
+      setTripData(() => {
+        return tripDocument.data();
+      });
+    });
+    return () => {
+      unsub();
+    };
+  }, []);
 
-  const members = Object.keys(tripData.tripMembers)
-	let newLocations = [];
-	members.forEach((member) => {
-    if (member !== currentUser.username){
-		newLocations.push(tripData.tripMembers[`${member}`]);
-		return newLocations;
+  const members = Object.keys(tripData.tripMembers);
+  let newLocations = [];
+  members.forEach((member) => {
+    if (member !== currentUser.username) {
+      newLocations.push(tripData.tripMembers[`${member}`]);
+      return newLocations;
     }
-	});
+  });
 
   // const locations = [
   //   { name: "Scott", latitude: 53.45744, longitude: -2.28477 },
@@ -81,7 +82,7 @@ export default function Map({ user, locations, tripId }) {
       }
       const location = Location.watchPositionAsync({ distanceInterval: 100 }, (location) => {
         setLocation(location);
-        updateLocation(currentUser.username,tripId,location.coords?.latitude,location.coords?.longitude);
+        updateLocation(currentUser.username, tripId, location.coords?.latitude, location.coords?.longitude);
       });
     })();
     return location;
@@ -130,10 +131,7 @@ export default function Map({ user, locations, tripId }) {
             longitude: location.coords?.longitude,
           }}
         >
-          <Image
-            source={require("../assets/userMarker.png")}
-            style={styles.marker}
-          ></Image>
+          <Image source={require("../assets/userMarker.png")} style={styles.marker}></Image>
           <MapView.Callout>
             <Text>{user.name}</Text>
             <TouchableOpacity>
@@ -161,10 +159,7 @@ export default function Map({ user, locations, tripId }) {
                 longitude: location.longitude,
               }}
             >
-              <Image
-                source={require("../assets/groupMarker.png")}
-                style={styles.marker}
-              ></Image>
+              <Image source={require("../assets/groupMarker.png")} style={styles.marker}></Image>
               <MapView.Callout>
                 <Text>{location.name}</Text>
                 <TouchableOpacity>
@@ -175,25 +170,36 @@ export default function Map({ user, locations, tripId }) {
           );
         })}
       </MapView>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          animateToRegion(
-            {
-              latitude: location.coords?.latitude,
-              longitude: location.coords?.longitude,
-              latitudeDelta: maxLatitudeDelta * 2,
-              longitudeDelta: maxLongitudeDelta * 2,
-            },
-            1000
-          );
-        }}
-      >
-        <Text>Group View</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text>End Trip</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity
+          style={styles.mapButtons}
+          onPress={() => {
+            const groupId = tripData.groupId;
+            navigation.navigate("Chat", { groupId });
+          }}
+        >
+          <Text>Chat</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.mapButtons}
+          onPress={() => {
+            animateToRegion(
+              {
+                latitude: location.coords?.latitude,
+                longitude: location.coords?.longitude,
+                latitudeDelta: maxLatitudeDelta * 2,
+                longitudeDelta: maxLongitudeDelta * 2,
+              },
+              1000
+            );
+          }}
+        >
+          <Text>Group View</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.mapButtons}>
+          <Text>End Trip</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
