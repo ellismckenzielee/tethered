@@ -38,7 +38,7 @@ export default function CreateGroup({ navigation }) {
         underlayColor="#9F4300"
         style={styles.button}
         onPress={() => {
-          createNewGroup(currentUser.username, groupName).then((groupPath) => {
+          createNewGroup(currentUser, groupName).then((groupPath) => {
             navigation.navigate("Lobby", { groupPath: groupPath });
           });
         }}

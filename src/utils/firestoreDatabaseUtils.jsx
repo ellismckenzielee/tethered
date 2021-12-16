@@ -6,10 +6,10 @@ async function createNewGroup(currentUser, groupName) {
   console.log(currentUser)
   const newGroup = await addDoc(collection(db, "groups"), {
     groupAdmin: {
-      username: currentUser,
+      username: currentUser.username,
       email: currentUser.email,
       uid: currentUser.uid,
-      avatarUrl : currentUser.avatar,
+      avatarUrl : currentUser.avatarUrl,
       ready: false,
     },
     groupName: groupName,

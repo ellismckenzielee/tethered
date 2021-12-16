@@ -16,7 +16,7 @@ export default function Main({ navigation }) {
     setGroups(groups);
     setRefreshing(false);
   };
-  console.log(currentUser.username, "<<<<<<<");
+  console.log(currentUser, "<<<<<<<");
   useEffect(() => {
     getGroups();
   }, []);
