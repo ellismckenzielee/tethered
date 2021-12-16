@@ -109,7 +109,9 @@ export default function Lobby({ navigation, route }) {
     console.log(`approvedUsers`, userApprovedList);
     console.log(`pendingUsers`, pendingUsersList);
     setTimeout(() => {
+      if(groupData.groupMembers[currentUserName]?.approved === true){
       setApproved(true);
+      }
     }, 100);
   }, [userApprovedList, pendingUsersList]);
 
@@ -117,7 +119,9 @@ export default function Lobby({ navigation, route }) {
     return (
       <View style={styles.waiting}>
         <Image source={require("../assets/waiting.gif")} style={styles.logo} />
-        <Text style={styles.title}>Waiting approval...</Text>
+        <Text style={styles.pendingtext}>Request submitted to join group</Text>
+        <Text style={styles.pendingtext}>Group membership awaiting approval by the group leader</Text>
+        <Text style={styles.pendingtext}>Come back when approved</Text>
       </View>
     );
   return (
@@ -169,7 +173,6 @@ export default function Lobby({ navigation, route }) {
           );
         })}
       </View>
-      <Text style={styles.pendingtext}>Pending</Text>
       <View style={styles.pending}>
         {isAdmin &&
           pendingUsers.map((user) => {
