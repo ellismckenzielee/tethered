@@ -3,9 +3,13 @@ import { db } from "../../firebase-config";
 
 // firestore - create new group
 async function createNewGroup(currentUser, groupName) {
+  console.log(currentUser)
   const newGroup = await addDoc(collection(db, "groups"), {
     groupAdmin: {
       username: currentUser,
+      email: currentUser.email,
+      uid: currentUser.uid,
+      avatarUrl : currentUser.avatar,
       ready: false,
     },
     groupName: groupName,
