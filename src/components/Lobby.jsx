@@ -53,6 +53,10 @@ export default function Lobby({ navigation, route }) {
         ? "Local"
         : "Server";
       setGroupData(() => {
+        if(groupDocument.data().groupMembers[currentUserName]?.approved === true){
+          setApproved(true);
+          console.log("Approved:",groupDocument.data().groupMembers[currentUserName])
+        }
         return groupDocument.data();
       });
     });
@@ -108,14 +112,12 @@ export default function Lobby({ navigation, route }) {
   useEffect(() => {
     console.log(`approvedUsers`, userApprovedList);
     console.log(`pendingUsers`, pendingUsersList);
+    console.log("groupmembers", groupData.groupMembers)
     setTimeout(() => {
-      if(groupData.groupMembers[currentUserName]?.approved === true){
-      setApproved(true);
-      }
     }, 100);
   }, [userApprovedList, pendingUsersList]);
 
-  if (!approved)
+  if (!approved && !isAdmin)
     return (
       <View style={styles.waiting}>
         <Image source={require("../assets/waiting.gif")} style={styles.logo} />
@@ -126,7 +128,9 @@ export default function Lobby({ navigation, route }) {
     );
   return (
     <View style={styles.container}>
+      
       <Text style={styles.pendingtext}>Group Leader</Text>
+      
       <View style={styles.approved}>
         <View key={groupData.groupAdmin.username} style={styles.userCard}>
           <Image
@@ -142,7 +146,9 @@ export default function Lobby({ navigation, route }) {
           </Text>
         </View>
       </View>
-      <Text style={styles.pendingtext}>Approved</Text>
+      
+      <Text style={styles.pendingtext}>Approved Group Members</Text>
+      
       <View style={styles.approved}>
         {approvedUsers.map((user) => {
           return (
@@ -161,7 +167,8 @@ export default function Lobby({ navigation, route }) {
               <Text style={styles.username} key={user.username}>
                 {user.username}
               </Text>
-              <TouchableHighlight
+              {isAdmin &&
+                <TouchableHighlight
                 activeOpacity={0.6}
                 underlayColor="#9F4300"
                 style={styles.button}
@@ -169,10 +176,12 @@ export default function Lobby({ navigation, route }) {
               >
                 <Text style={styles.Btntext}>remove</Text>
               </TouchableHighlight>
+        }
             </View>
           );
         })}
       </View>
+      
       <View style={styles.pending}>
         {isAdmin &&
           pendingUsers.map((user) => {
