@@ -5,7 +5,7 @@ function spoofLocation(data, interval, username, tripId) {
   setInterval(() => {
     if (i < data.length) {
       updateLocation(username, tripId, data[i][0], data[i][1]);
-      i++;
+      i += 10;
     } else {
       clearInterval();
     }
