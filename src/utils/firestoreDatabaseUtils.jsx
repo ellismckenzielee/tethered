@@ -16,13 +16,21 @@ import { db } from "../../firebase-config";
 
 // firestore - create new group
 async function createNewGroup(currentUser, groupName) {
-  console.log(currentUser);
+
+  console.log(currentUser)
+
+  let avatar = ""
+  if(currentUser.avatarUrl) {
+    avatar = currentUser.avatarUrl
+  }
+
+
   const newGroup = await addDoc(collection(db, "groups"), {
     groupAdmin: {
       username: currentUser.username,
       email: currentUser.email,
       uid: currentUser.uid,
-      avatarUrl: currentUser.avatarUrl,
+      avatarUrl : avatar,
       ready: false,
     },
     groupName: groupName,
@@ -206,30 +214,28 @@ async function createNewTrip(currentUser, groupDocId, groupName) {
   return tripId;
 }
 
-async function updateLocation(currentUser, tripId, latitude, longitude) {
+async function updateLocation(username, tripId, latitude, longitude) {
   // creates/updates an object in the Trip under tripMembers
   // reads document from the firestore database
   const tripDocSnap = await getDoc(doc(db, "trips", tripId));
   // takes the tripMembers object and updates ready status
   const tripMembers = tripDocSnap.data().tripMembers;
 
-  const newInfo = {
-    [`${currentUser}`]: {
-      username: currentUser,
-      latitude: latitude,
-      longitude: longitude,
-      // uid: currentUser.uid,
-      // avatarUrl: currentUser.avatarUrl,
-    },
-  };
 
-  await setDoc(
-    doc(db, "trips", tripId),
-    {
-      tripMembers: newInfo,
-    },
-    { merge: true }
-  );
+  const newInfo = {[`${username}`] : {
+    username : username,
+    latitude : latitude,
+    longitude : longitude,
+    // uid: currentUser.uid,
+    // avatarUrl : currentUser.avatarUrl
+    }
+  }
+  
+  await setDoc(doc(db, 'trips', tripId), {
+    tripMembers : newInfo
+  },
+  { merge: true });
+
 
   console.log(`tripmember ${currentUser} updated`);
 }
