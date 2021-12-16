@@ -1,15 +1,28 @@
-import { addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, query, where, getDoc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  arrayUnion,
+  arrayRemove,
+  updateDoc,
+  query,
+  where,
+  getDoc,
+  getDocs,
+  setDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase-config";
 
 // firestore - create new group
 async function createNewGroup(currentUser, groupName) {
-  console.log(currentUser)
+  console.log(currentUser);
   const newGroup = await addDoc(collection(db, "groups"), {
     groupAdmin: {
       username: currentUser.username,
       email: currentUser.email,
       uid: currentUser.uid,
-      avatarUrl : currentUser.avatarUrl,
+      avatarUrl: currentUser.avatarUrl,
       ready: false,
     },
     groupName: groupName,
@@ -48,7 +61,7 @@ async function joinGroupRequest(currentUser, groupDocId) {
       username: currentUser,
       email: currentUser.email,
       uid: currentUser.uid,
-      avatarUrl : currentUser.avatar
+      avatarUrl: currentUser.avatar,
     };
 
     await updateDoc(doc(db, "groups", groupDocId), {
@@ -75,7 +88,9 @@ async function approveGroupRequest(groupMember, groupDocId) {
         groupMembers,
       });
 
-    console.log(`${groupMember} has been approved to join the group ${groupDocId}`);
+    console.log(
+      `${groupMember} has been approved to join the group ${groupDocId}`
+    );
   } else {
     console.log(`${groupMember} can't be found in group members`);
   }
@@ -198,20 +213,23 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
   // takes the tripMembers object and updates ready status
   const tripMembers = tripDocSnap.data().tripMembers;
 
-  const newInfo = {[`${currentUser.username}`] : {
-    username : currentUser.username,
-    latitude : latitude,
-    longitude : longitude,
-    uid: currentUser.uid,
-    avatarUrl : currentUser.avatarUrl
-    }
-  }
-  
-  await setDoc(doc(db, 'trips', tripId), {
-    tripMembers : newInfo
-  },
-  { merge: true });
+  const newInfo = {
+    [`${currentUser}`]: {
+      username: currentUser,
+      latitude: latitude,
+      longitude: longitude,
+      // uid: currentUser.uid,
+      // avatarUrl: currentUser.avatarUrl,
+    },
+  };
 
+  await setDoc(
+    doc(db, "trips", tripId),
+    {
+      tripMembers: newInfo,
+    },
+    { merge: true }
+  );
 
   console.log(`tripmember ${currentUser} updated`);
 }
@@ -239,7 +257,10 @@ async function endTrip(tripId) {
 async function getGroupsByUserId(currentUser) {
   const groupsRef = collection(db, "groups");
   console.log(`groupMembers.${currentUser}.username`);
-  const q1 = query(groupsRef, where(`groupMembers.${currentUser}.username`, "==", currentUser));
+  const q1 = query(
+    groupsRef,
+    where(`groupMembers.${currentUser}.username`, "==", currentUser)
+  );
   const q2 = query(groupsRef, where(`groupAdmin.username`, "==", currentUser));
   const groups = await getDocs(q1);
   const adminGroups = await getDocs(q2);
@@ -263,7 +284,7 @@ async function createNewUser(uid, email, username, avatar) {
     username: username,
     email: email,
     avatarUrl: avatar,
-    uid:uid,
+    uid: uid,
   });
 
   console.log(`New user ${username} was created`);
@@ -279,4 +300,18 @@ async function getUserData(uid) {
   console.log("get user data", user.data());
   return Promise.resolve(user.data());
 }
-export { createNewGroup, joinGroupRequest, approveGroupRequest, readyUp, readyUpAdmin, notReady, notReadyAdmin, createNewTrip, updateLocation, endTrip, getGroupsByUserId, createNewUser, getUserData };
+export {
+  createNewGroup,
+  joinGroupRequest,
+  approveGroupRequest,
+  readyUp,
+  readyUpAdmin,
+  notReady,
+  notReadyAdmin,
+  createNewTrip,
+  updateLocation,
+  endTrip,
+  getGroupsByUserId,
+  createNewUser,
+  getUserData,
+};
