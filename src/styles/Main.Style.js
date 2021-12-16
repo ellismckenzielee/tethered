@@ -1,6 +1,11 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+  logo: {
+    width: 227,
+    height: 332,
+    marginBottom: 30,
+  },
   container: {
     backgroundColor: "#2F2F2F",
     alignItems: "center",

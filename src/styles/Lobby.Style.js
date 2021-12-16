@@ -59,11 +59,13 @@ export default StyleSheet.create({
 		marginTop: 10,
 		flexDirection: 'row',
 		flexWrap: 'wrap',
+		justifyContent: 'center',
 	},
 	approved: {
 		marginTop: 10,
 		flexDirection: 'row',
 		flexWrap: 'wrap',
+		justifyContent: 'center',
 	},
 	pendingtext: {
 		fontSize: 32,

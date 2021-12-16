@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE, Polyline, Callout } from "react-native-maps";
 import { getDeltas } from "../utils/utils.maps";
 import * as Location from "expo-location";
 import styles from "../styles/Login.Style";
+
 import mapStyle from "../styles/Map.Style";
 import { updateLocation } from "../utils/firestoreDatabaseUtils";
 import { doc, onSnapshot } from "firebase/firestore";
@@ -140,11 +141,11 @@ export default function Map({ user, locations, tripId }) {
         }}
       >
         {/* <Polyline
-          coordinates={scottArr}
+          coordinates={userCoords}
           strokeColor="#F96800"
           strokeWidth={2}
-        />
-        <Polyline coordinates={ellisArr} strokeColor="#000" strokeWidth={2} /> */}
+        /> */}
+
         <Marker
           onPress={({ nativeEvent }) => {
             animateToRegion(
@@ -163,14 +164,15 @@ export default function Map({ user, locations, tripId }) {
           }}
         >
           <Image source={require("../assets/userMarker.png")} style={styles.marker}></Image>
-          <MapView.Callout>
-            <Text>{user.name}</Text>
-            <TouchableOpacity>
-              <Text>Contact {user.name}</Text>
-            </TouchableOpacity>
-          </MapView.Callout>
+          <Callout>
+            <View style={styles.bubble}>
+              <Text style={styles.bubbleText}>{currentUser.username}</Text>
+              <Image style={styles.calloutImage} source={user.avatarUrl ? user.avatarUrl : require("../assets/avatar.png")} />
+            </View>
+          </Callout>
         </Marker>
         {newLocations.map((location) => {
+          console.log(location, "<<< location");
           return (
             <Marker
               onPress={({ nativeEvent }) => {
@@ -191,12 +193,13 @@ export default function Map({ user, locations, tripId }) {
               }}
             >
               <Image source={require("../assets/groupMarker.png")} style={styles.marker}></Image>
-              <MapView.Callout>
-                <Text>{location.name}</Text>
-                <TouchableOpacity>
-                  <Text>Contact {location.name}</Text>
-                </TouchableOpacity>
-              </MapView.Callout>
+
+              <Callout>
+                <View style={styles.bubble}>
+                  <Text>{location.username}</Text>
+                  <Image style={styles.calloutImage} source={location.avatarUrl} />
+                </View>
+              </Callout>
             </Marker>
           );
         })}
