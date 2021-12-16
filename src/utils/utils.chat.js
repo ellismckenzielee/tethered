@@ -1,17 +1,20 @@
-import { collection, addDoc, onSnapshot, query, orderBy, getDoc, doc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, onSnapshot, query, orderBy, getDoc, doc, Timestamp, setDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 export const watchGroupChat = async (groupId, cb) => {
   const docRef = doc(db, `groupChats`, `${groupId}`);
   const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    const q = query(collection(db, `groupChats/${groupId}/messages`), orderBy("created_at"));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      cb(querySnapshot);
-    });
-    return unsubscribe;
-  } else {
-    console.log("ERROR");
+  if (!docSnap.exists()) {
+    try {
+      await setDoc(doc(db, "groupChats", groupId), { groupId: groupId });
+    } catch (err) {
+      console.log(err);
+    }
   }
+  const q = query(collection(db, `groupChats/${groupId}/messages`), orderBy("created_at"));
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    cb(querySnapshot);
+  });
+  return unsubscribe;
 };
 
 export const sendMessage = async (groupId, message, author, setMessage) => {
@@ -21,5 +24,7 @@ export const sendMessage = async (groupId, message, author, setMessage) => {
     created_at: Timestamp.now(),
   };
   const returnedMessage = await addDoc(collection(db, "groupChats", `${groupId}`, "messages"), newMessage);
-  setMessage("");
+  if (setMessage) {
+    setMessage("");
+  }
 };

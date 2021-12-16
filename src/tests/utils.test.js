@@ -94,37 +94,37 @@ describe("getDeltas function: ", () => {
   });
 });
 
-describe("getDistance function: ", () => {
-  it("returns a number", () => {
-    const inputUser = { latitude: 53.467442, longitude: -2.28477 };
+describe.only("getDistance function: ", () => {
+  it.only("returns a number", () => {
+    const inputUser = { coords: { latitude: 53.467442, longitude: -2.28477 } };
     const inputOther = { latitude: 53.463058, longitude: -2.29134 };
     const expected = "number";
     const actual = getDistance(inputUser, inputOther);
     expect(typeof actual).toBe(expected);
   });
   it("returns a distance of 0 when the same location is passed twice", () => {
-    const inputUser = { latitude: 53.467442, longitude: -2.28477 };
+    const inputUser = { coords: { latitude: 53.467442, longitude: -2.28477 } };
     const inputOther = { latitude: 53.467442, longitude: -2.28477 };
     const expected = 0;
     const actual = getDistance(inputUser, inputOther);
     expect(actual).toBe(expected);
   });
   it("returns the correct distance when two different locations are passed", () => {
-    let inputUser = { latitude: 51.510357, longitude: -0.116773 };
+    let inputUser = { coords: { latitude: 51.510357, longitude: -0.116773 } };
     let inputOther = { latitude: 38.889931, longitude: -77.009003 };
     let expected = 5897.658;
     let actual = getDistance(inputUser, inputOther);
     expect(Math.abs(actual - expected) < Math.pow(10, -3)).toBe(true);
 
-    inputUser = { latitude: 53.467442, longitude: -2.28477 };
+    inputUser = { coords: { latitude: 53.467442, longitude: -2.28477 } };
     inputOther = { latitude: 53.4649, longitude: -2.3488 };
     expected = 4.248;
     actual = getDistance(inputUser, inputOther);
     expect(Math.abs(actual - expected) < Math.pow(10, -3)).toBe(true);
   });
   describe("testing side effects: ", () => {
-    const inputUser = { latitude: 53.467442, longitude: -2.28477 };
-    const inputUserFixed = { latitude: 53.467442, longitude: -2.28477 };
+    const inputUser = { coords: { latitude: 53.467442, longitude: -2.28477 } };
+    const inputUserFixed = { coords: { latitude: 53.467442, longitude: -2.28477 } };
 
     const inputOther = { latitude: 53.4649, longitude: -2.3488 };
     const inputOtherFixed = { latitude: 53.4649, longitude: -2.3488 };
@@ -140,7 +140,7 @@ describe("getDistance function: ", () => {
 
 describe("findMaximumDistance function", () => {
   it("returns a number", () => {
-    const inputUser = { latitude: 53.467442, longitude: -2.28477 };
+    const inputUser = { coords: { latitude: 53.467442, longitude: -2.28477 } };
     const inputGroup = [
       { latitude: 53.4649, longitude: -2.3488 },
       { latitude: 38.889931, longitude: -77.009003 },
@@ -150,7 +150,7 @@ describe("findMaximumDistance function", () => {
     expect(typeof actual).toBe(expected);
   });
   it("returns the maximum distance between the user and any other users's location", () => {
-    const inputUser = { latitude: 53.467442, longitude: -2.28477 };
+    const inputUser = { coords: { latitude: 53.467442, longitude: -2.28477 } };
     const inputGroup = [
       { latitude: 53.4649, longitude: -2.3488 },
       { latitude: 53.467442, longitude: -2.28478 },

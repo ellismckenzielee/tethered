@@ -14,6 +14,16 @@ export default StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  groupCard: {
+    width: "90%",
+    backgroundColor: "white",
+    padding: 20,
+    marginTop: 10,
+    margin: "5%",
+    borderWidth: 3,
+    borderColor: "black",
+    borderRadius: 10,
+  },
   button: {
     backgroundColor: "#F96800",
     paddingLeft: 25,
@@ -31,44 +41,21 @@ export default StyleSheet.create({
       width: 1,
     },
   },
-  text: {
-    fontSize: 18,
-    color: "white",
-    marginBottom: 15,
+  scrollview: {
+    width: "100%",
+    margin: "auto",
+    marginBottom: 5,
+    display: "flex",
+    textAlign: "center",
+    padding: "auto",
   },
   title: {
-    fontSize: 30,
     color: "white",
-    paddingBottom: 10,
+    padding: 25,
+    fontSize: 20,
   },
-  Btntext: {
-    fontSize: 18,
+  subheading: {
     color: "white",
-  },
-  avatarlogo: {
-    height: 150,
-    width: 100,
-    padding: 5,
-    marginTop: 25,
-  },
-  GroupName: {
-    color: "white",
-    fontSize: 30,
-  },
-  Groupcontainer: {
-    height: 200,
-    width: 300,
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    backgroundColor: "#454545",
-    borderRadius: 15,
-    shadowColor: "#000000",
-    shadowOpacity: 0.7,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 1,
-      width: 1,
-    },
+    padding: 3,
   },
 });

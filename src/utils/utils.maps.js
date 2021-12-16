@@ -25,7 +25,8 @@ export const findMaximumDistance = (location, group) => {
 export const getDistance = (user, member) => {
   /*calculates distance between two users using haversine formula*/
   const radius = 6371;
-  const { latitude: userLat, longitude: userLong } = user;
+  console.log(user, member);
+  const { latitude: userLat, longitude: userLong } = user.coords;
   const { latitude: memberLat, longitude: memberLong } = member;
   const userLatRad = degreesToRadians(userLat);
   const userLongRad = degreesToRadians(userLong);
