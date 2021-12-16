@@ -3,9 +3,13 @@ import { db } from "../../firebase-config";
 
 // firestore - create new group
 async function createNewGroup(currentUser, groupName) {
+  console.log(currentUser)
   const newGroup = await addDoc(collection(db, "groups"), {
     groupAdmin: {
-      username: currentUser,
+      username: currentUser.username,
+      email: currentUser.email,
+      uid: currentUser.uid,
+      avatarUrl : currentUser.avatarUrl,
       ready: false,
     },
     groupName: groupName,
@@ -42,6 +46,9 @@ async function joinGroupRequest(currentUser, groupDocId) {
       approved: false,
       ready: false,
       username: currentUser,
+      email: currentUser.email,
+      uid: currentUser.uid,
+      avatarUrl : currentUser.avatar
     };
 
     await updateDoc(doc(db, "groups", groupDocId), {
@@ -191,10 +198,12 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
   // takes the tripMembers object and updates ready status
   const tripMembers = tripDocSnap.data().tripMembers;
 
-  const newInfo = {[`${currentUser}`] : {
-    username : currentUser,
+  const newInfo = {[`${currentUser.username}`] : {
+    username : currentUser.username,
     latitude : latitude,
-    longitude : longitude
+    longitude : longitude,
+    uid: currentUser.uid,
+    avatarUrl : currentUser.avatarUrl
     }
   }
   
@@ -254,6 +263,7 @@ async function createNewUser(uid, email, username, avatar) {
     username: username,
     email: email,
     avatarUrl: avatar,
+    uid:uid,
   });
 
   console.log(`New user ${username} was created`);

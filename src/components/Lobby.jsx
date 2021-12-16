@@ -53,6 +53,10 @@ export default function Lobby({ navigation, route }) {
         ? "Local"
         : "Server";
       setGroupData(() => {
+        if(groupDocument.data().groupMembers[currentUserName]?.approved === true){
+          setApproved(true);
+          console.log("Approved:",groupDocument.data().groupMembers[currentUserName])
+        }
         return groupDocument.data();
       });
     });
@@ -108,21 +112,25 @@ export default function Lobby({ navigation, route }) {
   useEffect(() => {
     console.log(`approvedUsers`, userApprovedList);
     console.log(`pendingUsers`, pendingUsersList);
+    console.log("groupmembers", groupData.groupMembers)
     setTimeout(() => {
-      setApproved(true);
     }, 100);
   }, [userApprovedList, pendingUsersList]);
 
-  if (!approved)
+  if (!approved && !isAdmin)
     return (
       <View style={styles.waiting}>
         <Image source={require("../assets/waiting.gif")} style={styles.logo} />
-        <Text style={styles.title}>Waiting approval...</Text>
+        <Text style={styles.pendingtext}>Request submitted to join group</Text>
+        <Text style={styles.pendingtext}>Group membership awaiting approval by the group leader</Text>
+        <Text style={styles.pendingtext}>Come back when approved</Text>
       </View>
     );
   return (
     <View style={styles.container}>
+      
       <Text style={styles.pendingtext}>Group Leader</Text>
+      
       <View style={styles.approved}>
         <View key={groupData.groupAdmin.username} style={styles.userCard}>
           <Image
@@ -138,7 +146,9 @@ export default function Lobby({ navigation, route }) {
           </Text>
         </View>
       </View>
-      <Text style={styles.pendingtext}>Approved</Text>
+      
+      <Text style={styles.pendingtext}>Approved Group Members</Text>
+      
       <View style={styles.approved}>
         {approvedUsers.map((user) => {
           return (
@@ -157,7 +167,8 @@ export default function Lobby({ navigation, route }) {
               <Text style={styles.username} key={user.username}>
                 {user.username}
               </Text>
-              <TouchableHighlight
+              {isAdmin &&
+                <TouchableHighlight
                 activeOpacity={0.6}
                 underlayColor="#9F4300"
                 style={styles.button}
@@ -165,12 +176,17 @@ export default function Lobby({ navigation, route }) {
               >
                 <Text style={styles.Btntext}>remove</Text>
               </TouchableHighlight>
+        }
             </View>
           );
         })}
       </View>
-      <Text style={styles.pendingtext}>Pending</Text>
-      <View style={styles.pending}>
+      
+      <View style={styles.container}>
+        {isAdmin &&
+             <Text style={styles.pendingtext}>Pending requests</Text>
+        }
+        <View style={styles.pending}>
         {isAdmin &&
           pendingUsers.map((user) => {
             return (
@@ -198,7 +214,9 @@ export default function Lobby({ navigation, route }) {
                 </TouchableHighlight>
               </View>
             );
-          })}
+          })
+        }
+        </View>
       </View>
       <TouchableHighlight
         style={styles.button}
