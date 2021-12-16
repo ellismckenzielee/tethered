@@ -182,7 +182,11 @@ export default function Lobby({ navigation, route }) {
         })}
       </View>
       
-      <View style={styles.pending}>
+      <View style={styles.container}>
+        {isAdmin &&
+             <Text style={styles.pendingtext}>Pending requests</Text>
+        }
+        <View style={styles.pending}>
         {isAdmin &&
           pendingUsers.map((user) => {
             return (
@@ -210,7 +214,9 @@ export default function Lobby({ navigation, route }) {
                 </TouchableHighlight>
               </View>
             );
-          })}
+          })
+        }
+        </View>
       </View>
       <TouchableHighlight
         style={styles.button}
