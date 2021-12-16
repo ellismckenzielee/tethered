@@ -198,10 +198,12 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
   // takes the tripMembers object and updates ready status
   const tripMembers = tripDocSnap.data().tripMembers;
 
-  const newInfo = {[`${currentUser}`] : {
-    username : currentUser,
+  const newInfo = {[`${currentUser.username}`] : {
+    username : currentUser.username,
     latitude : latitude,
-    longitude : longitude
+    longitude : longitude,
+    uid: currentUser.uid,
+    avatarUrl : currentUser.avatar
     }
   }
   
