@@ -203,7 +203,7 @@ async function updateLocation(currentUser, tripId, latitude, longitude) {
     latitude : latitude,
     longitude : longitude,
     uid: currentUser.uid,
-    avatarUrl : currentUser.avatar
+    avatarUrl : currentUser.avatarUrl
     }
   }
   
