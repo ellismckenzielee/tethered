@@ -1,36 +1,21 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  arrayUnion,
-  arrayRemove,
-  updateDoc,
-  query,
-  where,
-  getDoc,
-  getDocs,
-  setDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { addDoc, collection, doc, arrayUnion, arrayRemove, updateDoc, query, where, getDoc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 
 // firestore - create new group
 async function createNewGroup(currentUser, groupName) {
+  console.log(currentUser);
 
-  console.log(currentUser)
-
-  let avatar = ""
-  if(currentUser.avatarUrl) {
-    avatar = currentUser.avatarUrl
+  let avatar = "";
+  if (currentUser.avatarUrl) {
+    avatar = currentUser.avatarUrl;
   }
-
 
   const newGroup = await addDoc(collection(db, "groups"), {
     groupAdmin: {
       username: currentUser.username,
       email: currentUser.email,
       uid: currentUser.uid,
-      avatarUrl : avatar,
+      avatarUrl: avatar,
       ready: false,
     },
     groupName: groupName,
@@ -58,27 +43,31 @@ async function createNewGroup(currentUser, groupName) {
 async function joinGroupRequest(currentUser, groupDocId) {
   // reads document from the firestore database
   const groupDocSnap = await getDoc(doc(db, "groups", groupDocId));
-
+  const username = currentUser.username;
+  let avatar = "";
+  if (currentUser.avatarUrl) {
+    avatar = currentUser.avatarUrl;
+  }
   // takes the groupMembers object and updates object with new member if they aren't already in the group
-  if (!groupDocSnap.data().groupMembers[currentUser]) {
+  if (!groupDocSnap.data().groupMembers[username]) {
     const groupMembers = groupDocSnap.data().groupMembers;
 
-    groupMembers[currentUser] = {
+    groupMembers[username] = {
       approved: false,
       ready: false,
-      username: currentUser,
+      username: username,
       email: currentUser.email,
       uid: currentUser.uid,
-      avatarUrl: currentUser.avatar,
+      avatarUrl: avatar,
     };
 
     await updateDoc(doc(db, "groups", groupDocId), {
       groupMembers: groupMembers,
     });
 
-    console.log(`${currentUser} was added to group ${groupDocId}`);
+    console.log(`${username} was added to group ${groupDocId}`);
   } else {
-    console.log(`${currentUser} is already a group member`);
+    console.log(`${username} is already a group member`);
   }
 }
 
@@ -96,9 +85,7 @@ async function approveGroupRequest(groupMember, groupDocId) {
         groupMembers,
       });
 
-    console.log(
-      `${groupMember} has been approved to join the group ${groupDocId}`
-    );
+    console.log(`${groupMember} has been approved to join the group ${groupDocId}`);
   } else {
     console.log(`${groupMember} can't be found in group members`);
   }
@@ -221,21 +208,23 @@ async function updateLocation(username, tripId, latitude, longitude) {
   // takes the tripMembers object and updates ready status
   const tripMembers = tripDocSnap.data().tripMembers;
 
+  const newInfo = {
+    [`${username}`]: {
+      username: username,
+      latitude: latitude,
+      longitude: longitude,
+      // uid: currentUser.uid,
+      // avatarUrl : currentUser.avatarUrl
+    },
+  };
 
-  const newInfo = {[`${username}`] : {
-    username : username,
-    latitude : latitude,
-    longitude : longitude,
-    // uid: currentUser.uid,
-    // avatarUrl : currentUser.avatarUrl
-    }
-  }
-  
-  await setDoc(doc(db, 'trips', tripId), {
-    tripMembers : newInfo
-  },
-  { merge: true });
-
+  await setDoc(
+    doc(db, "trips", tripId),
+    {
+      tripMembers: newInfo,
+    },
+    { merge: true }
+  );
 
   console.log(`tripmember ${currentUser} updated`);
 }
@@ -263,10 +252,7 @@ async function endTrip(tripId) {
 async function getGroupsByUserId(currentUser) {
   const groupsRef = collection(db, "groups");
   console.log(`groupMembers.${currentUser}.username`);
-  const q1 = query(
-    groupsRef,
-    where(`groupMembers.${currentUser}.username`, "==", currentUser)
-  );
+  const q1 = query(groupsRef, where(`groupMembers.${currentUser}.username`, "==", currentUser));
   const q2 = query(groupsRef, where(`groupAdmin.username`, "==", currentUser));
   const groups = await getDocs(q1);
   const adminGroups = await getDocs(q2);
@@ -306,18 +292,4 @@ async function getUserData(uid) {
   console.log("get user data", user.data());
   return Promise.resolve(user.data());
 }
-export {
-  createNewGroup,
-  joinGroupRequest,
-  approveGroupRequest,
-  readyUp,
-  readyUpAdmin,
-  notReady,
-  notReadyAdmin,
-  createNewTrip,
-  updateLocation,
-  endTrip,
-  getGroupsByUserId,
-  createNewUser,
-  getUserData,
-};
+export { createNewGroup, joinGroupRequest, approveGroupRequest, readyUp, readyUpAdmin, notReady, notReadyAdmin, createNewTrip, updateLocation, endTrip, getGroupsByUserId, createNewUser, getUserData };
