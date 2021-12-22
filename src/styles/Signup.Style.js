@@ -54,4 +54,7 @@ export default StyleSheet.create({
     borderRadius: 15,
     marginBottom: 10,
   },
+  scrollview: {
+    width: "100%",
+  },
 });

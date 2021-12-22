@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import MapView, {
-  Marker,
-  PROVIDER_GOOGLE,
-  Polyline,
-  Callout,
-} from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE, Polyline, Callout } from "react-native-maps";
 import { getDeltas } from "../utils/utils.maps";
 import * as Location from "expo-location";
 import styles from "../styles/Login.Style";
@@ -52,43 +47,22 @@ export default function Map({ user, locations, tripId }) {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-      const location = Location.watchPositionAsync(
-        { distanceInterval: 100 },
-        (location) => {
-          setLocation(location);
-          updateLocation(
-            currentUser.username,
-            tripId,
-            location.coords?.latitude,
-            location.coords?.longitude
-          );
-        }
-      );
+      const location = Location.watchPositionAsync({ distanceInterval: 100 }, (location) => {
+        setLocation(location);
+        updateLocation(currentUser.username, tripId, location.coords?.latitude, location.coords?.longitude);
+      });
     })();
     return location;
   }, []);
 
   useEffect(() => {
-    const spoof = spoofer.spoofLocation(
-      spoofer.routes.ordsallRoute,
-      3000,
-      "Ralf",
-      tripId
-    );
-    const spoof2 = spoofer.spoofLocation(
-      spoofer.routes.mainRoute,
-      3000,
-      "Waldo",
-      tripId
-    );
+    const spoof = spoofer.spoofLocation(spoofer.routes.ordsallRoute, 3000, "Ralf", tripId);
+    const spoof2 = spoofer.spoofLocation(spoofer.routes.mainRoute, 3000, "Waldo", tripId);
 
     const unsub = onSnapshot(
       doc(db, "trips", tripId),
       (tripDocument) => {
-        const source = tripDocument.metadata.hasPendingWrites
-          ? "Local"
-          : "Server";
-        console.log("SETTINGTRIPDATA");
+        const source = tripDocument.metadata.hasPendingWrites ? "Local" : "Server";
         setTripData(() => {
           return tripDocument.data();
         });
@@ -129,14 +103,7 @@ export default function Map({ user, locations, tripId }) {
 
   if (newLocations.length !== 0 && location !== false) {
     if (groupSeparated === true) {
-      console.log(
-        "GROUP Sep",
-        groupSeparated,
-        "+++loc",
-        location,
-        "new",
-        newLocations
-      );
+      console.log("GROUP Sep", groupSeparated, "+++loc", location, "new", newLocations);
     }
 
     const limit = isLimitExceeded(2, location, newLocations);
@@ -146,25 +113,8 @@ export default function Map({ user, locations, tripId }) {
       setGroupSeparated(false);
     }
 
-    console.log(
-      "GROUP SepAFTER",
-      groupSeparated,
-      "+++loc",
-      location,
-      "new",
-      newLocations
-    );
-
-    newLocations = newLocations.sort((a, b) =>
-      a.username.localeCompare(b.username)
-    );
+    newLocations = newLocations.sort((a, b) => a.username.localeCompare(b.username));
   }
-  console.log(
-    "location + newLocations",
-    groupSeparated,
-    location,
-    newLocations
-  );
 
   if (location === false || newLocations.length === 0) {
     return (
@@ -177,11 +127,7 @@ export default function Map({ user, locations, tripId }) {
     <View style={styles.container}>
       <MapView
         provider={PROVIDER_GOOGLE}
-        customMapStyle={
-          groupSeparated && location !== false && newLocations.length > 0
-            ? mapStyle.dark
-            : mapStyle.light
-        }
+        customMapStyle={groupSeparated && location !== false && newLocations.length > 0 ? mapStyle.dark : mapStyle.light}
         ref={mapRef}
         style={styles.map}
         initialRegion={{
@@ -214,26 +160,9 @@ export default function Map({ user, locations, tripId }) {
             longitude: location.coords?.longitude,
           }}
         >
-          <Image
-            source={require("../assets/userMarker.png")}
-            style={styles.marker}
-          ></Image>
-          <Callout>
-            <View style={styles.bubble}>
-              <Text style={styles.bubbleText}>{currentUser.username}</Text>
-              <Image
-                style={styles.calloutImage}
-                source={
-                  user.avatarUrl
-                    ? user.avatarUrl
-                    : require("../assets/avatar.png")
-                }
-              />
-            </View>
-          </Callout>
+          <Image source={require("../assets/userMarker.png")} style={styles.marker}></Image>
         </Marker>
         {newLocations.map((location) => {
-          console.log(location, "<<< location");
           return (
             <Marker
               onPress={({ nativeEvent }) => {
@@ -253,20 +182,7 @@ export default function Map({ user, locations, tripId }) {
                 longitude: location.longitude,
               }}
             >
-              <Image
-                source={require("../assets/groupMarker.png")}
-                style={styles.marker}
-              ></Image>
-
-              <Callout>
-                <View style={styles.bubble}>
-                  <Text>{location.username}</Text>
-                  <Image
-                    style={styles.calloutImage}
-                    source={location.avatarUrl}
-                  />
-                </View>
-              </Callout>
+              <Image source={require("../assets/groupMarker.png")} style={styles.marker}></Image>
             </Marker>
           );
         })}

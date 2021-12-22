@@ -38,7 +38,7 @@ export default function Chat({ navigation, route }) {
       <Text>ChatRoom: ID</Text>
       <ScrollView ref={(ref) => (this.scrollView = ref)} onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })} contentContainerStyle={{ padding: 15 }} style={styles.scrollView}>
         {messages.map((message, index) => {
-          if (message.author === "ellis") {
+          if (message.author === currentUser.username) {
             return (
               <View style={styles.messageContainer} key={message.author + index}>
                 <Text style={styles.userTitle}>{message.author}</Text>
@@ -61,7 +61,7 @@ export default function Chat({ navigation, route }) {
         </TextInput>
         <TouchableHighlight
           onPress={() => {
-            sendMessage(groupId, message, "ellis", setMessage);
+            sendMessage(groupId, message, currentUser.username, setMessage);
             Keyboard.dismiss();
           }}
           style={styles.sendMessageButton}

@@ -39,10 +39,11 @@ const handleLogin = (email, password, setError, navigation, setCurrentUser) => {
     .then((userCredentials) => {
       const user = userCredentials.user.uid;
       console.log("USER", user);
-      return getUserData(user);
+      return Promise.all([getUserData(user), user]);
     })
-    .then((user) => {
+    .then(([user, uid]) => {
       console.log("then block");
+      user.uid = uid;
       setCurrentUser(user);
       navigation.navigate("Main");
     })

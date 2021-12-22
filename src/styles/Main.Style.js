@@ -41,6 +41,7 @@ export default StyleSheet.create({
       width: 1,
     },
   },
+
   scrollview: {
     width: "100%",
     margin: "auto",
@@ -57,5 +58,16 @@ export default StyleSheet.create({
   subheading: {
     color: "white",
     padding: 3,
+  },
+  qrcodecontainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "50%",
+    backgroundColor: "blue",
+  },
+  qrcodestyle: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 50,
   },
 });
