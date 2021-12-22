@@ -27,7 +27,7 @@ export default function CreateUser({ navigation }) {
         <Text style={styles.text}>Password</Text>
         <TextInput style={styles.textInput} onChangeText={setPassword} placeholder="password" onChangeText={setPassword} />
         <Text style={styles.text}>Avatar</Text>
-        <TextInput style={styles.textInput} placeholder="tom@teamtethered.com" onChangeText={setAvatar} />
+        <TextInput style={styles.textInput} placeholder="avatar url" onChangeText={setAvatar} />
         <TouchableHighlight
           activeOpacity={0.6}
           underlayColor="#9F4300"
