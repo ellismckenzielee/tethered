@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  Dimensions,
-  Image,
-  Text,
-  View,
-  Button,
-  StyleSheet,
-} from "react-native";
+import { Dimensions, Image, Text, View, Button, StyleSheet } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import styles from "../styles/JoinGroup.Style";
 import { UserContext } from "../contexts/UserContext";
@@ -27,7 +20,8 @@ export default function JoinGroup({ navigation }) {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    joinGroupRequest(currentUser.username, data).then(() => {
+    console.log("running handleBarcode");
+    joinGroupRequest(currentUser, data).then(() => {
       navigation.navigate("Lobby", { groupPath: data });
     });
   };
@@ -42,22 +36,10 @@ export default function JoinGroup({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Join group</Text>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={(StyleSheet.absoluteFillObject, styles.scanner)}
-      />
-      {scanned && (
-        <Button
-          color="#F96800"
-          style={styles.button}
-          title={"Tap to Scan Again"}
-          onPress={() => setScanned(false)}
-        />
-      )}
+      <BarCodeScanner onBarCodeScanned={scanned ? undefined : handleBarCodeScanned} style={(StyleSheet.absoluteFillObject, styles.scanner)} />
+      {scanned && <Button color="#F96800" style={styles.button} title={"Tap to Scan Again"} onPress={() => setScanned(false)} />}
       <Image style={style.qr} source={require("../assets/qr.png")} />
-      <Text style={styles.info}>
-        Scan the group leaders QR code to join their group
-      </Text>
+      <Text style={styles.info}>Scan the group leaders QR code to join their group</Text>
     </View>
   );
 }
