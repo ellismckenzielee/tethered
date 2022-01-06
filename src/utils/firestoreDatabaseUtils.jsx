@@ -226,7 +226,7 @@ async function updateLocation(username, tripId, latitude, longitude) {
     { merge: true }
   );
 
-  console.log(`tripmember ${currentUser} updated`);
+  console.log(`tripmember ${username} updated`);
 }
 
 // firestore - end trip within group
