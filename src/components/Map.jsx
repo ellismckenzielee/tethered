@@ -12,8 +12,6 @@ import { db } from "../../firebase-config";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigation } from "@react-navigation/native";
 import { isLimitExceeded } from "../utils/utils.maps";
-import { sendMessage } from "../utils/utils.chat";
-import spoofer from "../utils/utils.location";
 export default function Map({ user, locations, tripId }) {
   const { isLoggedIn, currentUser } = useContext(UserContext);
   const [location, setLocation] = useState(false);
@@ -56,9 +54,6 @@ export default function Map({ user, locations, tripId }) {
   }, []);
 
   useEffect(() => {
-    const spoof = spoofer.spoofLocation(spoofer.routes.ordsallRoute, 3000, "Ralf", tripId);
-    const spoof2 = spoofer.spoofLocation(spoofer.routes.mainRoute, 3000, "Waldo", tripId);
-
     const unsub = onSnapshot(
       doc(db, "trips", tripId),
       (tripDocument) => {
