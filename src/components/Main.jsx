@@ -24,7 +24,7 @@ export default function Main({ navigation }) {
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}> {"Groups".toUpperCase()} </Text>
       <Text style={styles.subheading}>Please select a group to begin a trip! </Text>
-      <ScrollView contentContainerStyle={{ justifyContent: "right" }} style={styles.scrollview} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={getGroups} />}>
+      <ScrollView contentContainerStyle={styles.scrollview} style={styles.scrollview} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={getGroups} />}>
         {groups.map((group) => {
           return (
             <TouchableHighlight

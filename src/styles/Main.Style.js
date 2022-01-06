@@ -41,7 +41,6 @@ export default StyleSheet.create({
       width: 1,
     },
   },
-
   scrollview: {
     width: "100%",
     margin: "auto",
