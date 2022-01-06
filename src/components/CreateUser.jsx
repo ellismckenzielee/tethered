@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
-import { TouchableHighlight, Image, TextInput, Text, View, SafeAreaView, ScrollView } from "react-native";
+import { TouchableHighlight, Image, TextInput, Text, KeyboardAvoidingView, SafeAreaView, ScrollView } from "react-native";
 import styles from "../styles/Signup.Style";
 import { UserContext } from "../contexts/UserContext";
 import { handleSignUp } from "../utils/firebaseAuthUtils";
-import DialogComponent from "../components/DialogueComponent";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function CreateUser({ navigation }) {
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -17,7 +17,7 @@ export default function CreateUser({ navigation }) {
   }, [error]);
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <KeyboardAwareScrollView style={{ width: "100%", padding: 50, paddingBottom: 500 }}>
         <Image source={require("../assets/logo.png")} style={styles.logo} />
         <Text style={styles.title}>Enter Details</Text>
         <Text style={styles.text}>Username</Text>
@@ -38,7 +38,7 @@ export default function CreateUser({ navigation }) {
         >
           <Text style={styles.Btntext}>Sign Up!</Text>
         </TouchableHighlight>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }

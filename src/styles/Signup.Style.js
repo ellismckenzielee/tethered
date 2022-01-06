@@ -22,7 +22,7 @@ export default StyleSheet.create({
     paddingBottom: 5,
     borderRadius: 15,
     margin: 10,
-    marginBottom: 30,
+    marginBottom: 50,
     shadowColor: "#000000",
     shadowOpacity: 0.7,
     shadowRadius: 2,
